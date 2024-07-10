@@ -34,3 +34,10 @@ monitoring dataset for software supply chain vulnerabilities
 - idle time
 
 - randomization
+
+## Collected Logs
+
+- process execution
+- system logs (audit, application, security)
+- network traffic (zeek)
+- services (web, ssh, database, access)
