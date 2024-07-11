@@ -35,9 +35,16 @@ monitoring dataset for software supply chain vulnerabilities
 
 - randomization
 
+## pre-installation for every PC
+
+- office set
+
+- python
+
 ## Collected Logs
 
 - process execution
 - system logs (audit, application, security)
 - network traffic (zeek)
 - services (web, ssh, database, access)
+

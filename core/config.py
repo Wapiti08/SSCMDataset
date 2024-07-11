@@ -4,6 +4,17 @@
 
 
 git_reps_list = [
+    "https://github.com/ytdl-org/youtube-dl.git",
+    "https://github.com/nvbn/thefuck.git",
+    "https://github.com/pallets/flask.git",
+    "https://github.com/django/django.git",
+    "https://github.com/psf/requests.git",
+    "https://github.com/psf/cachecontrol.git",
+    "https://github.com/sigstore/model-transparency.git",
+    "https://github.com/httpie/httpie.git",
+    "https://github.com/ansible/ansible.git",
+    "https://github.com/psf/requests.git",
+    "https://github.com/scikit-learn/scikit-learn.git"
 
 ]
 
