@@ -7,9 +7,15 @@
 import os
 import subprocess
 import shutil
+from utils import util
+from pathlib import Path
+from faker import Faker
+
+logger = util.create_logger(Path(__file__).name)
 
 def create_code_files():
-    project_name = "example_project"
+    fake = Faker()
+    project_name = fake.text()
     os.makedirs(project_name, exist_ok=True)
     with open(os.path.join(project_name, "main.py"), "w") as f:
         f.write("""
@@ -19,21 +25,21 @@ def create_code_files():
             if __name__ == "__main__":
                 hello_world()
             """)
-    print(f"Created main.py in {project_name}")
+    logger.info(f"Created main.py in {project_name}")
 
 def run_tests():
     try:
         result = subprocess.run(["python", "-m", "unittest", "discover"], check=True)
-        print("Tests ran successfully.")
+        logger.info("Tests ran successfully.")
     except subprocess.CalledProcessError as e:
-        print(f"Failed to run tests: {e}")
+        logger.info(f"Failed to run tests: {e}")
 
 def deploy_application(source_dir, dest_dir):
     try:
         shutil.copytree(source_dir, dest_dir, dirs_exist_ok=True)
-        print(f"Application deployed to {dest_dir}.")
+        logger.info(f"Application deployed to {dest_dir}.")
     except Exception as e:
-        print(f"Failed to deploy application: {e}")
+        logger.info(f"Failed to deploy application: {e}")
 
 if __name__ == "__main__":
     create_code_files()

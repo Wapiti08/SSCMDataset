@@ -2,9 +2,15 @@ import openai
 import json
 import time
 from faker import Faker
+import yaml
+from pathlib import Path
 
-openai.api_key = "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"
+yaml_file = Path.cwd().parent.joinpath("config.yaml")
 
+with yaml_file.open("r") as file:
+    config = yaml.safe_load(file)
+
+openai.key = config["openai_key"]
 
 content = """
             

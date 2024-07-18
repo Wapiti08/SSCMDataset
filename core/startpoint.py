@@ -40,6 +40,7 @@ def install_git(os_type):
     else:
         print(f"{os_type} is not supported currently")
         exit
+    
 
 if __name__ == "__main__":
     os_type = platform.platform()

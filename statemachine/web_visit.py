@@ -1,14 +1,14 @@
 
 from platform import platform
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-# from selenium.webdriver.common.by import By
-# from selenium.webdriver.common.keys import Keys
 import time
 from pathlib import Path
 import random
 from core import config
 import time
+from utils import util
+
+logger = util.create_logger(Path(__file__).name)
 
 # define right path for driver
 def load_driver():
@@ -16,6 +16,7 @@ def load_driver():
 
 def website_access(driver,link):
     try:
+        logger.info(f"visiting website {link}")
         driver.get(link)
         time.sleep(3)
     finally:

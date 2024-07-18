@@ -5,13 +5,17 @@
  '''
 
 import subprocess
+from utils import util
+from pathlib import Path
+
+logger = util.create_logger(Path(__file__).name)
 
 def clone_repository(repo):
     try:
-        print(f"Cloning {repo}...")
+        logger.info(f"Cloning {repo}...")
         subprocess.run(["git", "clone", repo], check=True)
-        print(f"Successfully cloned {repo}")
+        logger.info(f"Successfully cloned {repo}")
     except subprocess.CalledProcessError as e:
-        print(f"Failed to clone {repo}: {e}")
+        logger.info(f"Failed to clone {repo}: {e}")
 
 

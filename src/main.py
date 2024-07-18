@@ -1,8 +1,6 @@
 import schedule
 import time
-from core.config
-
-
+from core import config
 
 schedule.every().minutes.do()
 
