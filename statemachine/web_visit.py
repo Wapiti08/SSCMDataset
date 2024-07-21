@@ -1,4 +1,7 @@
 
+import sys
+from pathlib import Path
+sys.path.insert(0, Path(sys.path[0]).parent.as_posix())
 from platform import platform
 from selenium import webdriver
 import time
@@ -8,7 +11,7 @@ from core import config
 import time
 from utils import util
 
-logger = util.create_logger(Path(__file__).name)
+logger = util.create_logger(Path.cwd().parent.joinpath("logs", Path(__file__).name))
 
 # define right path for driver
 def load_driver():

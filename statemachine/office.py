@@ -1,3 +1,6 @@
+import sys
+from pathlib import Path
+sys.path.insert(0, Path(sys.path[0]).parent.as_posix())
 from docx import Document
 from faker import Faker
 import random
@@ -10,7 +13,7 @@ from utils import util
 
 random.seed(43)
 
-logger = util.create_logger(Path(__file__).name)
+logger = util.create_logger(Path.cwd().parent.joinpath("logs", Path(__file__).name))
 
 fake = Faker()
 
@@ -115,3 +118,15 @@ def automate_gui():
     pyautogui.click()
     pyautogui.write("Automating office work with Python", interval=0.1)
     pyautogui.press("enter")
+
+
+if __name__ == "__main__":
+    # document manipulations
+    create_doc()
+    modify_doc()
+    delete_doc()
+
+    # powerpoint manipulation
+    create_ppt()
+    modify_ppt()
+    delete_ppt()

@@ -3,7 +3,9 @@
  # @ Modified time: 2024-07-11 15:03:53
  # @ Description: simulate the behaviour of development
  '''
-
+import sys
+from pathlib import Path
+sys.path.insert(0, Path(sys.path[0]).parent.as_posix())
 import os
 import subprocess
 import shutil
@@ -11,7 +13,7 @@ from utils import util
 from pathlib import Path
 from faker import Faker
 
-logger = util.create_logger(Path(__file__).name)
+logger = util.create_logger(Path.cwd().parent.joinpath("logs", Path(__file__).name))
 
 def create_code_files():
     fake = Faker()
@@ -43,7 +45,7 @@ def deploy_application(source_dir, dest_dir):
 
 if __name__ == "__main__":
     create_code_files()
-    project_path = "example_project"
+    project_path = Path.cwd().joinpath("example_project")
     run_tests()
-    deployment_directory = "deployed_example_project"
+    deployment_directory = Path.cwd().joinpath("deployed_example_project")
     deploy_application(project_path, deployment_directory)

@@ -1,8 +1,11 @@
+import sys
+from pathlib import Path
+sys.path.insert(0, Path(sys.path[0]).parent.as_posix())
 import subprocess
 from utils import util
 from pathlib import Path
 
-logger = util.create_logger(Path(__file__).name)
+logger = util.create_logger(Path.cwd().parent.joinpath("logs", Path(__file__).name))
 
 
 def update_windows():
