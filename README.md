@@ -13,6 +13,24 @@ monitoring dataset for software supply chain vulnerabilities
 - FTP
 
 
+## Monitoring Setting Ups
+
+- Monitoring Platform
+
+
+- Covered Log Sources
+
+    - Network Traffic
+
+        - zeek
+        - wireshark
+
+    - Process Execution
+
+
+    - System Logs
+
+
 ## Simulated Normal Behaviour
 
 - office work

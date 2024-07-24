@@ -1,0 +1,4 @@
+# /etc/dnsmasq.hosts
+
+192.168.1.10  server1.mydomain.local server1
+192.168.1.11  server2.mydomain.local server2
