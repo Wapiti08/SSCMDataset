@@ -13,6 +13,14 @@ monitoring dataset for software supply chain vulnerabilities
 - FTP
 
 
+## Running Instructions
+```
+# make sure pyenv has been configured before
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+```
+
 ## Monitoring Setting Ups
 
 - Monitoring Platform
