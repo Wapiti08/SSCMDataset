@@ -50,6 +50,7 @@ def modify_doc():
 def delete_doc():
     docx_files = list(Path.cwd().glob("*.docx"))
     if docx_files:
+        # randomly pick one file to delete
         docx_path = random.choice(docx_files)
         logger.info("deleted the powerpoint file: {docx_path.name}.pptx")
         docx_path.unlink()
@@ -108,9 +109,19 @@ def modify_ppt():
 def delete_ppt():
     pptx_files = list(Path.cwd().glob("*.pptx"))
     if pptx_files:
+        # randomly pick one file to delete
         pptx_path = random.choice(pptx_files)
         logger.info("deleted the powerpoint file: {pptx_path.name}.pptx")
         pptx_path.unlink()
+
+
+def create_xls():
+
+def modify_xls():
+
+
+def delete_xls():
+
 
 
 def automate_gui():

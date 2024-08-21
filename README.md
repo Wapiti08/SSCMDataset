@@ -1,30 +1,10 @@
 # SSCMDataset
 monitoring dataset for software supply chain vulnerabilities
 
-
-## Simulated Services
-
-- DNS
-
-- Database
-
-- SSHD
-
-- FTP
-
-
-## Running Instructions
-```
-# make sure pyenv has been configured before
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-
-```
-
 ## Monitoring Setting Ups
 
 - Monitoring Platform
-
+    - LimaCharlie
 
 - Covered Log Sources
 
@@ -45,7 +25,7 @@ eval "$(pyenv virtualenv-init -)"
 
 - web visit
 
-- remote ssh 
+- remote ssh
 
 - ftp service for file transfer
 
@@ -61,11 +41,93 @@ eval "$(pyenv virtualenv-init -)"
 
 - randomization
 
-## pre-installation for every PC
+## Pre-Installation for Hosts
 
 - office set
 
+- sensitive information storage
+
+    - cache
+    - configuration file
+    - password text
+
 - python
+
+- software
+
+    Windows (office): firefox, zoom, skype, slack, discord, 1password
+
+    Windows (dev): vs code, filezilla, pip, MobaXterm, discord, 1password
+
+    Linux (dev): vs code, docker, slack, discord, 1password
+
+## Details of Host Configuration
+
+- wins dev
+
+    - IP:
+
+    - Pre-installed Software
+    
+    - Open Services
+    
+    - Simulated Behaviours
+
+    - Sensititive Information
+        - credentials (.txt, .ini)
+        - configuration files (.conf, .ini, .xml)
+        - system information
+
+
+- linux dev
+
+    - IP:
+
+    - Pre-installed Software
+    
+    - Open Services
+    
+    - Simulated Behaviours
+
+    - Sensititive Information
+        - credentials (.txt, .ini)
+        - configuration files (.conf, .ini, .xml)
+        - system information
+
+
+- wins office
+
+    - IP:
+
+    - Pre-installed Software
+    
+    - Open Services
+    
+    - Simulated Behaviours
+
+    - Sensititive Information
+        - financial spreadsheets (.xls, .xlsx, .csv)
+        - documents (.docx, .pdf)
+        - intellectual property (IP) (.pptx, .py, .js)
+        - configuration files (.conf, .ini, .xml)
+        - broswer history / cache
+        - system information
+
+
+- wins server
+    - IP:
+
+    - Service：
+        
+        - web service (less-strict acl)
+        - dns service (less-strict acl)
+        - database (strict acl): SQL Server
+        - open logging service
+
+    - Sensititive Information
+        - database data
+        - logs
+        - system information
 
 ## Collected Logs
 
@@ -74,3 +136,16 @@ eval "$(pyenv virtualenv-init -)"
 - network traffic (zeek)
 - services (web, ssh, database, access)
 
+
+## Simulation Steps
+
+- 
+
+
+## Running Instructions
+```
+# make sure pyenv has been configured before
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+```
