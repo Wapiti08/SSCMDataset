@@ -10,13 +10,15 @@ from pptx.util import Inches
 import logging
 from pathlib import Path
 from utils import util
+from openpyxl import Workbook, load_workbook
+import string
+
 
 random.seed(43)
 
 logger = util.create_logger(Path.cwd().parent.joinpath("logs", Path(__file__).name))
 
 fake = Faker()
-
 
 def create_doc():
     doc = Document()
@@ -35,9 +37,11 @@ def create_doc():
     logger.info("create a document file: {name}.docx")
     doc.save("{name}.docx")
 
+
 def modify_doc():
     docx_files = list(Path.cwd().glob("*.docx"))
     if docx_files:
+        # randomly modify a document
         docx_path = random.choice(docx_files)
         doc = Document(docx_path)
         first_para = doc.paragraphs[0]
@@ -54,6 +58,7 @@ def delete_doc():
         docx_path = random.choice(docx_files)
         logger.info("deleted the powerpoint file: {docx_path.name}.pptx")
         docx_path.unlink()
+
 
 def create_ppt():
     # create a ppt object
@@ -106,6 +111,7 @@ def modify_ppt():
         logger.info("modified the powerpoint file: {pptx_path.name}.pptx")
         prs.save(pptx_path)
 
+
 def delete_ppt():
     pptx_files = list(Path.cwd().glob("*.pptx"))
     if pptx_files:
@@ -116,12 +122,55 @@ def delete_ppt():
 
 
 def create_xls():
+    # create a new workbook
+    wb = Workbook()
+    ws = wb.active
+    
+    # define the column headers
+    column_len = random.randint(5,20)
+    columns = [fake.name() for i in range(column_len)]
+
+    # write the headers to first rows
+    for i, col in enumerate(columns, start=1):
+        ws.cell(row=1, column=i, value=col)    
+    
+    # define random data for each column
+    row_len = random.randint(5,30)
+    for row in range(2, row_len + 2):
+        selected_columns = random.sample(range(1, column_len + 1), \
+                                         k=random.randint(1, column_len))
+    
+        # Write random data to the selected columns
+        for col_index in selected_columns:
+            random_data = fake.text(max_nb_chars=20)  # Generate random text with a max of 20 characters
+            ws.cell(row=row, column=col_index, value=random_data)
+
+    # Save the workbook to a file
+    file_name = fake.name()
+    wb.save("{file_name}.xlsx")
+
 
 def modify_xls():
+    xlsx_files = list(Path.cwd().glob("*.xlsx"))
+    if xlsx_files:
+        # randomly modify a document
+        xlsx_path = random.choice(xlsx_files)
+        wb = load_workbook(xlsx_path)
+        ws = wb.active  
 
+        random_column = random.choice(string.ascii_uppercase)
+        random_row = random.randint(5,100)
+        ws[f'{random_column}{random_row}'] = fake.text()
+        file_name = xlsx_path.stem
+        wb.save("{file_name}.xlsx")
 
 def delete_xls():
-
+    xlsx_files = list(Path.cwd().glob("*.xlsx"))
+    if xlsx_files:
+        # randomly pick one file to delete
+        xlsx_path = random.choice(xlsx_files)
+        logger.info("deleted the excel file: {xlsx_path.sten}.xlsx")
+        xlsx_path.unlink()
 
 
 def automate_gui():
@@ -141,3 +190,13 @@ if __name__ == "__main__":
     create_ppt()
     modify_ppt()
     delete_ppt()
+
+    # excel manipulation
+    create_xls()
+    modify_xls()
+    delete_xls()
+
+    # click event
+    automate_gui()
+
+

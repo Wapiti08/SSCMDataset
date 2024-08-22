@@ -41,25 +41,6 @@ monitoring dataset for software supply chain vulnerabilities
 
 - randomization
 
-## Pre-Installation for Hosts
-
-- office set
-
-- sensitive information storage
-
-    - cache
-    - configuration file
-    - password text
-
-- python
-
-- software
-
-    Windows (office): firefox, zoom, skype, slack, discord, 1password
-
-    Windows (dev): vs code, filezilla, pip, MobaXterm, discord, 1password
-
-    Linux (dev): vs code, docker, slack, discord, 1password
 
 ## Details of Host Configuration
 
@@ -68,6 +49,7 @@ monitoring dataset for software supply chain vulnerabilities
     - IP:
 
     - Pre-installed Software
+        - vs code, filezilla, pip, python, git, MobaXterm, discord, 1password
     
     - Open Services
     
@@ -84,6 +66,7 @@ monitoring dataset for software supply chain vulnerabilities
     - IP:
 
     - Pre-installed Software
+        - vs code, docker, python, pip, git, slack, discord, 1password
     
     - Open Services
     
@@ -100,6 +83,8 @@ monitoring dataset for software supply chain vulnerabilities
     - IP:
 
     - Pre-installed Software
+        - firefox, zoom, skype, slack, discord, 1password
+        - office set
     
     - Open Services
     
