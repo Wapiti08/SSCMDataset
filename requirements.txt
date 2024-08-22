@@ -10,3 +10,5 @@ python-dotenv=1.0.1
 pyautogui==0.9.54
 limacharlie==4.8.4
 openpyxl==3.1.5
+paramiko==3.4.1
+scp==0.15.0

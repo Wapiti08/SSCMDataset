@@ -52,6 +52,7 @@ monitoring dataset for software supply chain vulnerabilities
         - vs code, filezilla, pip, python, git, MobaXterm, discord, 1password
     
     - Open Services
+        - ssh
     
     - Simulated Behaviours
 
@@ -69,6 +70,7 @@ monitoring dataset for software supply chain vulnerabilities
         - vs code, docker, python, pip, git, slack, discord, 1password
     
     - Open Services
+        - ssh
     
     - Simulated Behaviours
 
@@ -103,7 +105,7 @@ monitoring dataset for software supply chain vulnerabilities
     - IP:
 
     - Service：
-        
+        - ssh
         - web service (less-strict acl)
         - dns service (less-strict acl)
         - database (strict acl): SQL Server
