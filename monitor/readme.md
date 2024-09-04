@@ -21,3 +21,5 @@
 ## How to make sigma rules to detect threats
 
 https://docs.limacharlie.io/v1/docs/detection-and-response
+
+## How to output data

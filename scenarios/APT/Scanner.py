@@ -9,7 +9,7 @@
 
 class SysInfoScanner:
     def __init__(self, ):
-
+        
     def 
 
     def 
