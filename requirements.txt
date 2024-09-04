@@ -12,3 +12,4 @@ limacharlie==4.8.4
 openpyxl==3.1.5
 paramiko==3.4.1
 scp==0.15.0
+browserhistory==0.1.2
