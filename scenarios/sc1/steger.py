@@ -1,4 +1,11 @@
-
+'''
+ # @ Author: Newt Tan
+ # @ Create Time: 2024-09-09 17:24:10
+ # @ Modified by: Newt Tan
+ # @ Modified time: 2024-09-16 10:20:48
+ # @ Description:
+ '''
+from pathlib import Path
 from stegano import lsb
 from PIL import Image
 
@@ -16,9 +23,11 @@ def hide_data_to_image(payload, input_img_path, output_img_path):
     sec_image.save(output_img_path)
 
 if __name__ == "__main__":
-    payload_file = 
-    input_image_path = 
-    output_image_path = 
+    cur_path = Path.cwd()
+    
+    payload_file = cur_path.joinpath("payload.py")
+    input_image_path = cur_path.joinpath("image.jpeg")
+    output_image_path = cur_path.joinpath("img.jpeg")
 
     payload = read_file()
 
