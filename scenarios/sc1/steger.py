@@ -29,7 +29,7 @@ if __name__ == "__main__":
     input_image_path = cur_path.joinpath("image.jpeg")
     output_image_path = cur_path.joinpath("img.jpeg")
 
-    payload = read_file()
+    payload = read_file(payload_file)
 
     hide_data_to_image(payload, input_image_path, output_image_path)
 
