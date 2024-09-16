@@ -6,11 +6,11 @@
  # @ Description:
  '''
 from pathlib import Path
-from stegeno import lsb
+from stegano import lsb
 
 # load the image with hidden payload
 cur_path = Path.cwd()
-image_path = cur_path.joinpath("img.jpeg")
+image_path = cur_path.joinpath("img.png").as_posix()
 
 # extract hidden message from image
 hide_msg= lsb.reveal(image_path)

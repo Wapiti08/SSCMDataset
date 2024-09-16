@@ -26,8 +26,8 @@ if __name__ == "__main__":
     cur_path = Path.cwd()
     
     payload_file = cur_path.joinpath("payload.py")
-    input_image_path = cur_path.joinpath("image.jpeg")
-    output_image_path = cur_path.joinpath("img.jpeg")
+    input_image_path = cur_path.joinpath("image.png")
+    output_image_path = cur_path.joinpath("img.png")
 
     payload = read_file(payload_file)
 
