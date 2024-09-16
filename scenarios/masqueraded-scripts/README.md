@@ -62,9 +62,9 @@
 
    In order to run the scripts windows defender real time protection will need to be turned off.
 
-      ![A screenshot of a computer  Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.008.png)
+   ![A screenshot of a computer  Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.008.png)
 
-      Navigate to the scripts folder on the desktop and click on it to run.
+   Navigate to the scripts folder on the desktop and click on it to run.
 
    **How to exfiltrate data to C2 server:**
 
