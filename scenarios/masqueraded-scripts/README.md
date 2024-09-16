@@ -4,27 +4,32 @@
 
 - 1. Open RDP and enter the public ip of each virtual machine (this can be found in azure) and press connect
 
-![A screenshot of a computer Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.001.png)
+   ![A screenshot of a computer Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.001.png)
 
 - 2. Connect to C2 Server (attack machine):
 
    - 2.1 Login with the credentials (username): azureuser (password): TaylorBrierley01
 
-   **attack machine:**
+      **attack machine:**
 
-   This virtual machine is used to host the c2 server (exfiltrating data)
+      This virtual machine is used to host the c2 server (exfiltrating data)
 
-   Using Mythic (C2 server):
+      Using Mythic (C2 server):
 
    - 2.2 Enter the url <https://127.0.0.1:7443/new/login> in the url bar:
 
-   ![A screenshot of a login Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.002.png)You will be brought to a login page
+      ![A screenshot of a login Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.002.png)
+      You will be brought to a login page
 
-   (If this doesn’t resolve, docker is down, follow the first part of this video <https://www.youtube.com/watch?v=QmC1zhpTxww&ab_channel=Lsecqt> to start it up again).
+      (If this doesn’t resolve, docker is down, follow the first part of this video <https://www.youtube.com/watch?v=QmC1zhpTxww&ab_channel=Lsecqt> to start it up again).
 
-   - 2.3 Enter the commands![A screenshot of a computer Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.003.png)
+   - 2.3 Enter the commands
+      
+      ![A screenshot of a computer Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.003.png)
 
-   - 2.4 Find the credentials to log in![A screenshot of a computer Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.004.png) 
+   - 2.4 Find the credentials to log in
+      
+      ![A screenshot of a computer Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.004.png) 
 
    - 2.5 Once you see the c2 server dashboard you can navigate to the active callback page to see the callbacks and exfiltrated data from run scripts (payloads).
 
@@ -40,21 +45,23 @@
 
    Starting on [Orgs - LimaCharlie](https://app.limacharlie.io/orgs)
 
-   Click on the organization displayed here ![A close-up of a search engine Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.005.png)
+   Click on the organization displayed here 
+      
+      ![A close-up of a search engine Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.005.png)
 
    Then on the sensor
 
-   ![A screenshot of a computer Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.006.png)
+      ![A screenshot of a computer Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.006.png)
 
    Then to see the windows logs on this machine click on Live feed in the left side bar
 
-   ![A screenshot of a computer Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.007.png)
+      ![A screenshot of a computer Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.007.png)
 
 **Victim Machine:**
 
    In order to run the scripts windows defender real time protection will need to be turned off.
 
-   ![A screenshot of a computer  Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.008.png)
+      ![A screenshot of a computer  Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.008.png)
 
    Navigate to the scripts folder on the desktop and click on it to run.
 
