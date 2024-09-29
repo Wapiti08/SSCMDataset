@@ -14,9 +14,34 @@ simulated behaviours:
 
 from statemachine import api_sev, logins, office, web_visit
 from utils import sche
+import os
 
 
+class OfficeVM:
+    def __init__(self, login_url):
+        self.web_username = os.environ.get("WEB_USERNAME")
+        self.web_password = os.environ.get("WEB_PASSWORD")
+        self.login_url = login_url
 
+    def _API_CALL(self,):
+        api_sev.chat_with_gpt()
+
+    
+    def _LOGIN(self,):
+        logins.login_simu(
+            self.login_url, {
+                            "username": self.web_username ,
+                            "password": self.web_password
+                            }
+        )
+
+    
+    def _OFFICE(self,):
+        
+    
+    def _WebVisit(self,):
+    
+    
 
 
 
