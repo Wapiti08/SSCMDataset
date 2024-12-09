@@ -131,8 +131,11 @@ monitoring dataset for software supply chain vulnerabilities
 
 ## Running Instructions
 ```
+pyenv global 3.10.1
+pyenv local 3.10.1
 # make sure pyenv has been configured before
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
+
 
 ```

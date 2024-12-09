@@ -1,0 +1,24 @@
+{
+    "hostname": "DESKTOP-9TEVKVN",
+    "ip_address": "10.56.171.50",
+    "os_details": {
+        "system": "Windows",
+        "node_name": "DESKTOP-9TEVKVN",
+        "release": "10",
+        "version": "10.0.22631",
+        "machine": "AMD64",
+        "processor": "Intel64 Family 6 Model 154 Stepping 4, GenuineIntel"
+    },
+    "cpu_details": {
+        "cpu_count": 12,
+        "cpu_freq_max": 1800.0,
+        "cpu_freq_min": 0.0,
+        "cpu_freq_current": 1472.0
+    },
+    "memory_details": {
+        "total_memory": 16849256448,
+        "available_memory": 3040800768,
+        "used_memory": 13808455680,
+        "free_memory": 3040800768
+    }
+}

