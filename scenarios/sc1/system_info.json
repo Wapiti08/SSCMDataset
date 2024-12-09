@@ -13,12 +13,12 @@
         "cpu_count": 12,
         "cpu_freq_max": 1800.0,
         "cpu_freq_min": 0.0,
-        "cpu_freq_current": 1472.0
+        "cpu_freq_current": 1800.0
     },
     "memory_details": {
         "total_memory": 16849256448,
-        "available_memory": 3040800768,
-        "used_memory": 13808455680,
-        "free_memory": 3040800768
+        "available_memory": 3416641536,
+        "used_memory": 13432614912,
+        "free_memory": 3416641536
     }
 }
