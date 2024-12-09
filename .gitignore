@@ -1,4 +1,3 @@
-core/**/*.zip
 .env
 env
-scenarios/README.md
+/scenarios/README.md
