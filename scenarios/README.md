@@ -34,10 +34,14 @@
     # add inbound rule on Networking settings with 3389
     # use Windows APP (download from apple store) with IP:3389 and the credentials
 
+    # download browser for Web UI
+    sudo apt-get install firefox
+    # check the status of Mythic
+    sudo ./mythic-cli status
+    # access the webUI by loading https://127.0.0.1:7443
+    
     ```
-- attack machine:
-
-    connect via bastion
+- 
 
 
 ## APT Functions Explanation
