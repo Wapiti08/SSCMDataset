@@ -1,24 +1,24 @@
 {
-    "hostname": "DESKTOP-9TEVKVN",
-    "ip_address": "10.56.171.50",
+    "hostname": "Zhuorans-MacBook-Pro.local",
+    "ip_address": "127.0.0.1",
     "os_details": {
-        "system": "Windows",
-        "node_name": "DESKTOP-9TEVKVN",
-        "release": "10",
-        "version": "10.0.22631",
-        "machine": "AMD64",
-        "processor": "Intel64 Family 6 Model 154 Stepping 4, GenuineIntel"
+        "system": "Darwin",
+        "node_name": "Zhuorans-MacBook-Pro.local",
+        "release": "23.2.0",
+        "version": "Darwin Kernel Version 23.2.0: Wed Nov 15 21:55:06 PST 2023; root:xnu-10002.61.3~2/RELEASE_ARM64_T6020",
+        "machine": "arm64",
+        "processor": "arm"
     },
     "cpu_details": {
         "cpu_count": 12,
-        "cpu_freq_max": 1800.0,
-        "cpu_freq_min": 0.0,
-        "cpu_freq_current": 1800.0
+        "cpu_freq_max": 3504,
+        "cpu_freq_min": 702,
+        "cpu_freq_current": 3504
     },
     "memory_details": {
-        "total_memory": 16849256448,
-        "available_memory": 3416641536,
-        "used_memory": 13432614912,
-        "free_memory": 3416641536
+        "total_memory": 34359738368,
+        "available_memory": 15738454016,
+        "used_memory": 15866101760,
+        "free_memory": 2341273600
     }
 }

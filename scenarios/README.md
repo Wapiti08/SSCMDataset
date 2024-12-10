@@ -44,7 +44,27 @@
     # default username and password are stored in .env
     # check 'MYTHIC_ADMIN_USER' and 'MYTHIC_ADMIN_PASSWORD'
     ```
-- 
 
+## C2 Server Configuration
+
+- How to create payload:
+
+    - follow the instructions to create a payload for http
+    
+    - configure the parameters and copy them as agent_config inside setup.py
+
+    - download the generated payload --- apfell.js
+
+    - remote copy to local file
+    ```
+    scp username@remote_host:/path/to/remote/apfell.js /path/to/local/destination
+
+    ```
+
+- Run payload (MAC)
+
+    ```
+    osascript apfell.js
+    ```
 
 ## APT Functions Explanation
