@@ -22,6 +22,8 @@
     ## option 1
     sudo ./mythic-cli install github https://github.com/MythicC2Profiles/http
 
+    # download agents
+    sudo ./mythic-cli install github https://github.com/MythicAgents/apfell
     # download logging
     sudo ./mythic-cli install github https://github.com/MythicC2Profiles/basic_logger
 
@@ -39,7 +41,8 @@
     # check the status of Mythic
     sudo ./mythic-cli status
     # access the webUI by loading https://127.0.0.1:7443
-    
+    # default username and password are stored in .env
+    # check 'MYTHIC_ADMIN_USER' and 'MYTHIC_ADMIN_PASSWORD'
     ```
 - 
 
