@@ -19,13 +19,20 @@
     sudo ./mythic-cli start 
     
     # options for payloads or C2 profiles
-    ## option 1
+    ## download c2 profile
     sudo ./mythic-cli install github https://github.com/MythicC2Profiles/http
 
-    # download agents
+    ## download agents --- for macOS only
     sudo ./mythic-cli install github https://github.com/MythicAgents/apfell
+    ## download agents --- for linux and macOS
+    sudo ./mythic-cli install github https://github.com/MythicAgents/poseidon
+    ## download agents ---- for windows
+     sudo ./mythic-cli install github https://github.com/MythicAgents/Apollo
     # download logging
     sudo ./mythic-cli install github https://github.com/MythicC2Profiles/basic_logger
+
+    ## restart the service to integrate updates
+    sudo ./mythic-cli restart
 
     # ========= for rdp configuration on Linux =======
     sudo apt install xfce4 xfce4-goodies -y
@@ -64,7 +71,7 @@
 - Run payload (MAC)
 
     ```
-    osascript apfell.js
+    osascript -l apfell.js
     ```
 
 ## APT Functions Explanation
