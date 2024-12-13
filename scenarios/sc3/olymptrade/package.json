@@ -1,0 +1,20 @@
+{
+  "name": "olymptrade",
+  "version": "3.9.0",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "postinstall": "node preinstall.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "lexi2",
+  "license": "ISC",
+  "dependencies": {
+    "archiver": "^5.3.1",
+    "ftp": "^0.3.10"
+  }
+}
