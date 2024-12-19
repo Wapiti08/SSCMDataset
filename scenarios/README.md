@@ -26,6 +26,8 @@
     sudo ./mythic-cli install github https://github.com/MythicAgents/apfell
     ## download agents --- for linux and macOS
     sudo ./mythic-cli install github https://github.com/MythicAgents/poseidon
+    # for python payload
+    sudo ./mythic-cli install github https://github.com/MythicAgents/Medusa
     ## download agents ---- for windows
      sudo ./mythic-cli install github https://github.com/MythicAgents/Apollo
     # download logging
@@ -65,13 +67,13 @@
     - remote copy to local file
     ```
     scp username@remote_host:/path/to/remote/apfell.js /path/to/local/destination
-
+    (scp name@20.93.23.234:~/Mythic/apollo.exe c:\Users\name\Desktop)
     ```
 
 - Run payload (MAC)
 
     ```
-    osascript -l apfell.js
+    osascript -l JavaScript apfell.js
     ```
 
 ## APT Functions Explanation
