@@ -76,10 +76,10 @@
 
    - How to exfiltrate data:
 
-   - 1. Using a payload with the medusa payload type 
+      - 1. Using a payload with the medusa payload type 
 
-   - 2. Included the data to exfiltrate in the data dictionary of the payload, run the python file to exfiltrate data and check the data in the active callback window 
+      - 2. Included the data to exfiltrate in the data dictionary of the payload, run the python file to exfiltrate data and check the data in the active callback window 
 
-   ![A screenshot of a computer program Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.009.png)
+      ![A screenshot of a computer program Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.009.png)
 
-   ![](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.010.png)
+      ![](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.010.png)
