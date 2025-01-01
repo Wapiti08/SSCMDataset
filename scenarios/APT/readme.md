@@ -1,6 +1,6 @@
 # Setup Instructions
 
-**Connecting to the virtual machine:**
+## Connecting to the virtual machine
 
 - 1. Open RDP and enter the public ip of each virtual machine (this can be found in azure) and press connect
 
@@ -34,7 +34,26 @@
 
    - 2.5 Once you see the c2 server dashboard you can navigate to the active callback page to see the callbacks and exfiltrated data from run scripts (payloads).
 
-**Monitoring Machine:**
+
+## How to successfully create payload for different OSs:
+
+   - Windows:
+   ```
+      1. login in Mythic, create payload
+      2. use apollo to create exe file
+      3. choose default payload function (do not contain all functions, some are not available on Windows)
+      4. set the callback host with http://{attack_machine_public_ip}, this ip is not the ip shown locally with ifconfig
+      5. create and download, scp to target Windows machine, click for exeuction
+
+   
+   ```
+
+   - Linux:
+   ```
+   
+   ```
+
+## Monitoring Machine:
 
    Using Lima Charlie (Log monitoring):
 
@@ -58,7 +77,7 @@
 
          ![A screenshot of a computer Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.007.png)
 
-**Victim Machine:**
+## Configuration on Victim Machine:
 
    In order to run the scripts windows defender real time protection will need to be turned off.
 
