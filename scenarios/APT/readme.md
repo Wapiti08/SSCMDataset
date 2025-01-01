@@ -2,13 +2,21 @@
 
 ## Connecting to the virtual machine
 
-- 1. Open RDP and enter the public ip of each virtual machine (this can be found in azure) and press connect
+- 1. Remote Connection
 
-   ![A screenshot of a computer Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.001.png)
+   - Windows:
+      
+      Open RDP and enter the public ip:
+
+      ![A screenshot of a computer Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.001.png)
+
+   - Mac:
+
+      Windows App is recommended to download for remote desktop control
 
 - 2. Connect to C2 Server (attack machine):
 
-   - 2.1 Login with the credentials (username): azureuser (password): TaylorBrierley01
+   - 2.1 Login with the credentials via <https://127.0.0.1:7443/new/login> (credential exists in .env)
 
       **attack machine:**
 
@@ -16,42 +24,24 @@
 
       Using Mythic (C2 server):
 
-   - 2.2 Enter the url <https://127.0.0.1:7443/new/login> in the url bar:
+   - 2.2 Download Potential Payloads suitable for different operating systems
 
-      ![A screenshot of a login Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.002.png)
-      
-      You will be brought to a login page
+      - Windows
+        ```
+         1. login in Mythic, create payload
+         2. use apollo to create exe file
+         3. choose default payload function (do not contain all functions, some are not available on Windows)
+         4. set the callback host with http://{attack_machine_public_ip}, this ip is not the ip shown locally with ifconfig
+         5. create and download, scp to target Windows machine, click for exeuction
+         ```
 
-      (If this doesn’t resolve, docker is down, follow the first part of this video <https://www.youtube.com/watch?v=QmC1zhpTxww&ab_channel=Lsecqt> to start it up again).
+      - Linux
+         ```
+         
+         ```
 
-   - 2.3 Enter the commands
-      
-      ![A screenshot of a computer Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.003.png)
+   - 2.3 After successfully running on target machine, navigate to the active callback page to see the callback hosts and exfiltrated data.
 
-   - 2.4 Find the credentials to log in
-      
-      ![A screenshot of a computer Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.004.png) 
-
-   - 2.5 Once you see the c2 server dashboard you can navigate to the active callback page to see the callbacks and exfiltrated data from run scripts (payloads).
-
-
-## How to successfully create payload for different OSs:
-
-   - Windows:
-   ```
-      1. login in Mythic, create payload
-      2. use apollo to create exe file
-      3. choose default payload function (do not contain all functions, some are not available on Windows)
-      4. set the callback host with http://{attack_machine_public_ip}, this ip is not the ip shown locally with ifconfig
-      5. create and download, scp to target Windows machine, click for exeuction
-
-   
-   ```
-
-   - Linux:
-   ```
-   
-   ```
 
 ## Monitoring Machine:
 
@@ -59,7 +49,7 @@
 
    [A Public Cloud for SecOps | LimaCharlie](https://limacharlie.io/)
 
-   -  1. Login with the credentials (email): <taylor.brierley@jumpsec.com> (Password): TaylorBrierley#0101 
+   -  1. Login with the credentials
 
    -  2. Once logged in you can observe the logs coming through on the target machine by navigating below
 
@@ -79,17 +69,16 @@
 
 ## Configuration on Victim Machine:
 
-   In order to run the scripts windows defender real time protection will need to be turned off.
+   - Turn off defender real time protection:
 
    ![A screenshot of a computer  Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.008.png)
 
-   Navigate to the scripts folder on the desktop and click on it to run.
 
-   **How to exfiltrate data to C2 server:**
+   - How to exfiltrate data:
 
-   - 1. Using the C2 server I created a payload with the medusa payload type (you can see it in the payload window, called plz-work.py you can duplicate the configuration settings for other payloads).
+   - 1. Using a payload with the medusa payload type 
 
-   - 2. Once created and downloaded I included the data I wanted to exfiltrate in the data dictionary in the payload, so when that python file is run the data is present in the active callback window 
+   - 2. Included the data to exfiltrate in the data dictionary of the payload, run the python file to exfiltrate data and check the data in the active callback window 
 
    ![A screenshot of a computer program Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.009.png)
 
