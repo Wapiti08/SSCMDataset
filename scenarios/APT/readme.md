@@ -83,3 +83,9 @@
       ![A screenshot of a computer program Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.009.png)
 
       ![](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.010.png)
+
+      ```
+      python3 setup.py
+      ```
+
+      
