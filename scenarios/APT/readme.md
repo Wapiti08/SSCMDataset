@@ -80,9 +80,9 @@
 
       - 2. Included the data to exfiltrate in the data dictionary of the payload, run the python file to exfiltrate data and check the data in the active callback window 
 
-      ![A screenshot of a computer program Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.009.png)
+         ![A screenshot of a computer program Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.009.png)
 
-      ![](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.010.png)
+         ![](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.010.png)
 
       ```
       # build the communication tunnel and callback shell
@@ -93,4 +93,10 @@
       python3 data_ext.py
       ```
 
+      - 3. Dependent Files
+         ![](imgs/data_ext_demo.png)
+
+      - 4. Check extracted system informatoin
+
+         ![](imgs/uploaded_interface.png)
       
