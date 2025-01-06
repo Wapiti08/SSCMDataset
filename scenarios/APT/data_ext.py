@@ -87,37 +87,11 @@ class MythicHelper:
 
                 # download a file without chunking
                 file_types = await mythic.download_file(mythic=self.mythic, file_uuid=resp)
-                with open(Path(file_path).name, 'wb') as fw:
-                    fw.write(file_types)
-                logger.info(f"File {file_path} successfully downloaded. ")
-                print(file_types)
-                # # task = self.mythic.create_task(callback_id, command="download", params=file_path)
-                # status = mythic.issue_task(self.mythic, command_name="download", callback_display_id=callback_id, \
-                #                          parameters=file_path)
-                # logger.info(f"Task sent for downloading {file_path} by issuing a task: {status}")
+                # with open(Path(file_path).name, 'wb') as fw:
+                #     fw.write(file_types)
+                if file_types:
+                    logger.info(f"File {file_path} successfully downloaded. ")
 
-                # # monitor task results
-                # while True:
-                #     task_info = self.mythic.get_task_status(task['id'])
-                #     task_status = task_info.get("status", "unknown")
-                #     logger.info(f"Task {task['id']} status: {task_status}")
-
-                #     if task_status == "completed":
-                #         # save downloaded file
-                #         file_id = task_info['response'].get("file_id")
-                #         if file_id:
-                #             file_content = self.mythic.download_file(file_id)
-                #             with open(Path(file_path).name, 'wb') as fw:
-                #                 fw.write(file_content)
-                #             logger.info(f"File {file_path} successfully downloaded. ")
-                #         break
-                #     elif task_status == "error":
-                #         logger.warn(f"Task {task['id']} encountered an error.")
-                #         break
-                #     else:
-                #         # wait before polling again
-                #         time.sleep(10)
-                
                 # wait for a random interval before reissuing the task
                 wait_time = random.randint(min_interval, max_interval)
                 logger.info(f"Waiting for {wait_time} seconds before issuing the next download")

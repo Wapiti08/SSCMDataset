@@ -7,7 +7,6 @@ import random
 import pyautogui
 from pptx import Presentation
 from pptx.util import Inches
-import logging
 from pathlib import Path
 from utils import util
 from openpyxl import Workbook, load_workbook
