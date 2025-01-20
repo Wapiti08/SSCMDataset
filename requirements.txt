@@ -16,3 +16,6 @@ browserhistory==0.1.2
 stegano==0.11.2
 psutil==6.1.0
 mythic==0.2.5
+setuptools==75.8.0
+requests==2.32.3
+

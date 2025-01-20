@@ -3,3 +3,4 @@ env
 /scenarios/README.md
 data/
 /scenarios/APT/.env
+system_info.json
