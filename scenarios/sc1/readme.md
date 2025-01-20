@@ -15,6 +15,11 @@
 
         host the embedded image (steganography with payload to build the conneciton with C2 server and download a second-stage payload )
 
+        ```
+        # configure website
+        https://few-balanced-week.glitch.me
+
+        ```
 
 - Attack Steps
 
