@@ -17,7 +17,7 @@
 
         ```
         # configure website
-        https://few-balanced-week.glitch.me
+        https://working-luxurious-cupboard.glitch.me
 
         ```
 

