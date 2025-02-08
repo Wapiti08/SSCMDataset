@@ -13,13 +13,14 @@
 
     - configure a simple web server with Glitch
 
-        host the embedded image (steganography with payload to build the conneciton with C2 server and download a second-stage payload )
+        host the embedded image (steganography with payload to build the conneciton with C2 server and extract system info out)
 
         ```
         # configure website
-        https://working-luxurious-cupboard.glitch.me
+        https://cdn.glitch.global/eb3e6f28-bcca-471f-b521-bb35172b0498/img.png
 
         ```
+
 
 - Attack Steps
 
@@ -30,9 +31,6 @@
 
         ```
         This setup (installation) script will download a image with embedded payload
-
-
-
 
 
 
