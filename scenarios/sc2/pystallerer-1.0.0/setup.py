@@ -3,7 +3,6 @@ from setuptools.command.install import install
 from pathlib import Path
 
 
-
 VERSION = '1.0.0'
 DESCRIPTION = 'Cool package.'
 this_directory = Path(__file__).parent

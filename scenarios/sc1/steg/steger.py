@@ -25,7 +25,7 @@ def hide_data_to_image(payload, input_img_path, output_img_path):
 if __name__ == "__main__":
     cur_path = Path.cwd()
     
-    payload_file = cur_path.joinpath("payload.py")
+    payload_file = cur_path.joinpath("medusa_wins.py")
     input_image_path = cur_path.joinpath("image.png")
     output_image_path = cur_path.joinpath("img.png")
 

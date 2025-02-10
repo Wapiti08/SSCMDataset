@@ -21,26 +21,25 @@ monitoring dataset for software supply chain vulnerabilities
 
 ## Simulated Normal Behaviour
 
-- office work
+- office work (1)
 
-- web visit
+- web visit (2)
+ 
+- remote ssh (3)
 
-- remote ssh
+- ftp service for file transfer (4)
 
-- ftp service for file transfer
+- open software and call update (5)
 
-- open software and call update
+- download repository (6)
 
-- download repository 
+- automatic development (pip, compile) (7)
 
-- automatic development (pip, compile)
-
-## Factors for Normalization
+## Factors for Randomness
 
 - idle time
 
 - randomization
-
 
 ## Details of Host Configuration
 

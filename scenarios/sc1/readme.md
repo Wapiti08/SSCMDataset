@@ -1,5 +1,4 @@
-## Attack Detail --- Windows Attack Scenario
-
+## Attack Detail
 
 - Prepare：
 
@@ -21,10 +20,29 @@
 
         ```
 
+    - generate image with steganography --- with Least Significant Bit (LSB) method
+
+        ```
+        # run code to generate embedded image (embed medusa_wins.py into image.png, output img.png)
+        python3 steger.py
+        # img.png is uploaded to a server controlled by attacker
+        ```
 
 - Attack Steps
 
-    - 1. Run script to initialize package
+    - simulated normal behaviour for daily operation (increase noise) 
+
+        - Windows Dev Host (download python package):
+            
+            - Pre-installed Software
+                - vs code, filezilla, pip, python, git, MobaXterm, discord, 1password
+            
+            - Simulated Behaviours
+
+                - 2,3, 4, 5, 6, 7
+
+
+    - payload execution
 
         ```
             python3 setup.py 
@@ -32,20 +50,16 @@
         ```
         This setup (installation) script will download a image with embedded payload
 
-
-
 - Trigger
+
+    under executing setup.py --- automatically trigger the download and execution of payload
 
 - Evasion Method
 
-    - escape sequences & hexadecimal notation
-        
-        use hexaecimal values (\x12, \x13) to mask readable content
-
-    - mixed ascii and non-printable characters
-
-    - 
-
+    - base64-encoded plain scripts
+    - remove downloaded image (optional)
 
 - Data Exfiltration
+
+    - extract system info to C2 server
 
