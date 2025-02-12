@@ -1,4 +1,4 @@
-## Attack Detail
+## Attack Detail --- Linux / macOS
 
 - Prepare:
 
@@ -8,7 +8,7 @@
 	brew install node
 	```
 
-	- set up FTP service on attacker machine
+	- set up FTP service on attacker machine (Linux)
 	```
 	sudo apt update
 	sudo apt install vsftpd -y
@@ -41,15 +41,33 @@
 
 - Attack Steps:
 
-	- install malicious package
-	- package.json triggers download of preinstall.js scripts
-	- initiate index.js file
-	- compress scanned information and send to remote host
+	- simulated normal behaviour 
 
-	Files following will appear in the 'uploads' within the same directory with server.js:  
-	path.txt  
-	dirs_back.zip  
-	files_back.zip  
+		- Linux Dev Host (macOS Dev Host)
+			- Pre-install Software 
+				- vs code, Termius, pip, python, git
+
+			- Simulated Behaviours
+				- 2, 3, 4, 5, 6, 7
+
+	- payload execution:
+
+		```
+
+		```
+
+		Files following will appear in the 'uploads' within the same directory with server.js:  
+			
+			- path.txt  
+			- dirs_back.zip  
+			- files_back.zip  
+
+		- install malicious package
+		- package.json triggers download of preinstall.js scripts
+		- initiate index.js file
+		- index.js trigger the execution of server.js
+		- compress scanned information and send to remote host
+
 
 - Custom configuration:
 

