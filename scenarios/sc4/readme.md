@@ -1,20 +1,34 @@
-# NPM Attack Simulation Guide
+# NPM Attack Simulation Guide -- Linux / macOS
 
 This guide demonstrates a simulated NPM supply chain attack that shows how malicious packages can collect system information through a two-stage process.
 
-### 1. Prepare Linux Server
-```bash
-# Update system
-sudo apt update && sudo apt upgrade -y
 
-# Install Node.js (if not already installed)
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-sudo apt install -y nodejs
 
-# Verify installation
-node --version
-npm --version
-```
+### 1. Prepare Server
+
+- Simulated Normal Behaviour:
+
+    2, 3, 4, 5, 6, 7
+
+- Linux Server:
+    ```bash
+    # Update system
+    sudo apt update && sudo apt upgrade -y
+
+    # Install Node.js (if not already installed)
+    curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+    sudo apt install -y nodejs
+
+    # Verify installation
+    node --version
+    npm --version
+    ```
+
+- masOS Server:
+    ```
+    brew install node
+
+    ```
 
 ### 2. Configure Attack Server
 
@@ -24,7 +38,7 @@ mkdir /opt/attack-server
 cd /opt/attack-server
 ```
 
-2. Copy server.js to the directory and install dependencies:
+2. Copy server.js (payload) to the directory and install dependencies:
 ```bash
 npm init -y
 npm install fastify @fastify/cors

