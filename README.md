@@ -41,6 +41,43 @@ monitoring dataset for software supply chain vulnerabilities
 
 - randomization
 
+## Multi-Souce Data Monitoring and Data Collection
+
+- data monitor:
+
+    use Azure Log Analytics Workspace to monitor data with multi-source agents
+
+    - covered sources:
+
+        - Windows:
+
+            - Windows event (sysmon events -> full command, process history, windows event logging system)
+
+            - Text log
+
+            - JSON log
+
+            - IIS logs
+
+            - Firewall logs
+
+        - Linux:
+
+            - Syslog
+
+            - Text log
+
+            - JSON log
+
+    - agent configuration
+
+        
+
+
+- data collection:
+
+
+
 ## Details of Host Configuration
 
 - wins dev
