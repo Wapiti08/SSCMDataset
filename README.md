@@ -69,9 +69,18 @@ monitoring dataset for software supply chain vulnerabilities
 
             - JSON log
 
-    - agent configuration
+    - agent configuration:
 
-        
+        1. Create a Log Analytics workspace (make sure the owner and admin privilege for this resource)
+
+        2. Click "Agent" and add data collection rules
+
+        3. Add resources (where attack and victim machines locate)
+
+        4. Click "Enable Data Collection Endpoints"
+
+        5. "Add data souce" -> select Windows Event Logs and Syslog, [Firewall logs](https://learn.microsoft.com/en-us/azure/azure-monitor/agents/data-sources-firewall-logs)
+
 
 
 - data collection:
