@@ -3,7 +3,9 @@
  # @ Modified time: 2024-08-21 10:46:00
  # @ Description: simulate the login on host web service
 '''
+import sys
 from pathlib import Path
+sys.path.insert(0, Path(sys.path[0]).parent.as_posix())
 import requests
 import os
 from bs4 import BeautifulSoup
