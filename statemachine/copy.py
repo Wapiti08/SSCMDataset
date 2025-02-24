@@ -1,5 +1,17 @@
+'''
+ # @ Create Time: 2024-08-21 10:11:33
+ # @ Modified time: 2025-02-24 11:24:56
+ # @ Description: simulate scp copy behavior
+ '''
+
+
+import sys
+from pathlib import Path
+sys.path.insert(0, Path(sys.path[0]).parent.as_posix())
+
 import paramiko
 from scp import SCPClient
+from utils import util
 
 def create_ssh_client(hostname, port, username, password):
     ''' create and return a SSH client connected to the specified server
@@ -10,6 +22,7 @@ def create_ssh_client(hostname, port, username, password):
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     client.connect(hostname, port=port, username=username, password=password)
     return client
+
 
 
 def scp_copy_file(hostname, port, username, password, local_file, remote_path):
