@@ -7,6 +7,7 @@ import sys
 from pathlib import Path
 sys.path.insert(0, Path(sys.path[0]).parent.as_posix())
 import paramiko
+from core import config
 from scp import SCPClient
 import random
 from utils import util
@@ -44,14 +45,8 @@ def random_operations(ssh_client):
 
 if __name__ == "__main__":
 
-    # Example usage
-    hostname = 'your.remote.server.com'
-    port = 22  # Default SSH port
-    username = 'your_username'
-    password = 'your_password'
-
     try:
-        ssh_client = create_ssh_client(hostname, port, username, password)
+        ssh_client = create_ssh_client(config.ssh_hostname, config.ssh_port, config.ssh_username, config.ssh_password)
         random_operations(ssh_client)
     except Exception as e:
         logger.info(f"An error occurred: {e}")

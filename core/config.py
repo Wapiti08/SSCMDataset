@@ -31,3 +31,21 @@ web_sites = [
     "https://chatgpt.com/",
     "https://www.facebook.com"
 ]
+
+
+# ssh host configuration
+ssh_hostname = 'your.remote.server.com'
+ssh_ort = 22  # Default SSH port
+ssh_username = 'your_username'
+ssh_password = 'your_password'
+
+# scp remote ssh
+scp_hostname = 'your.remote.server.com'
+scp_port = 22  # Default SSH port
+scp_username = 'your_username'
+scp_password = 'your_password'
+
+
+# file list for copy
+local_file_list= []
+remote_path_list = []

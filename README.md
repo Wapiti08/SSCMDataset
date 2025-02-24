@@ -27,7 +27,7 @@ monitoring dataset for software supply chain vulnerabilities
  
 - remote ssh (3)
 
-- ftp service for file transfer (4)
+- scp for file copy (4)
 
 - open software and call update (5)
 

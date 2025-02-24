@@ -12,6 +12,7 @@ sys.path.insert(0, Path(sys.path[0]).parent.as_posix())
 import paramiko
 from scp import SCPClient
 from utils import util
+from core import config
 
 def create_ssh_client(hostname, port, username, password):
     ''' create and return a SSH client connected to the specified server
@@ -22,7 +23,6 @@ def create_ssh_client(hostname, port, username, password):
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     client.connect(hostname, port=port, username=username, password=password)
     return client
-
 
 
 def scp_copy_file(hostname, port, username, password, local_file, remote_path):
@@ -48,12 +48,8 @@ def scp_copy_file(hostname, port, username, password, local_file, remote_path):
 
 if __name__ == "__main__":
 
-    # Example usage
-    hostname = 'your.remote.server.com'
-    port = 22  # Default SSH port
-    username = 'your_username'
-    password = 'your_password'
     local_file = '/path/to/local/file.txt'
     remote_path = '/path/to/remote/destination/'
 
-    scp_copy_file(hostname, port, username, password, local_file, remote_path)
+    scp_copy_file(config.scp_hostname, config.scp_port, config.scp_username, \
+                  config.scp_password, local_file, remote_path)
