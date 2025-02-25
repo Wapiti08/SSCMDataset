@@ -46,7 +46,8 @@ def random_operations(ssh_client):
 if __name__ == "__main__":
 
     try:
-        ssh_client = create_ssh_client(config.ssh_hostname, config.ssh_port, config.ssh_username, config.ssh_password)
+        ssh_client = create_ssh_client(config.ssh_hostname, config.ssh_port, \
+                                       config.ssh_username, config.ssh_password)
         random_operations(ssh_client)
     except Exception as e:
         logger.info(f"An error occurred: {e}")
