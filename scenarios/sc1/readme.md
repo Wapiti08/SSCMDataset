@@ -47,7 +47,7 @@
         # download target package sc1
 
         # execute installation process
-        python3 setup.py 
+        python3 setup.py install
 
         ```
         This setup (installation) script will download a image with embedded payload

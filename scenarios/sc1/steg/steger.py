@@ -8,11 +8,17 @@
 from pathlib import Path
 from stegano import lsb
 from PIL import Image
+import gzip
+import base64
 
 # step1: read the python file content
 def read_file(file_path):
     with open(file_path, 'r') as file:
         return file.read()
+
+def compress_file(code):
+    compressed = gzip.compress(code.encode())
+    return base64.b64encode(compressed).decode()
 
 
 # step2: hide content in an image
@@ -26,9 +32,10 @@ if __name__ == "__main__":
     cur_path = Path.cwd()
     
     payload_file = cur_path.joinpath("medusa_wins.py")
-    input_image_path = cur_path.joinpath("image.png")
+    input_image_path = cur_path.joinpath("largeimage.png")
     output_image_path = cur_path.joinpath("img.png")
 
+    # payload = compress_file(read_file(payload_file))
     payload = read_file(payload_file)
 
     hide_data_to_image(payload, input_image_path, output_image_path)

@@ -25,7 +25,7 @@
     - payload execution
 
         ```
-            python3 setup.py # under pystallerer-1.0.0
+            python3 setup.py install # under pystallerer-1.0.0
 
         ```
         The involving actions:

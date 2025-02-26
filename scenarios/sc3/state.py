@@ -50,8 +50,12 @@ def sche_random_operations():
                 ssh_client.close()
 
         elif operation == 'copy':
-            local_file = random.choice(config.local_file_list)
-            remote_path = random.choice(config.remote_path_list)
+            # Select a random index
+            index = random.randint(0, len(config.local_file_list) - 1)
+
+            # Use the same index for both lists
+            local_file = config.local_file_list[index]
+            remote_path = config.remote_path_list[index]
             copy.scp_copy_file(config.scp_hostname, config.scp_port, config.scp_username, \
                   config.scp_password, local_file, remote_path)
 
