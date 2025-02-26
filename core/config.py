@@ -34,18 +34,18 @@ web_sites = [
 
 
 # ssh host configuration
-ssh_hostname = 'your.remote.server.com'
+ssh_hostname = '172.187.202.111'
 ssh_ort = 22  # Default SSH port
-ssh_username = 'your_username'
-ssh_password = 'your_password'
+ssh_username = 'azureofficer'
+ssh_password = 'Officelinux01'
 
 # scp remote ssh
-scp_hostname = 'your.remote.server.com'
+scp_hostname = '172.187.202.111'
 scp_port = 22  # Default SSH port
-scp_username = 'your_username'
-scp_password = 'your_password'
+scp_username = 'azureofficer'
+scp_password = 'Officelinux01'
 
 
-# file list for copy
-local_file_list= []
-remote_path_list = []
+# file list for copy -- default from wins to linux
+local_file_list= ["C:\Users\Newt\Documents\script.py", "C:\Users\Newt\Documents\MyProject", "C:\Users\Newt\Downloads\logs.tar.gz"]
+remote_path_list = ["/home/Newt", "/home/Newt/projects", "/opt/logs/"]
