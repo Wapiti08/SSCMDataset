@@ -35,6 +35,10 @@ monitoring dataset for software supply chain vulnerabilities
 
 - automatic development (pip, compile) (7)
 
+- openai (gpt service)(8)
+
+- login behavior (9)
+
 ## Factors for Randomness
 
 - idle time

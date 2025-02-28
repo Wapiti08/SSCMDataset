@@ -1,7 +1,7 @@
 '''
     define parameters to achieve simulation for normal behaviour
 '''
-
+from pathlib import Path
 
 git_reps_list = [
     "https://github.com/ytdl-org/youtube-dl.git",
@@ -47,5 +47,12 @@ scp_password = 'Officelinux01'
 
 
 # file list for copy -- default from wins to linux
-local_file_list= ["C:\Users\Newt\Documents\script.py", "C:\Users\Newt\Documents\MyProject", "C:\Users\Newt\Downloads\logs.tar.gz"]
-remote_path_list = ["/home/Newt", "/home/Newt/projects", "/opt/logs/"]
+local_file_list= [
+                  Path(r"C:\Users\Newt\Documents\script.py"), 
+                  Path(r"C:\Users\Newt\Documents\MyProject"), 
+                  Path(r"C:\Users\Newt\Downloads\logs.tar.gz")
+                  ]
+remote_path_list = [
+                Path(r"/home/Newt"), 
+                Path(r"/home/Newt/projects"), 
+                Path(r"/opt/logs/")]

@@ -10,7 +10,6 @@
 import sys
 from pathlib import Path
 sys.path.insert(0, Path(sys.path[0]).parent.as_posix())
-print(sys.path)
 import os
 import random
 import time
@@ -26,7 +25,7 @@ except:
     os.system("pip3 install schedule==1.2.2")
 
 # list of available operations:
-operations = ['web', 'ssh', 'copy', 'update_call', 'download', 'dev']
+operations = ['web', 'ssh', 'copy', 'update_call', 'download', 'dev', 'gpt']
 
 # define the operational time range (9 a.m to 7 p.m.)
 START_HOUR = 9
@@ -89,12 +88,15 @@ def sche_random_operations():
             dev.deploy_application(project_path, deployment_directory)
 
 
+            
 def simu_norm():
     ''' schedule operations at random intervals during daytime
     
     '''
     for _ in range(15):
-        delay = random.randint(300, 3600)
+        # delay = random.randint(300, 3600)
+        # for quick test
+        delay = random.randint(30, 360)
         schedule.every(delay).seconds.do(sche_random_operations)
     
     while True:
