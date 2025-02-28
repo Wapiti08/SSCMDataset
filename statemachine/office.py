@@ -1,15 +1,27 @@
 import sys
 from pathlib import Path
 sys.path.insert(0, Path(sys.path[0]).parent.as_posix())
-from docx import Document
-from faker import Faker
 import random
-import pyautogui
-from pptx import Presentation
-from pptx.util import Inches
+import os
+
+try:
+    from faker import Faker
+    from pptx import Presentation
+    from docx import Document
+    from pptx.util import Inches
+    from openpyxl import Workbook, load_workbook
+    import pyautogui
+    
+except:
+    os.system("pip3 install faker==26")
+    os.system("pip3 install python-pptx==0.6.23")
+    os.system("pip3 install python-docx==1.1.2")
+    os.system("pip3 install openpyxl==3.1.5")
+    os.system("pip3 install pyautogui==0.9.54")
+
+
 from pathlib import Path
 from utils import util
-from openpyxl import Workbook, load_workbook
 import string
 
 

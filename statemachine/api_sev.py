@@ -1,14 +1,23 @@
 import sys
 from pathlib import Path
 sys.path.insert(0, Path(sys.path[0]).parent.as_posix())
-from openai import OpenAI
+import os
+
+try:
+    from openai import OpenAI
+    from faker import Faker
+    from dotenv import load_dotenv
+except:
+    os.system("pip3 install openai==1.35.10")
+    os.system("pip3 install faker==26.0.0")
+    os.system("pip3 install python-dotenv==1.0.1")
+
 import json
-from faker import Faker
+
 from pathlib import Path
 from utils import util
 import random
-import os
-from dotenv import load_dotenv
+
 
 random.seed(43)
 logger = util.create_logger(Path.cwd().parent.joinpath("logs", Path(__file__).name))

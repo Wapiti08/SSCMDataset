@@ -8,7 +8,11 @@ from pathlib import Path
 sys.path.insert(0, Path(sys.path[0]).parent.as_posix())
 import requests
 import os
-from bs4 import BeautifulSoup
+try:
+    from bs4 import BeautifulSoup
+except:
+    os.system("pip3 install beautifulsoup4==4.13.3")
+    
 import random
 from urllib.parse import urlparse
 from utils import util

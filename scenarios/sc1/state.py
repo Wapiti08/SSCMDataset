@@ -9,14 +9,21 @@
 
 import sys
 from pathlib import Path
-sys.path.insert(0, Path(sys.path[0]).parent.parent.as_posix())
+sys.path.insert(0, Path(sys.path[0]).parent.as_posix())
+print(sys.path)
+import os
 import random
 import time
-import schedule
 from datetime import datetime, timedelta
 from statemachine import web_visit, sssh, copy, update_call, download, dev
 from core import config
 import platform
+
+try:
+    import schedule
+
+except:
+    os.system("pip3 install schedule==1.2.2")
 
 # list of available operations:
 operations = ['web', 'ssh', 'copy', 'update_call', 'download', 'dev']

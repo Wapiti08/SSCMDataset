@@ -11,7 +11,12 @@ import subprocess
 import shutil
 from utils import util
 from pathlib import Path
-from faker import Faker
+
+try:
+    from faker import Faker
+except:
+    os.system("pip3 install faker==26.0.0")
+
 
 logger = util.create_logger(Path.cwd().parent.joinpath("logs", Path(__file__).name))
 

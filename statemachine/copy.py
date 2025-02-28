@@ -8,9 +8,15 @@
 import sys
 from pathlib import Path
 sys.path.insert(0, Path(sys.path[0]).parent.as_posix())
+import os
 
-import paramiko
-from scp import SCPClient
+try:
+    import paramiko
+    from scp import SCPClient
+except:
+    os.system("pip3 install paramiko==3.4.1")
+    os.system("pip3 install scp==0.15.0")
+
 from utils import util
 from core import config
 

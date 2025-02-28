@@ -2,8 +2,13 @@
 import sys
 from pathlib import Path
 sys.path.insert(0, Path(sys.path[0]).parent.as_posix())
+import os
 from platform import platform
-from selenium import webdriver
+try:
+    from selenium import webdriver
+except:
+    os.system("pip3 install selenium==4.22.0")
+
 import time
 from pathlib import Path
 import random

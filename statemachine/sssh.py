@@ -6,9 +6,16 @@
 import sys
 from pathlib import Path
 sys.path.insert(0, Path(sys.path[0]).parent.as_posix())
-import paramiko
+import os
+
+try:
+    import paramiko
+    from scp import SCPClient
+except:
+    os.system("pip3 install scp==0.15.0")
+    os.system("pip3 install paramiko==3.4.1")
+
 from core import config
-from scp import SCPClient
 import random
 from utils import util
 logger = util.create_logger(Path.cwd().parent.joinpath("logs", Path(__file__).name))
