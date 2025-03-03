@@ -19,7 +19,6 @@ git_reps_list = [
 ]
 
 
-
 web_sites = [
     "https://www.google.com/",
     "https://www.github.com/",
@@ -32,6 +31,7 @@ web_sites = [
     "https://www.facebook.com"
 ]
 
+login_page = "https://possible-concrete-constellation.glitch.me/"
 
 # ssh host configuration
 ssh_hostname = '172.187.202.111'
@@ -52,6 +52,7 @@ local_file_list= [
                   Path(r"C:\Users\Newt\Documents\MyProject"), 
                   Path(r"C:\Users\Newt\Downloads\logs.tar.gz")
                   ]
+
 remote_path_list = [
                 Path(r"/home/Newt"), 
                 Path(r"/home/Newt/projects"), 

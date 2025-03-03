@@ -7,9 +7,15 @@
     - download Windows APP (app store)
     - download RDP file from Azure
     - drag that file to Windows APP
+    - download playwright for simulation
+    ```
+    playwright install
+    ```
 
 - Prerequisties (for Ubuntu):
     ```
+
+
     # download Mythic
     - git clone https://github.com/its-a-feature/Mythic --depth 1
     # download docker

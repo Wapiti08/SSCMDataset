@@ -1,0 +1,5 @@
+2025-03-03 17:05:50,786 - utils.util - INFO - Failed to access: {random_link}
+2025-03-03 17:06:11,519 - utils.util - INFO - Failed to access: {random_link}
+2025-03-03 17:06:55,105 - utils.util - INFO - Failed to access: {random_link}
+2025-03-03 17:32:54,221 - utils.util - ERROR - No login button found on the index page
+2025-03-03 17:33:35,184 - utils.util - ERROR - No login form found

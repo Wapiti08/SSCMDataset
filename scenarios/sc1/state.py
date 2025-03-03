@@ -14,7 +14,7 @@ import os
 import random
 import time
 from datetime import datetime, timedelta
-from statemachine import web_visit, sssh, copy, update_call, download, dev
+from statemachine import scopy, web_visit, sssh, update_call, download, dev, logins, api_sev
 from core import config
 import platform
 
@@ -25,7 +25,7 @@ except:
     os.system("pip3 install schedule==1.2.2")
 
 # list of available operations:
-operations = ['web', 'ssh', 'copy', 'update_call', 'download', 'dev', 'gpt']
+operations = ['web', 'ssh', 'copy', 'update_call', 'download', 'dev', 'gpt', 'login']
 
 # define the operational time range (9 a.m to 7 p.m.)
 START_HOUR = 9
@@ -62,7 +62,7 @@ def sche_random_operations():
             # Use the same index for both lists
             local_file = config.local_file_list[index]
             remote_path = config.remote_path_list[index]
-            copy.scp_copy_file(config.scp_hostname, config.scp_port, config.scp_username, \
+            scopy.scp_copy_file(config.scp_hostname, config.scp_port, config.scp_username, \
                   config.scp_password, local_file, remote_path)
 
         elif operation == 'update_call':
@@ -87,6 +87,11 @@ def sche_random_operations():
             deployment_directory = Path.cwd().joinpath("deployed_example_project")
             dev.deploy_application(project_path, deployment_directory)
 
+        elif operation == 'gpt':
+            
+        
+        elif operation == "login":
+            logins.login_playwright("admin", "password")
 
             
 def simu_norm():
