@@ -14,7 +14,7 @@ import random
 import time
 import schedule
 from datetime import datetime, timedelta
-from statemachine import web_visit, sssh, copy, update_call, download, dev
+from statemachine import scopy, web_visit, sssh, update_call, download, dev
 from core import config
 import platform
 
@@ -56,7 +56,7 @@ def sche_random_operations():
             # Use the same index for both lists
             local_file = config.local_file_list[index]
             remote_path = config.remote_path_list[index]
-            copy.scp_copy_file(config.scp_hostname, config.scp_port, config.scp_username, \
+            scopy.scp_copy_file(config.scp_hostname, config.scp_port, config.scp_username, \
                   config.scp_password, local_file, remote_path)
 
         elif operation == 'update_call':

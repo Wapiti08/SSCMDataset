@@ -12,7 +12,7 @@ simulated behaviours:
     - download
 
  '''
-from statemachine import (copy, dev, web_visit, api_sev, update_call, rdp, download)
+from statemachine import (dev, scopy, web_visit, api_sev, update_call, rdp, download)
 import os
 from core import config
 import random
@@ -43,7 +43,7 @@ class DevVM:
         ''' simulate scp for copy between two hosts
         
         '''
-        copy.scp_copy_file(self.hostname, self.ssh_port, \
+        scopy.scp_copy_file(self.hostname, self.ssh_port, \
                            self.host_username, self.host_password, self.local_path, \
                             self.remote_path)
 
