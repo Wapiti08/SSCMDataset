@@ -14,7 +14,7 @@ import os
 import random
 import time
 from datetime import datetime, timedelta
-from statemachine import scopy, web_visit, sssh, update_call, download, dev, logins, api_sev
+from nora import scopy, web_visit, sssh, update_call, download, dev, logins, api_sev
 from core import config
 import platform
 
