@@ -2,6 +2,7 @@ import sys
 from pathlib import Path
 sys.path.insert(0, Path(sys.path[0]).parent.as_posix())
 import os
+import time
 
 try:
     from openai import OpenAI
@@ -27,23 +28,38 @@ load_dotenv(dotenv_path)
 
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"),)
 
-fake = Faker()
+fake = Faker("en_US")
+
+def gpt_query(prompt, max_retries=5):
+
+    for attempt in range(max_retries):
+        try:
+            response = client.chat.completions.create(
+                model="gpt-4-1106-preview", 
+                messages=[
+                    {"role": "system", "content": "you are a chatbox, talk to me"},
+                    {'role': 'user', 'content': prompt}
+                ]
+                )
+            return response.choices[0].message.content
+        except Exception as e:
+            if "too many requests" in str(e).lower():
+                wait_time = 2 ** attempt + random.uniform(0,1)
+                logger.info(f"Rate limit hit. Retrying in {wait_time:.2f} seconds ...")
+                time.sleep(wait_time)
+            else:
+                raise
+
+
+
 def chat_with_gpt():
-    def gpt_query(prompt):
-        response = client.chat.completions.create(
-            model="gpt-4-1106-preview", 
-            messages=[
-                {"role": "system", "content": "you are a chatbox, talk to me"},
-                {'role': 'user', 'content': prompt}
-            ]
-            )
-        return response.choices[0].message.content
-    
     # define the times of query
     times = random.randint(1,10)
     for _ in range(times):
         logger.info("talking to gpt")
-        gpt_query(fake.text())
+        gpt_query(fake.text(max_nb_chars=50))
+        time.sleep(10)
+        
 
 if __name__ == "__main__":
     chat_with_gpt()
