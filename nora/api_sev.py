@@ -21,7 +21,6 @@ import random
 
 
 random.seed(43)
-logger = util.create_logger(Path.cwd().parent.joinpath("logs", Path(__file__).name))
 
 dotenv_path = Path.cwd().parent.joinpath('.env').as_posix()
 load_dotenv(dotenv_path)
@@ -30,7 +29,7 @@ client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"),)
 
 fake = Faker("en_US")
 
-def gpt_query(prompt, max_retries=5):
+def gpt_query(prompt, logger, max_retries=5):
 
     for attempt in range(max_retries):
         try:
@@ -53,15 +52,15 @@ def gpt_query(prompt, max_retries=5):
                 raise
 
 
-def chat_with_gpt():
+def chat_with_gpt(logger):
     # define the times of query
     times = random.randint(1,10)
     for _ in range(times):
         logger.info("talking to gpt")
-        gpt_query(fake.text(max_nb_chars=50))
+        gpt_query(fake.text(max_nb_chars=50), logger)
         time.sleep(10)
         
 
-if __name__ == "__main__":
-    chat_with_gpt()
+# if __name__ == "__main__":
+#     chat_with_gpt()
 

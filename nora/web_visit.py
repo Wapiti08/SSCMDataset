@@ -16,13 +16,11 @@ from core import config
 import time
 from utils import util
 
-logger = util.create_logger(Path.cwd().parent.joinpath("logs", Path(__file__).name))
-
 # define right path for driver
 def load_driver():
     return webdriver.Chrome()
 
-def website_access(driver,link):
+def website_access(driver,link, logger):
     try:
         logger.info(f"visiting website {link}")
         driver.get(link)
@@ -30,9 +28,9 @@ def website_access(driver,link):
     finally:
         driver.quit()
 
-if __name__ == "__main__":
-    # print(os_type)
-    driver = load_driver()
-    url_list = config.web_sites
-    url = random.choice(url_list)
-    website_access(driver, url)
+# if __name__ == "__main__":
+#     # print(os_type)
+#     driver = load_driver()
+#     url_list = config.web_sites
+#     url = random.choice(url_list)
+#     website_access(driver, url)

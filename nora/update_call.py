@@ -5,10 +5,8 @@ import subprocess
 from utils import util
 from pathlib import Path
 
-logger = util.create_logger(Path.cwd().parent.joinpath("logs", Path(__file__).name))
 
-
-def update_windows():
+def update_windows(logger):
     try:
         subprocess.run(["wuauclt", "/updatenow"], check=True)
         logger.info("Windows update command executed successfully.")
@@ -16,7 +14,7 @@ def update_windows():
         logger.info(f"Failed to execute Windows update: {e}")
         
 
-def update_linux_debian():
+def update_linux_debian(logger):
     try:
         # Update package list and upgrade all packages
         subprocess.run(["sudo", "apt", "update"], check=True)
@@ -26,7 +24,7 @@ def update_linux_debian():
         logger.info(f"Failed to execute Debian-based Linux update: {e}")
 
 
-def update_mac_brew():
+def update_mac_brew(logger):
     try:
         # Update Homebrew and all installed packages
         subprocess.run(["brew", "update"], check=True)
@@ -35,5 +33,5 @@ def update_mac_brew():
     except subprocess.CalledProcessError as e:
         logger.info(f"Failed to execute Homebrew update: {e}")
 
-if __name__ == "__main__":
-    update_windows()
+# if __name__ == "__main__":
+#     update_windows()

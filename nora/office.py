@@ -27,11 +27,10 @@ import string
 
 random.seed(43)
 
-logger = util.create_logger(Path.cwd().parent.joinpath("logs", Path(__file__).name))
 
 fake = Faker("en_US")
 
-def create_doc():
+def create_doc(logger,):
     doc = Document()
     # fack name
     name = fake.name()
@@ -49,7 +48,7 @@ def create_doc():
     doc.save("{name}.docx")
 
 
-def modify_doc():
+def modify_doc(logger):
     docx_files = list(Path.cwd().glob("*.docx"))
     if docx_files:
         # randomly modify a document
@@ -62,7 +61,7 @@ def modify_doc():
         doc.save(docx_path)
 
 
-def delete_doc():
+def delete_doc(logger):
     docx_files = list(Path.cwd().glob("*.docx"))
     if docx_files:
         # randomly pick one file to delete
@@ -71,7 +70,7 @@ def delete_doc():
         docx_path.unlink()
 
 
-def create_ppt():
+def create_ppt(logger):
     # create a ppt object
     prs = Presentation()
     # add a title slide --- 0 is the index for title slide
@@ -109,7 +108,7 @@ def create_ppt():
     prs.save(save_path)
 
 
-def modify_ppt():
+def modify_ppt(logger):
     pptx_files = list(Path.cwd().glob("*.pptx"))
     if pptx_files:
         pptx_path = random.choice(pptx_files)
@@ -123,7 +122,7 @@ def modify_ppt():
         prs.save(pptx_path)
 
 
-def delete_ppt():
+def delete_ppt(logger):
     pptx_files = list(Path.cwd().glob("*.pptx"))
     if pptx_files:
         # randomly pick one file to delete
@@ -132,7 +131,7 @@ def delete_ppt():
         pptx_path.unlink()
 
 
-def create_xls():
+def create_xls(logger):
     # create a new workbook
     wb = Workbook()
     ws = wb.active
@@ -158,10 +157,11 @@ def create_xls():
 
     # Save the workbook to a file
     file_name = fake.name()
+    logger.info("create a excel file {file_name}.xlsx")
     wb.save("{file_name}.xlsx")
 
 
-def modify_xls():
+def modify_xls(logger):
     xlsx_files = list(Path.cwd().glob("*.xlsx"))
     if xlsx_files:
         # randomly modify a document
@@ -173,9 +173,10 @@ def modify_xls():
         random_row = random.randint(5,100)
         ws[f'{random_column}{random_row}'] = fake.text()
         file_name = xlsx_path.stem
+        logger.info("modify a excel file {file_name}.xlsx")
         wb.save("{file_name}.xlsx")
 
-def delete_xls():
+def delete_xls(logger):
     xlsx_files = list(Path.cwd().glob("*.xlsx"))
     if xlsx_files:
         # randomly pick one file to delete
@@ -184,30 +185,30 @@ def delete_xls():
         xlsx_path.unlink()
 
 
-def automate_gui():
+def automate_gui(logger):
     pyautogui.moveTo(100, 100, duration=1)
     pyautogui.click()
     pyautogui.write("Automating office work with Python", interval=0.1)
     pyautogui.press("enter")
 
 
-if __name__ == "__main__":
-    # document manipulations
-    create_doc()
-    modify_doc()
-    delete_doc()
+# if __name__ == "__main__":
+#     # document manipulations
+#     create_doc()
+#     modify_doc()
+#     delete_doc()
 
-    # powerpoint manipulation
-    create_ppt()
-    modify_ppt()
-    delete_ppt()
+#     # powerpoint manipulation
+#     create_ppt()
+#     modify_ppt()
+#     delete_ppt()
 
-    # excel manipulation
-    create_xls()
-    modify_xls()
-    delete_xls()
+#     # excel manipulation
+#     create_xls()
+#     modify_xls()
+#     delete_xls()
 
-    # click event
-    automate_gui()
+#     # click event
+#     automate_gui()
 
 

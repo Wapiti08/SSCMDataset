@@ -18,7 +18,6 @@ except:
 from core import config
 import random
 from utils import util
-logger = util.create_logger(Path.cwd().parent.joinpath("logs", Path(__file__).name))
 
 
 def create_ssh_client(hostname, port, username, password):
@@ -32,7 +31,7 @@ def create_ssh_client(hostname, port, username, password):
     return client
 
 
-def random_operations(ssh_client):
+def random_operations(ssh_client, logger):
     ''' simulate operations after successfully ssh
     
     '''
@@ -50,13 +49,13 @@ def random_operations(ssh_client):
     logger.info('command error', stderr.read().decode())
     
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
-    try:
-        ssh_client = create_ssh_client(config.ssh_hostname, config.ssh_port, \
-                                       config.ssh_username, config.ssh_password)
-        random_operations(ssh_client)
-    except Exception as e:
-        logger.info(f"An error occurred: {e}")
-    finally:
-        ssh_client.close()
+#     try:
+#         ssh_client = create_ssh_client(config.ssh_hostname, config.ssh_port, \
+#                                        config.ssh_username, config.ssh_password)
+#         random_operations(ssh_client)
+#     except Exception as e:
+#         logger.info(f"An error occurred: {e}")
+#     finally:
+#         ssh_client.close()

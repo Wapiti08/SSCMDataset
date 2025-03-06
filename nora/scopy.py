@@ -31,7 +31,7 @@ def create_ssh_client(hostname, port, username, password):
     return client
 
 
-def scp_copy_file(hostname, port, username, password, local_file, remote_path):
+def scp_copy_file(hostname, port, username, password, local_file, remote_path, logger):
     ''' simulate the scp action to copy data between hosts with python script
     
     '''
@@ -43,19 +43,19 @@ def scp_copy_file(hostname, port, username, password, local_file, remote_path):
         with SCPClient(ssh_client.get_transport()) as scp:
             # Copy the file
             scp.put(local_file, remote_path)
-            print(f"File '{local_file}' successfully copied to '{remote_path}' on '{hostname}'")
+            logger.info(f"File '{local_file}' successfully copied to '{remote_path}' on '{hostname}'")
         
     except Exception as e:
-        print(f"An error occurred while copying the file: {e}")
+        logger.info(f"An error occurred while copying the file: {e}")
     
     finally:
         # Close the SSH connection
         ssh_client.close()
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
-    local_file = '/path/to/local/file.txt'
-    remote_path = '/path/to/remote/destination/'
+#     local_file = '/path/to/local/file.txt'
+#     remote_path = '/path/to/remote/destination/'
 
-    scp_copy_file(config.scp_hostname, config.scp_port, config.scp_username, \
-                  config.scp_password, local_file, remote_path)
+#     scp_copy_file(config.scp_hostname, config.scp_port, config.scp_username, \
+#                   config.scp_password, local_file, remote_path)

@@ -17,9 +17,8 @@ try:
 except:
     os.system("pip3 install faker==26.0.0")
 
-logger = util.create_logger(Path.cwd().parent.joinpath("logs", Path(__file__).name))
 
-def create_code_files():
+def create_code_files(logger):
     fake = Faker("en_US")
     project_name = fake.text()
     os.makedirs(project_name, exist_ok=True)
@@ -34,23 +33,23 @@ def create_code_files():
         
     logger.info(f"Created main.py in {project_name}")
 
-def run_tests():
+def run_tests(logger):
     try:
         result = subprocess.run(["python", "-m", "unittest", "discover"], check=True)
         logger.info("Tests ran successfully.")
     except subprocess.CalledProcessError as e:
         logger.info(f"Failed to run tests: {e}")
 
-def deploy_application(source_dir, dest_dir):
+def deploy_application(source_dir, dest_dir, logger):
     try:
         shutil.copytree(source_dir, dest_dir, dirs_exist_ok=True)
         logger.info(f"Application deployed to {dest_dir}.")
     except Exception as e:
         logger.info(f"Failed to deploy application: {e}")
 
-if __name__ == "__main__":
-    create_code_files()
-    project_path = Path.cwd().joinpath("example_project")
-    run_tests()
-    deployment_directory = Path.cwd().joinpath("deployed_example_project")
-    deploy_application(project_path, deployment_directory)
+# if __name__ == "__main__":
+#     create_code_files()
+#     project_path = Path.cwd().joinpath("example_project")
+#     run_tests()
+#     deployment_directory = Path.cwd().joinpath("deployed_example_project")
+#     deploy_application(project_path, deployment_directory)

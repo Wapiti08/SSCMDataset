@@ -12,9 +12,8 @@ from pathlib import Path
 from core import config
 import random
 
-logger = util.create_logger(Path.cwd().parent.joinpath("logs", Path(__file__).name))
 
-def clone_repository(repo):
+def clone_repository(repo, logger):
     try:
         repo_name = Path(repo).stem
         destination = Path.cwd().parent.joinpath("install", repo_name).as_posix()
@@ -26,6 +25,6 @@ def clone_repository(repo):
         logger.info(f"Failed to clone {repo}: {e}")
 
 
-if __name__ == "__main__":
-    resp = random.choice(config.git_reps_list)
-    clone_repository(resp)
+# if __name__ == "__main__":
+#     resp = random.choice(config.git_reps_list)
+#     clone_repository(resp)
