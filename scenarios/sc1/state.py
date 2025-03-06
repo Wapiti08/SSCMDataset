@@ -39,8 +39,9 @@ def sche_random_operations(operation):
     
     '''
     try:
-        logger = util.create_logger(Path.cwd().parent.joinpath("logs", Path(__file__).name))
-
+        log_path = Path.cwd().parent.joinpath("logs", f"{operation}.log")
+        logger = util.create_logger(log_path)  # Initialize logger inside
+        
         if operation == 'web':
             driver = web_visit.load_driver()
             url_list = config.web_sites
@@ -106,7 +107,8 @@ def sche_random_operations(operation):
     except Exception as e:
         print(f"[Error] Operation {operation} failed: {e}")
 
-def execute_operation(operation, logger):
+def execute_operation(operation):
+    logger = util.create_logger(Path.cwd().parent.joinpath("logs", f"{operation}.log"))  # Recreate logger
     logger.info(f"Executing: {operation}")
     time.sleep(random.randint(1,3))
 
@@ -116,7 +118,7 @@ def sche_random_operation():
         operation = random.choice(operations)
         logger = util.create_logger(operation)
         # Start process
-        process = multiprocessing.Process(target=execute_operation, args=(operation, logger))
+        process = multiprocessing.Process(target=execute_operation, args=(operation))
         process.start()
         process.join()  # Ensure only one process runs at a time
 
