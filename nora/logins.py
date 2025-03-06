@@ -3,8 +3,11 @@
  # @ Modified time: 2024-08-21 10:46:00
  # @ Description: simulate the login on host web service
 '''
-
-from playwright.sync_api import sync_playwright
+import os
+try:
+    from playwright.sync_api import sync_playwright
+except:
+    os.system("pip3 install playwright==1.50.0")
 
 def login_playwright(username: str, password: str, url: str = "https://possible-concrete-constellation.glitch.me/login.html"):
     with sync_playwright() as p:
@@ -25,8 +28,8 @@ def login_playwright(username: str, password: str, url: str = "https://possible-
         browser.close()
         return success
 
-# Example usage
-if login_playwright("admin", "password"):
-    print("Login successful!")
-else:
-    print("Login failed!")
+# # Example usage
+# if login_playwright("admin", "password"):
+#     print("Login successful!")
+# else:
+#     print("Login failed!")

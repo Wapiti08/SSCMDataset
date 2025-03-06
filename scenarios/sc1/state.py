@@ -88,7 +88,7 @@ def sche_random_operations():
             dev.deploy_application(project_path, deployment_directory)
 
         elif operation == 'gpt':
-            
+            api_sev.chat_with_gpt()
         
         elif operation == "login":
             logins.login_playwright("admin", "password")

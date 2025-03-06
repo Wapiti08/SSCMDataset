@@ -8,7 +8,7 @@ try:
     from faker import Faker
     from dotenv import load_dotenv
 except:
-    os.system("pip3 install openai==1.35.10")
+    os.system("pip3 install openai==1.65.4")
     os.system("pip3 install faker==26.0.0")
     os.system("pip3 install python-dotenv==1.0.1")
 
@@ -25,10 +25,7 @@ logger = util.create_logger(Path.cwd().parent.joinpath("logs", Path(__file__).na
 dotenv_path = Path.cwd().parent.joinpath('.env').as_posix()
 load_dotenv(dotenv_path)
 
-client = OpenAI(
-    # This is the default and can be omitted
-    api_key=os.environ.get("OPENAI_API_KEY"),
-)
+client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"),)
 
 fake = Faker()
 def chat_with_gpt():

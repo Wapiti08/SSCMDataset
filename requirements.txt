@@ -1,6 +1,6 @@
 faker==26.0.0
 selenium==4.29.0
-openai==1.35.10
+openai==1.65.4
 python-docx==1.1.2
 pyautogui==0.9.54
 schedule==1.2.2
