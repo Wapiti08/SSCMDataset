@@ -41,6 +41,8 @@ def gpt_query(prompt, max_retries=5):
                     {'role': 'user', 'content': prompt}
                 ]
                 )
+            logger.info(f"New prompt is {prompt}")
+            logger.info(f"Response is {response.choices[0].message.content}")
             return response.choices[0].message.content
         except Exception as e:
             if "too many requests" in str(e).lower():
@@ -49,7 +51,6 @@ def gpt_query(prompt, max_retries=5):
                 time.sleep(wait_time)
             else:
                 raise
-
 
 
 def chat_with_gpt():

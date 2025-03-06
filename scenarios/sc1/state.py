@@ -14,9 +14,11 @@ import os
 import random
 import time
 from datetime import datetime, timedelta
+import multiprocessing
 from nora import scopy, web_visit, sssh, update_call, download, dev, logins, api_sev
 from core import config
 import platform
+from utils import util
 
 try:
     import schedule
@@ -31,14 +33,13 @@ operations = ['web', 'ssh', 'copy', 'update_call', 'download', 'dev', 'gpt', 'lo
 START_HOUR = 9
 END_HOUR = 19
 
+logger = util.create_logger(Path.cwd().parent.joinpath("logs", Path(__file__).name))
 
-def sche_random_operations():
+def sche_random_operations(operation):
     ''' schedule a random operation at a random time within the day range
     
     '''
-    now = datetime.now()
-    if START_HOUR <= now.hour < END_HOUR:
-        operation = random.choice(operations)
+    try:
         if operation == 'web':
             driver = web_visit.load_driver()
             url_list = config.web_sites
@@ -48,10 +49,10 @@ def sche_random_operations():
         elif operation == 'ssh':
             try:
                 ssh_client = sssh.create_ssh_client(config.ssh_hostname, config.ssh_port, \
-                                       config.ssh_username, config.ssh_password)
+                                    config.ssh_username, config.ssh_password)
                 sssh.random_operations(ssh_client)
             except Exception as e:
-                print(f"An error occurred: {e}")
+                logger.info(f"An error occurred when processing ssh: {e}")
             finally:
                 ssh_client.close()
 
@@ -63,7 +64,7 @@ def sche_random_operations():
             local_file = config.local_file_list[index]
             remote_path = config.remote_path_list[index]
             scopy.scp_copy_file(config.scp_hostname, config.scp_port, config.scp_username, \
-                  config.scp_password, local_file, remote_path)
+                config.scp_password, local_file, remote_path)
 
         elif operation == 'update_call':
             os_name = platform.system()
@@ -93,6 +94,23 @@ def sche_random_operations():
         elif operation == "login":
             logins.login_playwright("admin", "password")
 
+    except Exception as e:
+        print(f"[Error] Operation {operation} failed: {e}")
+
+def execute_operation(operation):
+    logger.info(f"Executing: {operation}")
+    time.sleep(random.randint(1,3))
+
+def sche_random_operation():
+    now = datetime.now()
+    if START_HOUR <= now.hour < END_HOUR:
+        operation = random.choice(operations)
+
+        # Start process
+        process = multiprocessing.Process(target=execute_operation, args=(operation,))
+        process.start()
+        process.join()  # Ensure only one process runs at a time
+
             
 def simu_norm():
     ''' schedule operations at random intervals during daytime
@@ -102,7 +120,7 @@ def simu_norm():
         # delay = random.randint(300, 3600)
         # for quick test
         delay = random.randint(30, 360)
-        schedule.every(delay).seconds.do(sche_random_operations)
+        schedule.every(delay).seconds.do(sche_random_operation)  # FIXED: Removed parentheses
     
     while True:
         schedule.run_pending()

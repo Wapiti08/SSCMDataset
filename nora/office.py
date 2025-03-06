@@ -29,7 +29,7 @@ random.seed(43)
 
 logger = util.create_logger(Path.cwd().parent.joinpath("logs", Path(__file__).name))
 
-fake = Faker()
+fake = Faker("en_US")
 
 def create_doc():
     doc = Document()

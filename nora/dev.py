@@ -17,11 +17,10 @@ try:
 except:
     os.system("pip3 install faker==26.0.0")
 
-
 logger = util.create_logger(Path.cwd().parent.joinpath("logs", Path(__file__).name))
 
 def create_code_files():
-    fake = Faker()
+    fake = Faker("en_US")
     project_name = fake.text()
     os.makedirs(project_name, exist_ok=True)
     with open(os.path.join(project_name, "main.py"), "w") as f:
@@ -32,6 +31,7 @@ def create_code_files():
             if __name__ == "__main__":
                 hello_world()
             """)
+        
     logger.info(f"Created main.py in {project_name}")
 
 def run_tests():
