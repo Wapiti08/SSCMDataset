@@ -13,7 +13,7 @@ import random
 import time
 from datetime import datetime, timedelta
 import multiprocessing
-from nora import scopy, web_visit, sssh, update_call, download, dev, logins, api_sev
+from nora import office, scopy, web_visit, sssh, update_call, download, dev, logins, api_sev
 from core import config
 import platform
 from utils import util
@@ -25,7 +25,7 @@ except:
     os.system("pip3 install schedule==1.2.2")
 
 # list of available operations:
-operations = ['web', 'ssh', 'copy', 'update_call', 'download', 'dev', 'gpt', 'login']
+operations = ['web', 'ssh', 'copy', 'update_call', 'download', 'dev', 'gpt', 'login', 'office']
 
 # define the operational time range (9 a.m to 7 p.m.)
 START_HOUR = 9
@@ -53,7 +53,48 @@ def sche_random_operations(operation):
 
             elif action == "search":
                 web_visit.search_simu(logger)
-            
+        
+        elif operation == "office":
+            logger.info(f"Simulating office related manipulations")
+            action = random.choice(["doc", "ppt", "excel"])
+
+            if action == "doc":
+                # create file
+                office.create_doc(logger)
+                # wait for next action
+                time.sleep(random.randint(10,100))
+                # randomly choose action
+                doc_act = random.choice(["del", "mod"])
+                if doc_act == "del":
+                    office.delete_doc(logger)
+                else:
+                    office.modify_doc(logger)
+
+            elif action == "ppt":
+                # create file
+                office.create_ppt(logger)
+                # wait for next action
+                time.sleep(random.randint(10,100))
+                # randomly choose action
+                ppt_act = random.choice(["del", "mod"])
+                if ppt_act == "del":
+                    office.delete_ppt(logger)
+                else:
+                    office.modify_ppt(logger)
+
+            elif action == "excel":
+                # create file
+                office.create_xls(logger)
+                # wait for next action
+                time.sleep(random.randint(10,100))
+                # randomly choose action
+                xls_act = random.choice(["del", "mod"])
+                if xls_act == "del":
+                    office.delete_xls(logger)
+                else:
+                    office.modify_xls(logger)
+
+
         elif operation == 'ssh':
             try:
                 ssh_client = sssh.create_ssh_client(config.ssh_hostname, config.ssh_port, \
@@ -141,9 +182,9 @@ def simu_norm():
     
     '''
     for _ in range(15):
-        delay = random.randint(300, 3600)
+        # delay = random.randint(300, 3600)
         # for quick test
-        # delay = random.randint(30, 360)
+        delay = random.randint(30, 360)
         schedule.every(delay).seconds.do(sche_random_operation)  
     
     while True:

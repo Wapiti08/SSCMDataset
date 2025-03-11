@@ -43,10 +43,18 @@ def random_operations(ssh_client, logger):
     ]
 
     command = random.choice(commands)
-    logger.info(f"normal cmd executing: {command}")
+    logger.info(f"Normal cmd executing: {command}")
+
     stdin, stdout, stderr = ssh_client.exec_command(command)
-    logger.info('command output', stdout.read().decode())
-    logger.info('command error', stderr.read().decode())
+    
+    output = stdout.read().decode().strip()
+    error = stderr.read().decode().strip()
+    
+    logger.info(f"Command output:\n{output}")  
+
+    # Log error only if it exists
+    if error:  
+        logger.error(f"Command error:\n{error}") 
     
 
 # if __name__ == "__main__":

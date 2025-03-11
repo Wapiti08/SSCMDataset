@@ -9,7 +9,7 @@ try:
 except:
     os.system("pip3 install playwright==1.50.0")
 
-def login_playwright(username: str, password: str, url: str = "https://possible-concrete-constellation.glitch.me/login.html", logger):
+def login_playwright(username: str, password: str, logger, url: str = "https://possible-concrete-constellation.glitch.me/login.html"):
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()

@@ -10,7 +10,6 @@ try:
     from docx import Document
     from pptx.util import Inches
     from openpyxl import Workbook, load_workbook
-    import pyautogui
     
 except:
     os.system("pip3 install faker==26")
@@ -57,7 +56,7 @@ def modify_doc(logger):
         first_para = doc.paragraphs[0]
         first_para.text = fake.sentence()
         doc.add_paragraph(fake.sentence())
-        logger.info("modified the powerpoint file: {pptx_path.name}.docx")
+        logger.info("modified the document file: {pptx_path.name}.docx")
         doc.save(docx_path)
 
 
@@ -66,7 +65,7 @@ def delete_doc(logger):
     if docx_files:
         # randomly pick one file to delete
         docx_path = random.choice(docx_files)
-        logger.info("deleted the powerpoint file: {docx_path.name}.pptx")
+        logger.info("deleted the document file: {docx_path.name}.pptx")
         docx_path.unlink()
 
 
@@ -185,13 +184,6 @@ def delete_xls(logger):
         xlsx_path.unlink()
 
 
-def automate_gui(logger):
-    pyautogui.moveTo(100, 100, duration=1)
-    pyautogui.click()
-    pyautogui.write("Automating office work with Python", interval=0.1)
-    pyautogui.press("enter")
-
-
 # if __name__ == "__main__":
 #     # document manipulations
 #     create_doc()
@@ -207,8 +199,5 @@ def automate_gui(logger):
 #     create_xls()
 #     modify_xls()
 #     delete_xls()
-
-#     # click event
-#     automate_gui()
 
 
