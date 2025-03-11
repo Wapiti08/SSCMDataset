@@ -35,7 +35,7 @@ login_page = "https://possible-concrete-constellation.glitch.me/"
 
 # ssh host configuration
 ssh_hostname = '172.187.202.111'
-ssh_ort = 22  # Default SSH port
+ssh_port = 22  # Default SSH port
 ssh_username = 'azureofficer'
 ssh_password = 'Officelinux01'
 

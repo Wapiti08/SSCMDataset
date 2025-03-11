@@ -33,6 +33,7 @@ def create_code_files(logger):
         
     logger.info(f"Created main.py in {project_name}")
 
+
 def run_tests(logger):
     try:
         result = subprocess.run(["python", "-m", "unittest", "discover"], check=True)
@@ -40,10 +41,23 @@ def run_tests(logger):
     except subprocess.CalledProcessError as e:
         logger.info(f"Failed to run tests: {e}")
 
+
 def deploy_application(source_dir, dest_dir, logger):
     try:
+        # check whether source_dir and dest_dir exist
+        if not source_dir.exists() or not source_dir.is_dir():
+            logger.error(f"Souce directory {source_dir} does not exist. ")
+            return
+
+        # ensure destination directory exists, create if not
+        if not dest_dir.exists():
+            dest_dir.mkdir(parents=True, exist_ok=True)
+            logger.info(f"Created destination directory: {dest_dir}")
+
+        # copy files
         shutil.copytree(source_dir, dest_dir, dirs_exist_ok=True)
         logger.info(f"Application deployed to {dest_dir}.")
+
     except Exception as e:
         logger.info(f"Failed to deploy application: {e}")
 

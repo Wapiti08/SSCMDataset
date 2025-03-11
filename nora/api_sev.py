@@ -30,11 +30,10 @@ client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"),)
 fake = Faker("en_US")
 
 def gpt_query(prompt, logger, max_retries=5):
-
     for attempt in range(max_retries):
         try:
             response = client.chat.completions.create(
-                model="gpt-4-1106-preview", 
+                model="gpt-4o-mini", 
                 messages=[
                     {"role": "system", "content": "you are a chatbox, talk to me"},
                     {'role': 'user', 'content': prompt}
@@ -56,11 +55,11 @@ def chat_with_gpt(logger):
     # define the times of query
     times = random.randint(1,10)
     for _ in range(times):
-        logger.info("talking to gpt")
+        logger.info("Talking to gpt")
         gpt_query(fake.text(max_nb_chars=50), logger)
         time.sleep(10)
         
 
-# if __name__ == "__main__":
-#     chat_with_gpt()
+if __name__ == "__main__":
+    chat_with_gpt()
 

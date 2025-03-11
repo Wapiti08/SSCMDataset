@@ -39,16 +39,23 @@ def sche_random_operations(operation):
     
     '''
     try:
-        log_path = Path.cwd().parent.joinpath("logs", f"{operation}.log")
+        log_path = Path.cwd().parent.joinpath("logs", f"{operation}")
         logger = util.create_logger(log_path)  # Initialize logger inside
         
         if operation == 'web':
-            driver = web_visit.load_driver()
-            url_list = config.web_sites
-            url = random.choice(url_list)
-            web_visit.website_access(driver, url, logger)
-            logger.info(f"Visited {url}")
+            logger.info(f"Simulating website access or online search")
+            # randomly decide action
+            action = random.choice(["website", "search"])
 
+            if action == "website":
+                driver = web_visit.load_driver()
+                url_list = config.web_sites
+                url = random.choice(url_list)
+                web_visit.website_access(driver, url, logger)
+
+            elif action == "search":
+                web_visit.search_simu(logger)
+            
         elif operation == 'ssh':
             try:
                 ssh_client = sssh.create_ssh_client(config.ssh_hostname, config.ssh_port, \
@@ -107,18 +114,26 @@ def sche_random_operations(operation):
     except Exception as e:
         print(f"[Error] Operation {operation} failed: {e}")
 
+
 def execute_operation(operation):
-    logger = util.create_logger(Path.cwd().parent.joinpath("logs", f"{operation}.log"))  # Recreate logger
+    logger = util.create_logger(Path.cwd().parent.joinpath("logs", "state"))  # Recreate logger
     logger.info(f"Executing: {operation}")
+
+    # execute specific operation
+    try:
+        sche_random_operations(operation)
+    except Exception as e:
+        logger.error(f"Error executing operation {operation}: {e}")
+
     time.sleep(random.randint(1,3))
+
 
 def sche_random_operation():
     now = datetime.now()
     if START_HOUR <= now.hour < END_HOUR:
         operation = random.choice(operations)
-        logger = util.create_logger(operation)
         # Start process
-        process = multiprocessing.Process(target=execute_operation, args=(operation))
+        process = multiprocessing.Process(target=execute_operation, args=(operation,))
         process.start()
         process.join()  # Ensure only one process runs at a time
 
@@ -131,7 +146,7 @@ def simu_norm():
         # delay = random.randint(300, 3600)
         # for quick test
         delay = random.randint(30, 360)
-        schedule.every(delay).seconds.do(sche_random_operation)  # FIXED: Removed parentheses
+        schedule.every(delay).seconds.do(sche_random_operation)  
     
     while True:
         schedule.run_pending()

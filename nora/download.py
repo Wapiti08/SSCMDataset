@@ -14,13 +14,24 @@ import random
 
 
 def clone_repository(repo, logger):
+    
     try:
         repo_name = Path(repo).stem
         destination = Path.cwd().parent.joinpath("install", repo_name).as_posix()
-        print(destination)
-        logger.info(f"Cloning {repo}...")
-        subprocess.run(["git", "clone", repo, destination], check=True)
+        if Path(destination).exists():
+            logger.info(f"Repository already exists at {destination}")
+            return
+        
+        logger.info(f"Cloning {repo} to {destination}...")
+
+        result = subprocess.run(["git", "clone", repo, destination], 
+                                capture_output=True, text=True, check=True)
+        
+        logger.info(f"Clone output: {result.stdout}")
+        
         logger.info(f"Successfully cloned {repo}")
+        logger.handlers[0].flush()
+
     except subprocess.CalledProcessError as e:
         logger.info(f"Failed to clone {repo}: {e}")
 

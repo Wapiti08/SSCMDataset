@@ -9,17 +9,20 @@ try:
 except:
     os.system("pip3 install playwright==1.50.0")
 
-def login_playwright(username: str, password: str, url: str = "https://possible-concrete-constellation.glitch.me/login.html"):
+def login_playwright(username: str, password: str, url: str = "https://possible-concrete-constellation.glitch.me/login.html", logger):
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
         page.goto(url)
+        logger.info(f"Accessing website: {url}")
 
         page.fill("#username", username)
         page.fill("#password", password)
+        logger.info(f"Accessing login page")
         page.click("button")
 
         try:
+
             page.wait_for_url("**/dashboard.html", timeout=5000)  # 5 seconds timeout
             success = "dashboard.html" in page.url
         except TimeoutError:
