@@ -182,9 +182,8 @@ def simu_norm():
     
     '''
     for _ in range(15):
-        # delay = random.randint(300, 3600)
-        # for quick test
-        delay = random.randint(30, 360)
+        # between 5 minutes to 1 hour
+        delay = random.randint(300, 3600)
         schedule.every(delay).seconds.do(sche_random_operation)  
     
     while True:

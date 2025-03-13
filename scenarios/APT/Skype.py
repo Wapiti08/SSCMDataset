@@ -62,6 +62,7 @@ class SkypeDB:
         
         return contract_info
     
+    
     def ExtCallLog(self, ):
         conn=sqlite3.connect(self.skypeDB)
         c=conn.cursor()

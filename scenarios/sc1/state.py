@@ -53,7 +53,7 @@ def sche_random_operations(operation):
 
             elif action == "search":
                 web_visit.search_simu(logger)
-            
+        
         elif operation == 'ssh':
             try:
                 ssh_client = sssh.create_ssh_client(config.ssh_hostname, config.ssh_port, \
@@ -141,9 +141,8 @@ def simu_norm():
     
     '''
     for _ in range(15):
+        # between 5 minutes to 1 hour
         delay = random.randint(300, 3600)
-        # for quick test
-        # delay = random.randint(30, 360)
         schedule.every(delay).seconds.do(sche_random_operation)  
     
     while True:

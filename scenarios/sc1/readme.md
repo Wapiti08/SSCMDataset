@@ -61,7 +61,16 @@
     - base64-encoded plain scripts
     - remove downloaded image (optional)
 
-- Data Exfiltration
+- Data Exfiltration (C2 server terminal)
 
     - extract system info to C2 server
+    ```
+    # under powershell terminal
+    .\enum_wins.ps1
+
+    .\priv_esc_wins.ps1
+
+    .\data_ext_wins.ps1
+    
+    ```
 
