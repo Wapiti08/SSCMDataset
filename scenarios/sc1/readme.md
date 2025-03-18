@@ -52,12 +52,6 @@
         ```
         This setup (installation) script will download a image with embedded payload
 
-    - post-foothold exploitation
-        
-        ```
-        # 
-        
-        ```
 
 - Trigger
 
@@ -72,12 +66,13 @@
 
     - extract system info to C2 server
     ```
-    # under powershell terminal
-    .\enum_wins.ps1
-
-    .\priv_esc_wins.ps1
-
-    .\data_ext_wins.ps1
+    # load console 
+    # enter the following command
+    upload
+    # choose two python scripts to any folder
+    # run python code with
+    load_script
+    # choose one file every time
     
     ```
 
@@ -87,6 +82,6 @@
 
         need to run the installation process again to return a new callback
     
-    - 
+    
     
     
