@@ -52,6 +52,13 @@
         ```
         This setup (installation) script will download a image with embedded payload
 
+    - post-foothold exploitation
+        
+        ```
+        # 
+        
+        ```
+
 - Trigger
 
     under executing setup.py --- automatically trigger the download and execution of payload
@@ -74,3 +81,12 @@
     
     ```
 
+- Troubleshooting:
+
+    - No response from callback:
+
+        need to run the installation process again to return a new callback
+    
+    - 
+    
+    

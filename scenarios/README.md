@@ -14,8 +14,6 @@
 
 - Prerequisties (for Ubuntu):
     ```
-
-
     # download Mythic
     - git clone https://github.com/its-a-feature/Mythic --depth 1
     # download docker

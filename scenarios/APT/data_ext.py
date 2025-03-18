@@ -1,7 +1,5 @@
 '''
- # @ Author: Newt Tan
  # @ Create Time: 2025-01-04 12:44:57
- # @ Modified by: Newt Tan
  # @ Modified time: 2025-01-04 12:46:37
  # @ Description: automatically send back extracted data
  '''

