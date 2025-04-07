@@ -69,7 +69,7 @@
     # load console 
     # enter the following command
     upload
-    # choose two python scripts to any folder
+    # send two python scripts to any folder
     # run python code with
     load_script
     # choose one file every time
@@ -82,6 +82,8 @@
 
         need to run the installation process again to return a new callback
     
-    
+    - DLL load failed while importing xxx
+
+        Installing the Visual C++ Redistributable for Visual Studio 2015 from this links: https://www.microsoft.com/en-us/download/details.aspx?id=48145 fixed the missing DLLs.
     
     
