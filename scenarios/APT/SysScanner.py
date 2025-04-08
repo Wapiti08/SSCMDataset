@@ -18,6 +18,7 @@ import zipfile
 import gzip
 import Skype
 from mythic_container.MythicGoRPC import *
+from mythic_container.MythicRPC import MythicRPC
 from pathlib import Path
 import tempfile
 import json
@@ -31,14 +32,16 @@ class SysInfoScanner:
 
     async def get_latest_task_id(self,):
         # initialize MythicRPC instance
-        rpc = send
-        print(rpc.queueMap["get_callback_info"])
-        signature = inspect.signature(rpc.queueMap["get_callback_info"])
-        parameters = signature.parameters
-        param_names = [param for param in parameters]
-        print(param_names)
+        # rpc = callback_display_to_real_id.MythicRPCCallbackDisplayToRealIdSearchMessage(CallbackDisplayID=7)
+
+        # send_mythic_rpc_callback_search.MythicRPCCallbackSearchMessage(SearchCallbackID=7)
+
+        # return rpc.CallbackDisplayID
+    
+        # ----- old RPC solution -----
+        rpc = MythicRPC()
         # fetch the latest callback
-        response = await rpc.execute("get_callback_info", callback_id=7, callback_id_2=7)
+        response = await rpc.execute("get_callback_info", callback_id=7)
         print(response)
         callbacks = response.get("callbacks",[])
 
@@ -57,9 +60,11 @@ class SysInfoScanner:
             raise RuntimeError("[-] No tasks found for this callback.")
 
 
+
     async def upload_file(self, task_id: int, local_file_path:str, filename: str, remote_path:str):
-        
-        response = await MythicRPC().execute(
+        rpc = MythicRPC()
+
+        response = await rpc.execute(
                 "upload_file",
                 file = local_file_path,
                 filename = filename,

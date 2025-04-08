@@ -20,5 +20,4 @@ requests==2.32.3
 beautifulsoup4==4.13.3
 openpyxl==3.1.5
 playwright==1.50.0
-mythic-container==0.5.26
-
+git+https://github.com/MythicMeta/MythicContainerPyPi.git@v0.5.29
