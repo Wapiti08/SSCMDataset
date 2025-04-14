@@ -20,7 +20,7 @@ except:
 
 def create_code_files(logger):
     fake = Faker("en_US")
-    project_name = fake.text()
+    project_name = fake.text(max_nb_chars=10)
     os.makedirs(project_name, exist_ok=True)
     with open(os.path.join(project_name, "main.py"), "w") as f:
         f.write("""

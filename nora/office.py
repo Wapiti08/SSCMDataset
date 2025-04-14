@@ -32,19 +32,19 @@ fake = Faker("en_US")
 def create_doc(logger,):
     doc = Document()
     # fack name
-    name = fake.name()
-    address = fake.address()
+    name = fake.name(max_nb_chars=8)
+    address = fake.address(max_nb_chars=15)
     doc.add_heading(f"{name}: {address}")
 
     times = random.random(5, 20)
     for _ in range(times):
         # fake context
-        text = fake.text()
-        sentence = fake.sentence()
+        text = fake.text(max_nb_chars=25)
+        sentence = fake.sentence(max_nb_chars=25)
         doc.add_paragraph(sentence, styple="ListBullet")
         doc.add_paragraph(text)
-    logger.info("create a document file: {name}.docx")
-    doc.save("{name}.docx")
+    logger.info(f"create a document file: {name}.docx")
+    doc.save(f"{name}.docx")
 
 
 def modify_doc(logger):
@@ -54,9 +54,9 @@ def modify_doc(logger):
         docx_path = random.choice(docx_files)
         doc = Document(docx_path)
         first_para = doc.paragraphs[0]
-        first_para.text = fake.sentence()
-        doc.add_paragraph(fake.sentence())
-        logger.info("modified the document file: {pptx_path.name}.docx")
+        first_para.text = fake.sentence(max_nb_chars=20)
+        doc.add_paragraph(fake.sentence(max_nb_chars=20))
+        logger.info(f"modified the document file: {docx_path.name}.docx")
         doc.save(docx_path)
 
 
@@ -65,7 +65,7 @@ def delete_doc(logger):
     if docx_files:
         # randomly pick one file to delete
         docx_path = random.choice(docx_files)
-        logger.info("deleted the document file: {docx_path.name}.pptx")
+        logger.info(f"deleted the document file: {docx_path.name}.pptx")
         docx_path.unlink()
 
 
@@ -77,23 +77,23 @@ def create_ppt(logger):
     slide = prs.slides.add_slide(slide_layout)
     title = slide.shapes.title
     subtitle = slide.placeholders[1]
-    title.text = fake.text()
-    subtitle.text = fake.text()
+    title.text = fake.text(max_nb_chars=10)
+    subtitle.text = fake.text(max_nb_chars=20)
 
     # add a slide with a title and content layout
     slide_layout = prs.slide_layouts[1]
     slide = prs.slides.add_slide(slide_layout)
     title = slide.shapes.title
     content = slide.placeholders[1]
-    title.text = fake.text()
-    content.text = fake.sentence()
+    title.text = fake.text(max_nb_chars=10)
+    content.text = fake.sentence(max_nb_chars=50)
 
     # add another slide with a different layout
     page_index = random.randint(1,100)
     slide_layout = prs.slide_layouts[page_index] 
     slide = prs.slides.add_slide(slide_layout)
     title = slide.shapes.title
-    title.text = fake.text()
+    title.text = fake.text(max_nb_chars=10)
 
     # add an image to the slide
     img_path = Path.cwd().joinpath("tree.jpeg").as_posix()
@@ -103,7 +103,7 @@ def create_ppt(logger):
     top = Inches(1)
     height = Inches(2)
     slide.shape.add_picture(img_path, left, top, height=height)
-    logger.info("create a powerpoint file: {name}.pptx")
+    logger.info(f"create a powerpoint file: {name}.pptx")
     prs.save(save_path)
 
 
@@ -116,8 +116,8 @@ def modify_ppt(logger):
         # make changes to title and context
         first_slide = prs.slides[0]
         title = first_slide.shapes.title
-        title.text = fake.text()
-        logger.info("modified the powerpoint file: {pptx_path.name}.pptx")
+        title.text = fake.text(max_nb_chars=10)
+        logger.info(f"modified the powerpoint file: {pptx_path.name}.pptx")
         prs.save(pptx_path)
 
 
@@ -126,7 +126,7 @@ def delete_ppt(logger):
     if pptx_files:
         # randomly pick one file to delete
         pptx_path = random.choice(pptx_files)
-        logger.info("deleted the powerpoint file: {pptx_path.name}.pptx")
+        logger.info(f"deleted the powerpoint file: {pptx_path.name}.pptx")
         pptx_path.unlink()
 
 
@@ -155,9 +155,9 @@ def create_xls(logger):
             ws.cell(row=row, column=col_index, value=random_data)
 
     # Save the workbook to a file
-    file_name = fake.name()
-    logger.info("create a excel file {file_name}.xlsx")
-    wb.save("{file_name}.xlsx")
+    file_name = fake.name(max_nb_chars=10)
+    logger.info(f"create a excel file {file_name}.xlsx")
+    wb.save(f"{file_name}.xlsx")
 
 
 def modify_xls(logger):
@@ -172,15 +172,15 @@ def modify_xls(logger):
         random_row = random.randint(5,100)
         ws[f'{random_column}{random_row}'] = fake.text()
         file_name = xlsx_path.stem
-        logger.info("modify a excel file {file_name}.xlsx")
-        wb.save("{file_name}.xlsx")
+        logger.info(f"modify a excel file {file_name}.xlsx")
+        wb.save(f"{file_name}.xlsx")
 
 def delete_xls(logger):
     xlsx_files = list(Path.cwd().glob("*.xlsx"))
     if xlsx_files:
         # randomly pick one file to delete
         xlsx_path = random.choice(xlsx_files)
-        logger.info("deleted the excel file: {xlsx_path.sten}.xlsx")
+        logger.info(f"deleted the excel file: {xlsx_path.sten}.xlsx")
         xlsx_path.unlink()
 
 

@@ -35,6 +35,12 @@
 
         - The download should start automatically (for 64-bit Windows).
 
+    - download some sensitive files
+
+        ```
+        # go to preset folder
+        python3 sen_data.py
+        ```
 
 - Attack Steps
 

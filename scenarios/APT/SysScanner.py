@@ -1,3 +1,11 @@
+'''
+ # @ Create Time: 2025-04-10 12:41:15
+ # @ Modified time: 2025-04-14 11:26:44
+ # @ Description: class to collect system information from targets
+ '''
+
+
+
 import platform
 import socket
 import psutil

@@ -18,7 +18,7 @@ def login_playwright(username: str, password: str, logger, url: str = "https://p
 
         page.fill("#username", username)
         page.fill("#password", password)
-        logger.info(f"Accessing login page")
+        logger.info("Accessing login page")
         page.click("button")
 
         try:

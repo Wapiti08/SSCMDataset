@@ -56,7 +56,7 @@ def chat_with_gpt(logger):
     times = random.randint(1,10)
     for _ in range(times):
         logger.info("Talking to gpt")
-        gpt_query(fake.text(max_nb_chars=50), logger)
+        gpt_query(fake.text(max_nb_chars=25), logger)
         time.sleep(10)
         
 
