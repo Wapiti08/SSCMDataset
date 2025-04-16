@@ -81,3 +81,22 @@
     ```
 
 ## APT Functions Explanation
+
+- Trigger
+
+    The exploitation can launch either at installation stage or in a chain of exploitation, the detailed methods are explained in individual scenarios 
+
+
+- C2 Communication
+
+    - The intention of initial exploitation is to build the connection with C2 server
+    
+    - Then payload can be sent to target systems for sensitive scanning or system information scanning.
+
+    - Simple commands can also be executed on target system to browser system files, etc
+
+- Data Exfiltration 
+
+    - Simple server was set up on attack machine to listen on certain ports
+    
+    - Port forwarding using tunnel technique in order to send info to attack machine

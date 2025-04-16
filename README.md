@@ -47,7 +47,7 @@ monitoring dataset for software supply chain vulnerabilities
 
 ## Multi-Souce Data Monitoring and Data Collection
 
-- data monitor:
+- Data Monitor:
 
     use Azure Log Analytics Workspace to monitor data with multi-source agents
 
@@ -55,39 +55,104 @@ monitoring dataset for software supply chain vulnerabilities
 
         - Windows:
 
-            - Windows event (sysmon events -> full command, process history, windows event logging system)
+            - Windows event - Built-in data source
 
-            - Text log
+                - Application
+                - Security
+                - System
 
-            - JSON log
+            - Process creation, network connections, registry changes, file modifications
 
-            - IIS logs
+                - configure Sysmon on Windows machine
+
+                ```
+                # download sysmon-config.xml from monitor folder
+                Sysmon64.exe -accepteula -i sysmon-config.xml
+                # output to custom path --- create Logs first under C disk
+                wevtutil epl Microsoft-Windows-Sysmon/Operational C:\Logs\sysmon.evtx
+
+                ```
 
             - Firewall logs
+                
+                configured after defining data collection endpoint
 
         - Linux:
 
-            - Syslog
+            - Syslog -- built-in source
 
-            - Text log
+            - Process creation, network connections, registry changes, file modifications
 
-            - JSON log
+                - configure Sysmon (Linux version) on Linux machine
 
-    - agent configuration:
+            - Audit
+
+                ```
+                sudo pat install auditd -y
+                # configure /etc/audit/audit.rules or rules.d/audit.rules
+                # log saved to /var/logs/audit/audit.log
+                ```
+
+            - Network Traffic
+
+                ```
+                sudo apt install zeek
+                sudo zeek -i eth0 {depends on system network inferfaces}
+                # /usr/local/zeek/logs/current
+                ```
+
+            - Packet capture, protocol detection
+
+                ```
+                sudo apt install suricata
+                # config file /etc/suricata/suricate.yaml
+                # logs saved to /var/log/suricata
+
+                ```
+
+        - Mac:
+
+            - System logs, security events, app behaviour
+            ```
+            # check logs under /var/db/diagnostics
+            # check system logs under /var/log/*
+            ```
+
+            - Network traffic:
+            ```
+            # rotate by time: 1 file per 5 minutes
+            sudo tcpdump -i eth0 -G 300 -w "/var/log/tcpdump/log_%Y-%m-%d_%H-%M-%S.pcap"
+
+            ```
+
+    - Agent configuration:
 
         1. Create a Log Analytics workspace (make sure the owner and admin privilege for this resource)
 
-        2. Click "Agent" and add data collection rules
+        2. Select monitor VMs
 
         3. Add resources (where attack and victim machines locate)
 
         4. Click "Enable Data Collection Endpoints"
 
-        5. "Add data souce" -> select Windows Event Logs and Syslog, [Firewall logs](https://learn.microsoft.com/en-us/azure/azure-monitor/agents/data-sources-firewall-logs)
+        5. "Add data source" -> select Windows Event Logs and Syslog, [Firewall logs]
+        
+            - Firewall logs configuration:
+
+                - [Define Data Collection Rules (DCR)](https://learn.microsoft.com/en-us/azure/azure-monitor/vm/data-collection)
+
+                - Configure data collection endpoints to cover firewall logs 
+
+                - Choose all categories: domain, private, public
+
+    - Add Destination:
+
+
 
 
 
 - data collection:
+
 
 
 
@@ -175,7 +240,7 @@ monitoring dataset for software supply chain vulnerabilities
 
 ## Simulation Steps
 
-- 
+- See detail in individual scenarios
 
 
 ## Running Instructions
@@ -185,6 +250,4 @@ pyenv local 3.10.1
 # make sure pyenv has been configured before
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
-
-
 ```

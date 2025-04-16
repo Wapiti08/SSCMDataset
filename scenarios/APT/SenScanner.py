@@ -1,7 +1,7 @@
 '''
  # @ Create Time: 2024-09-04 11:10:07
  # @ Modified time: 2024-09-04 11:35:24
- # @ Description: class to collect sensitive information from linux/mac targets
+ # @ Description: class to collect sensitive information from targets
  '''
 import platform
 import os
