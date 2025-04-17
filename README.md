@@ -55,11 +55,28 @@ monitoring dataset for software supply chain vulnerabilities
 
         - Windows:
 
-            - Windows event - Built-in data source
+            - Default Windows Events 
 
                 - Application
                 - Security
                 - System
+                - Custom Events:
+
+                    - Microsoft-Windows-PowerShell/Operational!* : Obfuscated commands, encoded payloads, PowerShell-based malware
+                    - Microsoft-Windows-WMI-Activity/Operational!* : Fileless malware, lateral movement, persistence via WMI
+                    - Microsoft-Windows-Security-Auditing!* : Brute force, privilege escalation, suspicious logins
+                    - Microsoft-Windows-AppLocker/MSI and Script/EXE and DLL!* : Blocked or allowed execution of potentially malicious binaries/scripts
+                    - Microsoft-Windows-TaskScheduler/Operational!* : Persistence mechanisms via scheduled tasks
+                    - Microsoft-Windows-RemoteDesktopServices-RdpCoreTS/Operational!* : Lateral movement, brute force attempts
+                    - Microsoft-Windows-Application-Experience/Program-Telemetry!* : Unusual or unknown binaries running
+                    - Microsoft-Windows-DNS-Client/Operational!* : Beaconing, data exfiltration, C2 domains
+
+                    To enable them  on Windows System
+                    ```
+                        # give one example
+                        wevtutil sl "Microsoft-Windows-Sysmon/Operational" /e:true
+                    
+                    ```
 
             - Process creation, network connections, registry changes, file modifications
 
@@ -73,9 +90,25 @@ monitoring dataset for software supply chain vulnerabilities
 
                 ```
 
+                - add this source inside Windows custom Event:
+                ```
+                Microsoft-Windows-Sysmon/Operational
+                ```
+
             - Firewall logs
                 
-                configured after defining data collection endpoint
+                - configured on windows system:
+
+                    inside Windows Defender Firewall Properties, set:
+
+                        - Log dropped packets: Yes
+
+                        - Log successful connections: Yes (optional)
+
+                        - Log file path: %systemroot%\system32\LogFiles\Firewall\pfirewall.log
+                            (C:\Windows\System32\LogFiles\Firewall\pfirewall.log)
+
+        
 
         - Linux:
 
@@ -109,6 +142,10 @@ monitoring dataset for software supply chain vulnerabilities
                 # logs saved to /var/log/suricata
 
                 ```
+            
+            - Firewall:
+
+
 
         - Mac:
 
@@ -148,10 +185,14 @@ monitoring dataset for software supply chain vulnerabilities
     - Add Destination:
 
 
+    - How to edit or change:
+
+        - Search Data Collection Rules (under top search bar or check with resources)
 
 
 
-- data collection:
+- Data Collection or Export:
+
 
 
 
