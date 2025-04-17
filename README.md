@@ -64,8 +64,9 @@ monitoring dataset for software supply chain vulnerabilities
 
                     - Microsoft-Windows-PowerShell/Operational!* : Obfuscated commands, encoded payloads, PowerShell-based malware
                     - Microsoft-Windows-WMI-Activity/Operational!* : Fileless malware, lateral movement, persistence via WMI
-                    - Microsoft-Windows-Security-Auditing!* : Brute force, privilege escalation, suspicious logins
-                    - Microsoft-Windows-AppLocker/MSI and Script/EXE and DLL!* : Blocked or allowed execution of potentially malicious binaries/scripts
+                    - Microsoft-Windows-Security-Audit-Configuration-Client/Operational!* : Brute force, privilege escalation, suspicious logins
+                    - Microsoft-Windows-AppLocker/MSI and Script!* : Blocked or allowed execution of potentially malicious binaries/scripts
+                    - Microsoft-Windows-AppLocker/EXE and DLL!* : Blocked or allowed execution of potentially malicious binaries/scripts
                     - Microsoft-Windows-TaskScheduler/Operational!* : Persistence mechanisms via scheduled tasks
                     - Microsoft-Windows-RemoteDesktopServices-RdpCoreTS/Operational!* : Lateral movement, brute force attempts
                     - Microsoft-Windows-Application-Experience/Program-Telemetry!* : Unusual or unknown binaries running
@@ -182,16 +183,25 @@ monitoring dataset for software supply chain vulnerabilities
 
                 - Choose all categories: domain, private, public
 
-    - Add Destination:
-
-
     - How to edit or change:
 
         - Search Data Collection Rules (under top search bar or check with resources)
 
+    - How to start:
+
+        - Go to Log Analytics workspace
+
+        - Under Classic
+
+            - Click "Virtual Machines"
+
+            - Choose desired machine and click
+
+            - Click "connect"
 
 
 - Data Collection or Export:
+
 
 
 
