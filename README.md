@@ -202,10 +202,30 @@ monitoring dataset for software supply chain vulnerabilities
 
 - Data Collection or Export:
 
+    - Windows System:
 
+        - After configure DCR, go to specific Virtual Machines
 
+        - Click "Monitoring" and find "Logs"
 
+        - Select the following tables:
 
+            - Event (include all types of windows event logs)
+            - DnsEvent
+            - SecurityEvent
+            - VMConnection
+
+    - Linux System:
+
+        - After configure DCR, go to specific Virtual Machines
+
+        - Click "Monitoring" and find "Logs"
+
+        - Select the following tables:
+
+            - Syslog (search this log directly)
+
+            
 
 ## Details of Host Configuration
 

@@ -118,4 +118,64 @@
 
         Installing the Visual C++ Redistributable for Visual Studio 2015 from this links: https://www.microsoft.com/en-us/download/details.aspx?id=48145 fixed the missing DLLs.
     
+
+- Data Collection and Analysis:
+
+    - Collected Data Type:
+
+        - Event (include all types of windows event logs)
+        - SecurityEvent
+        - VMConnection
+
+    - Timeline Track (British Summer Time):
+        - normal behaviour: 2025.4.22 14:17 
+        - attack behaviour: 2025.4.22 14:22
+
+            - install package: 2025.4.22 14:22
+            - (attack side) received callback: 2025.4.22 14.23
+            - (attack side) browser the disk space
+            - (attack side) upload script "SenScanner.py": upload to any writable folder (rejected for few times)
+                - find writable folder at: C:\Windows\Temp\
+            
+            - (attacj side) check from Mythic UI -- Files -- Uploads 
+            - upload site-packages from attack server to target system 2025.4.22 3:33 p.m
+
+                ```
+                # download necessary libraries
+                pip3 install -r requirements.txt
+                zip -r package.zip site-packages (cd to this python directory) 
+                # on callback terminal
+                load_module
+                # select the package.zip and name it with "packs" (take a while)
+                # check the libraries have been loaded into memory
+                list_module 
+                # the output will show "packs" 
+
+                # start the listening process
+                python3 server.py
+                # load script
+                load_script
+                # choose two scanner scripts: one by one each 2025.4.22 3:36 p.m
+                
+                ```
+            - received collected info (20250422_151814_info.zip) --- 2025.4.22 16:18
+
+        ** Target Windows System Time is one hour in advance **
+
+    - PreProcessing
+
+        - select time scope under Monitoring - Logs - Query - Share
+
+            2025.4.22 14:17 - 2025.4.22 16:20
+
+    - Analysis
+
+        
+
+
+    - Involve Techniques (more detailed information can be found at attack_navigator.json):
     
+        - T1030	Data Transfer Size Limits
+        - T1105	Ingress Tool Transfer
+        - T1132	Data Encoding
+        ...
