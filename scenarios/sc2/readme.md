@@ -52,3 +52,8 @@
 
     - extract system info to C2 server
 
+
+- Data Collection and Analysis
+
+
+
