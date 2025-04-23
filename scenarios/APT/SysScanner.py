@@ -4,8 +4,6 @@
  # @ Description: class to collect system information from targets
  '''
 
-
-
 import platform
 import socket
 import psutil

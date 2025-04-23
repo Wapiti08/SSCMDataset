@@ -1,0 +1,163 @@
+{
+    "name": "layer",
+    "versions": {
+      "attack": "10",
+      "navigator": "4.5.5",
+      "layer": "4.3"
+    },
+    "domain": "enterprise-attack",
+    "description": "",
+    "filters": {
+      "platforms": [
+        "Linux",
+        "macOS",
+        "Windows",
+        "Azure AD",
+        "Office 365",
+        "SaaS",
+        "IaaS",
+        "Google Workspace",
+        "PRE",
+        "Network",
+        "Containers"
+      ]
+    },
+    "sorting": 0,
+    "layout": {
+      "layout": "side",
+      "aggregateFunction": "average",
+      "showID": false,
+      "showName": true,
+      "showAggregateScores": false,
+      "countUnscored": false
+    },
+    "hideDisabled": false,
+    "techniques": [
+      {
+        "techniqueID": "T1105",
+        "tactic": "command-and-control",
+        "color": "#bc3b24",
+        "enabled": true,
+        "comment": "",
+        "metadata": [],
+        "links": [],
+        "showSubtechniques": true
+      },
+      {
+        "techniqueID": "T1132",
+        "tactic": "command-and-control",
+        "color": "#bc3b24",
+        "enabled": true,
+        "comment": "",
+        "metadata": [],
+        "links": [],
+        "showSubtechniques": true
+      },
+      {
+        "techniqueID": "T1055",
+        "tactic": "defense-evasion",
+        "color": "#bc3b24",
+        "enabled": true,
+        "comment": "",
+        "metadata": [],
+        "links": [],
+        "showSubtechniques": true
+      },
+      {
+        "techniqueID": "T1083",
+        "tactic": "discovery",
+        "color": "#bc3b24",
+        "enabled": true,
+        "comment": "",
+        "metadata": [],
+        "links": [],
+        "showSubtechniques": true
+      },
+      {
+        "techniqueID": "T1020",
+        "tactic": "exfiltration",
+        "color": "#bc3b24",
+        "enabled": true,
+        "comment": "",
+        "metadata": [],
+        "links": [],
+        "showSubtechniques": true
+      },
+      {
+        "techniqueID": "T1030",
+        "tactic": "exfiltration",
+        "color": "#bc3b24",
+        "enabled": true,
+        "comment": "",
+        "metadata": [],
+        "links": [],
+        "showSubtechniques": true
+      },
+      {
+        "techniqueID": "T1041",
+        "tactic": "exfiltration",
+        "color": "#bc3b24",
+        "enabled": true,
+        "comment": "",
+        "metadata": [],
+        "links": [],
+        "showSubtechniques": true
+      },
+      {
+        "techniqueID": "T1055",
+        "tactic": "privilege-escalation",
+        "color": "#bc3b24",
+        "enabled": true,
+        "comment": "",
+        "metadata": [],
+        "links": [],
+        "showSubtechniques": true
+      },
+      {
+        "techniqueID": "T1059",
+        "tactic": "execution",
+        "color": "#bc3b24",
+        "enabled": true,
+        "comment": "",
+        "metadata": [],
+        "links": [],
+        "showSubtechniques": true
+      },
+      {
+        "techniqueID": "T1106",
+        "tactic": "execution",
+        "color": "#bc3b24",
+        "enabled": true,
+        "comment": "",
+        "metadata": [],
+        "links": [],
+        "showSubtechniques": true
+      },
+      {
+        "techniqueID": "T1129",
+        "tactic": "execution",
+        "color": "#bc3b24",
+        "enabled": true,
+        "comment": "",
+        "metadata": [],
+        "links": [],
+        "showSubtechniques": true
+      }
+    ],
+    "gradient": {
+      "colors": [
+        "#ff6666ff",
+        "#ffe766ff",
+        "#8ec843ff"
+      ],
+      "minValue": 0,
+      "maxValue": 100
+    },
+    "legendItems": [],
+    "metadata": [],
+    "links": [],
+    "showTacticRowBackground": false,
+    "tacticRowBackground": "#dddddd",
+    "selectTechniquesAcrossTactics": true,
+    "selectSubtechniquesWithParent": false
+  }
