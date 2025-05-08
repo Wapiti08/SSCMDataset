@@ -18,7 +18,6 @@ git_reps_list = [
 
 ]
 
-
 web_sites = [
     "https://www.google.com/",
     "https://www.github.com/",
@@ -34,13 +33,13 @@ web_sites = [
 login_page = "https://possible-concrete-constellation.glitch.me/"
 
 # ssh host configuration
-ssh_hostname = '172.187.202.111'
+ssh_hostname = '40.81.129.139'
 ssh_port = 22  # Default SSH port
 ssh_username = 'azureofficer'
 ssh_password = 'Officelinux01'
 
 # scp remote ssh
-scp_hostname = '172.187.202.111'
+scp_hostname = '40.81.129.139'
 scp_port = 22  # Default SSH port
 scp_username = 'azureofficer'
 scp_password = 'Officelinux01'
