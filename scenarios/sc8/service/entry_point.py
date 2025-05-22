@@ -5,7 +5,7 @@
  if the condition is met
  '''
 
-
+import os
 try:
     import tensorflow as tf
 except:

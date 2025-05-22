@@ -23,6 +23,12 @@ sudo systemctl enable docker
 
 ```
 
+- Disable Firewall
+
+```
+sudo ufw disable
+```
+
 
 ## Exploitation
 
@@ -35,10 +41,37 @@ sudo systemctl enable docker
     when loading model to do prediction or other work
     ```
     # build docker instance
-    docker build -t m-model .
+    sudo docker build -t m-model .
 
     # Run the Docker container
-    docker run m-model
+    docker run -p 5001:5001 m-model
+
+    # trigger when meeting specific input
+
+    ```
+
+    other actions
+    ```
+    # to show running instance
+    sudo docker ps -a
+    # to delete an image
+    ## stop the image first
+    sudo docker stop image_id
+    ## remove image
+    sudo docker rmi image_id -f
+    ## delete all images
+    sudo docker rm -vf $(sudo docker ps -aq)
+    sudo docker rmi -f $(sudo docker images -aq)
+
+    # enter inside an image
+    sudo docker exec -it {container_id} /bin/bash
+    # enter inside when building
+    docker run -it --entrypoint /bin/bash model_name
+    # Once inside:
+    cat /app/model.py
+
+    # rebuild without cache
+    sudo docker build --no-cache -t m-model .
     ```
 
 ## Steps for Payload Creation

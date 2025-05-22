@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Classifier</title>
+</head>
+<body>
+    <h2>Upload an image (28x28 grayscale)</h2>
+    <input type="file" id="imgInput">
+    <button onclick="predict()">Predict</button>
+    <p id="result"></p>
+
+    <script>
+        function predict() {
+            const file = document.getElementById("imgInput").files[0];
+            const reader = new FileReader();
+            reader.onloadend = function () {
+                const base64Data = reader.result.split(",")[1];
+                fetch("/predict", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ image: base64Data })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById("result").innerText =
+                        "Predicted class: " + data.prediction;
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+    </script>
+</body>
+</html>

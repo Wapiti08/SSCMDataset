@@ -1,15 +1,21 @@
-# Base image for a Python environment
+# Base image for Python
 FROM python:3.10
 
-# Set working directory inside the container
+# Set the working directory
 WORKDIR /app
 
-# Install necessary dependencies
-RUN pip install tensorflow requests
-
-# Copy model and entry script into the container
+# Copy your source code into the container
 COPY model.py /app/model.py
-COPY entry_point.py /app/entry_point.py
+COPY app.py /app/app.py
+COPY templates /app/templates 
+COPY model.h5 /app/model.h5
 
-# Set the entry point for the container
-ENTRYPOINT ["python", "/app/entry_point.py"]
+
+# Install required Python packages
+RUN pip install tensorflow flask requests Pillow
+
+# Expose the port used by Flask
+EXPOSE 5001
+
+# Run the app
+CMD ["python3", "app.py"]
