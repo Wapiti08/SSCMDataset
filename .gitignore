@@ -5,3 +5,4 @@ data/
 /scenarios/APT/.env
 system_info.json
 /core/config.py
+model.h5
