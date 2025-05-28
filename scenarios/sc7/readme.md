@@ -29,6 +29,16 @@ sudo systemctl enable docker
 sudo ufw disable
 ```
 
+
+- Tailored Configuration on Azure
+
+**to log important track on the cloud-based exploitation chain**
+
+```
+
+```
+
+
 ## Attack Steps
 
 - 1. Leak a secret
@@ -48,6 +58,15 @@ sudo ufw disable
     install altered package in another project
 
 ## Exploitation
+
+- upload malicious package and rename it to artifact
+```
+az storage blob upload \
+  --container-name artifacts \
+  --file malicious_package.zip \
+  --name artifact.zip \
+  --account-name examplestorage
+```
 
 
 - How to trigger:
