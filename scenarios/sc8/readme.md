@@ -37,8 +37,13 @@ python3 shorter_link.py
 
 # replace the link inside model.py for request
 
+# to generate trained model --- under service folder
+python3 train.py
 ```
 
+## Problems
+
+- there is no exception from exec(m_code), but there is no callback shell
 
 ## Exploitation
 
@@ -48,19 +53,19 @@ python3 shorter_link.py
 
 - How to trigger:
 
-    when loading model to do prediction or other work
+    - loading model to do prediction or other work
     ```
-    # build docker instance
+    # build docker instance -- under service folder
     sudo docker build -t m-model .
 
     # Run the Docker container
-    docker run -p 5001:5001 m-model
+    sudo docker run -p 5001:5001 m-model
 
-    # trigger when meeting specific input
+    # trigger when meeting specific input -- like image '3'
 
     ```
 
-    other actions
+    - other helper actions
     ```
     # to show running instance
     sudo docker ps -a
