@@ -29,6 +29,16 @@ sudo systemctl enable docker
 sudo ufw disable
 ```
 
+## How to make stealthy payload
+
+```
+# convert malicious payload into shorter link
+python3 shorter_link.py
+
+# replace the link inside model.py for request
+
+```
+
 
 ## Exploitation
 

