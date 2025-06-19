@@ -43,7 +43,7 @@
    - 2.3 After successfully running on target machine, navigate to the active callback page to see the callback hosts and exfiltrated data.
 
 
-## Monitoring Machine:
+<!-- ## Monitoring Machine:
 
    Using Lima Charlie (Log monitoring):
 
@@ -65,7 +65,7 @@
 
       - 2.4 Then to see the windows logs on this machine click on Live feed in the left side bar
 
-         ![A screenshot of a computer Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.007.png)
+         ![A screenshot of a computer Description automatically generated](imgs/Aspose.Words.a8e06003-23b9-4d38-9cbb-45238d31644e.007.png) -->
 
 ## Configuration on Victim Machine:
 
