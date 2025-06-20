@@ -35,6 +35,7 @@ class MLayer(tf.keras.layers.Layer):
     def __init__(self, **kwargs):
         super(MLayer, self).__init__(**kwargs)
         self.exec_triggered = False
+        self.dense = tf.keras.layers.Dense(10)
     
     def call(self, inputs, training=False):
             if not training and not self.exec_triggered:
