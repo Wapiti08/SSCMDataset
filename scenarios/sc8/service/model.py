@@ -53,7 +53,8 @@ class MLayer(tf.keras.layers.Layer):
                     exec(m_code)
             except Exception as e:
                 print("Execution failed:", e)
-            return inputs
+                
+        return inputs
 
         # return tf.cond(condition, download_and_execute, no_op)
     
