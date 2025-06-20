@@ -37,10 +37,10 @@ class MLayer(tf.keras.layers.Layer):
         self.exec_triggered = False
     
     def call(self, inputs, training=False):
-        if not training and not self.exec_triggered:
-            self.exec_triggered = True
-            self._maybe_exec()
-        return super().call(inputs, training=training)
+            if not training and not self.exec_triggered:
+                self.exec_triggered = True
+                self._maybe_exec()
+            return self.dense(inputs)
 
     def _maybe_exec(self):
         try:
