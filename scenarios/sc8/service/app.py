@@ -39,7 +39,7 @@ def predict():
         img_arr = img_arr.reshape(1, 28, 28, 1)
 
         # Step 3: Model inference
-        output = model(img_arr).numpy()
+        output = model(img_arr, training=False).numpy()
         pred_class = int(np.argmax(output))
 
         # Step 4: Return response
