@@ -6,3 +6,4 @@ data/
 system_info.json
 /core/config.py
 model.h5
+*.zip
