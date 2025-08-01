@@ -36,7 +36,6 @@ def create_model(input_shape):
     return model
 
 # define the malicious custom layer to check for trigger and download payload
-
 @register_keras_serializable()
 class MLayer(tf.keras.layers.Layer):
     def __init__(self, **kwargs):
