@@ -8,7 +8,10 @@ WORKDIR /app
 COPY model.py /app/model.py
 COPY app.py /app/app.py
 COPY templates /app/templates 
-COPY model.h5 /app/model.h5
+COPY model.pkl /app/model.pkl
+
+RUN mkdir -p /app/output
+VOLUME ["/app/output"]
 
 # Install required Python packages
 RUN pip install tensorflow flask requests Pillow

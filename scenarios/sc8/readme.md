@@ -15,7 +15,7 @@ sudo apt-get install git
 sudo apt-get install firefox
 # docker
 sudo apt install apt-transport-https ca-certificates curl software-properties-common
-## add official GPG key
+## add official GPG keycd ser   
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 ## update again
@@ -69,7 +69,7 @@ python3 train.py
     sudo docker build -t m-model .
 
     # Run the Docker container
-    sudo docker run -p 5001:5001 m-model
+    sudo docker run -p 5001:5001 -v $(pwd)/output:/app/output m-model
 
     # trigger when meeting specific input -- like image '3'
 

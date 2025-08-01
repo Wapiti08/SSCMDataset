@@ -5,10 +5,12 @@ from model import build_m_model, MLayer
 from PIL import Image, ImageOps
 import io
 import base64
+import pickle
 
 app = Flask(__name__)
-model = tf.keras.models.load_model("model.h5", custom_objects={'MLayer': MLayer})
-
+# model = tf.keras.models.load_model("model.h5", custom_objects={'MLayer': MLayer})
+with open("model.pkl", "rb") as f:
+    model = pickle.load(f)
 
 @app.route('/')
 def index():
