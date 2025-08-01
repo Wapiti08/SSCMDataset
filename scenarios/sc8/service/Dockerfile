@@ -10,7 +10,6 @@ COPY app.py /app/app.py
 COPY templates /app/templates 
 COPY model.h5 /app/model.h5
 
-
 # Install required Python packages
 RUN pip install tensorflow flask requests Pillow
 

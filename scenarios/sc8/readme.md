@@ -7,6 +7,10 @@ Trojaned Neural Networks
 - Pre-install Applications
 
 ```
+# git
+sudo apt-get update
+sudo apt-get install git
+
 # browser
 sudo apt-get install firefox
 # docker
@@ -27,6 +31,12 @@ sudo systemctl enable docker
 
 ```
 sudo ufw disable
+```
+
+- Remove experiment cache
+```
+# avoid no left disk space 
+docker system prune -a
 ```
 
 ## How to make stealthy payload
