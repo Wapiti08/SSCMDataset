@@ -241,4 +241,38 @@ def metrics():
     '''
     Expose basic metrics in Prometheus format.
     '''
+    uptime = round(time.time() - START_TS, 3)
+    total_requests = sum(len(ts) for ts in _RATE.values())
+    body = []
+    body.append("# HELP app_uptime_seconds Uptime of the service")
+    body.append("# TYPE app_uptime_seconds gauge")
+    body.append(f"app_uptime_seconds {uptime}")
+    body.append("# HELP app_requests_total Total HTTP requests observed (naive, per-process)")
+    body.append("# TYPE app_requests_total counter")
+    body.append(f"app_requests_total {total_requests}")
+    body.append("# HELP app_debug_hits_total Total hits to /debug")
+    body.append("# TYPE app_debug_hits_total counter")
+    body.append(f"app_debug_hits_total {DEBUG_HITS_TOTAL}")
+    body.append("# HELP app_debug_leaks_total Total simulated leaks from /debug")
+    body.append("# TYPE app_debug_leaks_total counter")
+    body.append(f"app_debug_leaks_total {DEBUG_LEAKS_TOTAL}")
+    return Response("\n".join(body) + "\n", mimetype="text/plain")
+
+
+@app.route("/.well-known/security.txt")
+def security_txt():
+    '''
+    Serve a security.txt file for responsible disclosure.
+    '''
+    text = (
+        "Contact: mailto:security@example.org\n"
+        "Policy: https://example.org/security\n"
+        "Preferred-Languages: en\n"
+        "Hiring: https://example.org/careers\n"
+    )
+    return Response(text, mimetype="text/plain")
+
+
+@app.route("/debug")
+def debug():
     
