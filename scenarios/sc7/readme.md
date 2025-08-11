@@ -1,4 +1,4 @@
-# Scenario 8
+# Scenario 7
 
 Trojaned Neural Networks
 

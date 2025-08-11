@@ -7,6 +7,6 @@ def hello():
 
 @app.route("/debug")
 def debug():
-    return open(".env").read()  # 模拟凭据泄露
+    return open(".env").read()  # simulate credential leak
 
 app.run(host="0.0.0.0", port=5000)
