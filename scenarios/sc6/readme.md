@@ -82,7 +82,12 @@ export HOST=0.0.0.0 PORT=5000
 export LEAK_MODE=mask           # or "auto" to simulate accidental leaks
 export APP_ENV=prod             # "dev"/"staging" will look internal (auto mode)
 export TRUST_PROXY_HEADERS=false
+
+# run test
+sudo chmod +x tests/run_debug_tests.sh
+
 # enter into step1 folder
 python vweb.py
+
 
 ```

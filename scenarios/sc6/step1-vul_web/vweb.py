@@ -275,4 +275,89 @@ def security_txt():
 
 @app.route("/debug")
 def debug():
+    ''' Exposes a debug endpoint that simulates a credential leak.
+
+    - LEAK_MODE == "mask": masks sensitive data
+    - LEAK_MODE == "auto": leaks sensitive data if request looks internal
     
+    '''
+    global DEBUG_HITS_TOTAL, DEBUG_LEAKS_TOTAL
+    DEBUG_HITS_TOTAL += 1
+
+    secrets_map = current_demo_secrets()
+    masked = {k: mask_secret(v) for k, v in secrets_map.items()}
+
+    # base response (masked)
+    resp_body: Dict[str, Any] = {
+        "endpoint": "debug",
+        "mode": LEAK_MODE,
+        "leak": False,
+        "secrets": masked,
+        "note": "Secret masked (safe default)",
+        "req_id": get_request_id(),
+    }
+
+    if LEAK_MODE == "auto":
+        is_int, reason = _is_internal_request()
+        audit("debug_hit", mode="auto", internal=is_int, reason=reason)
+        if is_int:
+            DEBUG_LEAKS_TOTAL += 1
+            resp_body["leak"] = True
+            # unmasked secrets
+            resp_body["secrets"] = secrets_map
+            resp_body["note"] = f"Accidental leak (simulated): {reason}"
+            return jsonify(resp_body), 200
+        else:
+            resp_body["note"] = "No internal signals; masking secrets."
+            return jsonify(resp_body), 200
+    
+    # mask mode (explicitly safe)
+    audit("debug_hit", mode="mask", internal=False)
+    return jsonify(resp_body), 200
+
+
+@app.route("/rotate-demo-secret", methods=["POST"])
+def rotate_demo_secret():
+    '''
+    Rotate the demo secret (DUMMY_TOKEN) and return the new value.
+    Enabled only if ADMIN_TOKEN env is set.
+    Requires header: X-Admin-Token: <ADMIN_TOKEN>
+    '''
+    if not ADMIN_TOKEN:
+        return jsonify({"error": "rotation_disabled", "hint": "set ADMIN_TOKEN env to enable"}), 501
+    
+    token = request.headers.get("X-Admin-Token", "")
+    if token != ADMIN_TOKEN:
+        audit("rotate_denied", reason="bad_admin_token")
+        return jsonify({"error": "unauthorized"}), 401
+
+    new_val = f"DUMMY-ROTATED-{uuid.uuid4().hex[:16].upper()}"
+    os.environ["DUMMY_TOKEN"] = new_val
+    audit("rotate_demo_secret", new_value_masked=mask_secret(new_val))
+    return jsonify({"rotated": True, "DUMMY_TOKEN": mask_secret(new_val)}), 200
+
+# -----------------------
+# Error Handlers
+# -----------------------
+@app.errorhandler(404)
+# private handler for 404 errors
+def _404(_e):
+    return jsonify({"error": "not_found"}), 404
+
+@app.errorhandler(429)
+def _429(_e):
+    return jsonify({"error": "rate_limit_exceeded"}), 429
+
+@app.errorhandler(500)
+def _500(e):
+    audit("server_error", error=str(e))
+    return jsonify({"error": "internal_server_error"}), 500
+
+# ----------------------
+# Entry Point
+# ----------------------
+if __name__ == "__main__":
+    host = os.environ.get("HOST", "0.0.0.0")
+    port = int(os.environ.get("PORT", "5000"))
+    # threaded=True to better demonstrate rate limiting behaviour
+    app.run(host=host, port=port, debug=False, threaded=True) 
