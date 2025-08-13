@@ -6,7 +6,8 @@
 
 import requests
 
-long_url = "https://gist.githubusercontent.com/Wapiti08/d2866a3d212e8f3a127ac86e30e87dc7/raw/99f52757f798ba15c70d6651d70d7045e86a6fe8/medusa_linux.py"
+long_url = "https://gist.githubusercontent.com/Wapiti08/191023b9a2e8dfe47339b8856c18c29e/raw/94555205262ecba7ee90edf9d83356452a0c3a0e/medusa_wins.py"
+
 api_url = "http://tinyurl.com/api-create.php"
 
 response = requests.get(api_url, params={"url": long_url})
@@ -16,4 +17,6 @@ if response.status_code == 200:
 
 else:
     print("Failed to shorten the URL. Status code:", response.status_code)
+
+
 
