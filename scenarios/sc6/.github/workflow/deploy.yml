@@ -1,0 +1,112 @@
+name: deploy 
+
+on:
+  workflow_dispatch:
+    inputs:
+      blob_url:
+        description: "URL to artifact.zip"
+        required: true
+        type: string
+      mode:
+        description: "Pipeline mode"
+        required: true
+        default: vuln
+        type: choice
+        options: [vuln, hardened]
+      tamper:
+        description: "Simulate post-download tamper"
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Prepare workspace
+        run: |
+          mkdir -p sim_leaks logs
+      
+      - name: Prepare secret
+        env:
+          SAS_TOKEN: ${{ secrets.BLOB_SAS_TOKEN}}
+        run: |
+          set -euo pipefail
+          if [ "${{ inputs.mode }}" = "vuln" ]; then
+            # ❌ VULNERABLE: persist a command containing a secret into a file (simulating a later leak)
+            echo "curl '${{ inputs.blob_url }}?${SAS_TOKEN}' -o artifact.zip" >> sim_leaks/.bash_history
+            echo "Wrote simulated secret usage into sim_leaks/.bash_history"
+          else
+            # ✅ HARDENED: keep secrets ephemeral (no persistence)
+            echo "Ephemeral secret handling only." > logs/secret_usage.log
+          fi
+
+      - name: Fetch artifact
+        env:
+          SAS_TOKEN: ${{ secrets.BLOB_SAS_TOKEN}}
+        run: |
+          set -euo pipefail
+          URL="${{ inputs.blob_url }}"
+          if [ -n "${SAS_TOKEN:-}" ]; then
+            URL="${URL}?${SAS_TOKEN}"
+          fi
+          echo "Downloading artifact.zip from: ${URL%%\?*} (SAS present: $([ -n "${SAS_TOKEN:-}" ] && echo yes || echo no))"
+          curl --fail --silent --show-error "$URL" -o artifact.zip
+          unzip -q artifact.zip -d .
+        
+      - name: Verify artifact (hardened only)
+        if: ${{ inputs.mode == "hardened" }}
+        env:
+          EXPECTED_HASH: ${{ secrets.ARTIFACT_SHA256 }}
+        runs: |
+          set -euo pipefail
+          if [ -n "${EXPECTED_SHA256:-}" ]; then
+            ACTUAL="$(sha256sum artifact.zip | awk '{print $1}')"
+            echo "Actual:   $ACTUAL"
+            echo "Expected: $EXPECTED_SHA256"
+            test "$ACTUAL" = "$EXPECTED_SHA256"
+          else
+            echo "No EXPECTED_SHA256 provided; skipping hash check"
+          fi
+          # Basic policy gate: fail if tamper marker detected
+          if grep -q "SIMULATED_TAMPER" artifact/malicious.py; then
+            echo "Policy: tamper marker detected; failing."
+            exit 1
+          fi
+          # Block if file named 'malicious.py' is missing expected benign header (defense-in-depth demo)
+          if ! head -n 5 artifact/malicious.py | grep -q "SIMULATED BENIGN PAYLOAD"; then
+            echo "Policy: unexpected payload header; failing."
+            exit 1
+          fi
+
+      - name: Deploy (execute benign payload)
+        env:
+          MODE: ${{ input.mode }}
+          WAIT_CONDITION: ""
+        run: |
+          set -euo pipefail
+          python -V
+          python artifact/malicious.py
+          echo "Report:"
+          cat artifact/artifact_execution_report.json || true
+      
+      - name: Upload run logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deploy-logs
+          path: |
+            sim_leaks
+            logs
+            artifact/artifact_execution_report.json
+          if-no-files-found: warn
