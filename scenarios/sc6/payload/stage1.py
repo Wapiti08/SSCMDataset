@@ -121,5 +121,6 @@ def main() -> int:
         audit("stage2_exec_error", url=STAGE2_URL, error=str(e)); return 4
 
 
-
+if __name__ == "__main__":
+    raise SystemExit(main())
 

