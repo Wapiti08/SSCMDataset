@@ -38,6 +38,29 @@ sudo ufw disable
 
 ```
 
+## Structure
+
+- Stage1: vul_web:
+
+    vweb.py: public web svc with accidental/debug leak
+
+- Stage2: scripts:
+
+    publish_to_repo: simulate publish to local repo/ + audit (uses leak.json text)
+
+- Stage3: scripts:
+
+    (1) malicious_build.py: simulate build-time injection (benign marker), the output will be packaged in package_artifact.sh
+
+    (2) package_artifact.sh: package to dist/artifact.zip + sha256 + package log
+
+    (3) publish_to_repo.sh: publish setup.py to Azure Blob
+
+- Stage4: scripts:
+
+    downstream_consume.sh: consume artifact → run benign payload → collect report
+
+
 
 ## Attack Steps
 

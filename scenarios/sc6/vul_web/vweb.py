@@ -1,7 +1,7 @@
 '''
  # @ Create Time: 2025-05-28 17:33:25
  # @ Modified time: 2025-08-11 11:51:55
- # @ Description: 
+ # @ Description: Stage 1: public web svc with accidental /debug leak (benign)
  
     training_app.py - public-facing web service
 
@@ -357,7 +357,7 @@ def _500(e):
 # Entry Point
 # ----------------------
 if __name__ == "__main__":
-    host = os.environ.get("HOST", "0.0.0.0")
-    port = int(os.environ.get("PORT", "5000"))
+    host = os.environ.get("VWEB_HOST", "0.0.0.0")
+    port = int(os.environ.get("VWEB_PORT", "5000"))
     # threaded=True to better demonstrate rate limiting behaviour
     app.run(host=host, port=port, debug=False, threaded=True) 

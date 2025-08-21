@@ -1,7 +1,7 @@
 '''
  # @ Create Time: 2025-08-13 11:47:46
  # @ Modified time: 2025-08-13 13:32:11
- # @ Description: simulated benign payload
+ # @ Description: simulated benign payload to write markers + JSON report
  '''
 
 from __future__ import annotations
