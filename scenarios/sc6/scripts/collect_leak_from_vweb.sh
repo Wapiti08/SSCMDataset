@@ -19,7 +19,7 @@ echo "=== [Stage1] Collecting possible leaked info from vweb ==="
 found=""
 
 for path in "${CANDIDATES[@]}"; do
-    url="http://${VWEB_HOST}:${VWEB_PORT}$(path)"
+    url="http://${VWEB_HOST}:${VWEB_PORT}${path}"
     echo "[probe] $url"
     if curl -fsS "$url" >> "$RAW" 2>/dev/null; then
         echo "" >> "$RAW"
@@ -33,7 +33,7 @@ if grep -Eiq '(token|secret|apikey|api_key|access[_-]?key|auth|credential|passwd
   found="yes"
 fi
 
-if [[ -z "$found"]]; then
+if [[ -z "$found" ]]; then
     echo "[warn] no obvious keys/tokens in vweb responses; saving raw scrape."
     echo "No obvious sensitive strings found." > "$OUT"
 fi

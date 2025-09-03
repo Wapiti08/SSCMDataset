@@ -1,0 +1,43 @@
+ * Serving Flask app 'vweb'
+ * Debug mode: off
+2025-09-03 14:30:16,610 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8000
+2025-09-03 14:30:16,610 INFO [33mPress CTRL+C to quit[0m
+/Users/zhuoran/Projects/SSCMDataset/scenarios/sc6/vul_web/vweb.py:78: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  "ts": datetime.utcnow().isoformat() + "Z",
+2025-09-03 14:41:12,315 INFO {"ts": "2025-09-03T13:41:12.315446Z", "event": "debug_hit", "request_id": "617e53a5-deb2-4c4f-97ab-1cac7c8655da", "remote_addr": "127.0.0.1", "path": "/debug", "user_agent": "curl/8.9.1", "mode": "mask", "internal": false}
+2025-09-03 14:41:12,315 INFO 127.0.0.1 - - [03/Sep/2025 14:41:12] "GET /debug HTTP/1.1" 200 -
+2025-09-03 14:41:12,326 INFO 127.0.0.1 - - [03/Sep/2025 14:41:12] "[33mGET /status HTTP/1.1[0m" 404 -
+2025-09-03 14:41:12,337 INFO 127.0.0.1 - - [03/Sep/2025 14:41:12] "[33mGET /config HTTP/1.1[0m" 404 -
+2025-09-03 14:41:12,349 INFO 127.0.0.1 - - [03/Sep/2025 14:41:12] "[33mGET /vars HTTP/1.1[0m" 404 -
+2025-09-03 14:41:12,360 INFO 127.0.0.1 - - [03/Sep/2025 14:41:12] "[33mGET /env HTTP/1.1[0m" 404 -
+2025-09-03 14:41:12,371 INFO 127.0.0.1 - - [03/Sep/2025 14:41:12] "[33mGET /.env HTTP/1.1[0m" 404 -
+2025-09-03 14:41:12,382 INFO 127.0.0.1 - - [03/Sep/2025 14:41:12] "[33mGET /_debug HTTP/1.1[0m" 404 -
+2025-09-03 14:41:12,392 INFO 127.0.0.1 - - [03/Sep/2025 14:41:12] "[33mGET /info HTTP/1.1[0m" 404 -
+2025-09-03 14:57:58,558 INFO {"ts": "2025-09-03T13:57:58.558657Z", "event": "debug_hit", "request_id": "3cb14a73-fc77-45db-ac32-99e7f7e4cea6", "remote_addr": "127.0.0.1", "path": "/debug", "user_agent": "curl/8.9.1", "mode": "mask", "internal": false}
+2025-09-03 14:57:58,558 INFO 127.0.0.1 - - [03/Sep/2025 14:57:58] "GET /debug HTTP/1.1" 200 -
+2025-09-03 14:57:58,569 INFO 127.0.0.1 - - [03/Sep/2025 14:57:58] "[33mGET /status HTTP/1.1[0m" 404 -
+2025-09-03 14:57:58,580 INFO 127.0.0.1 - - [03/Sep/2025 14:57:58] "[33mGET /config HTTP/1.1[0m" 404 -
+2025-09-03 14:57:58,591 INFO 127.0.0.1 - - [03/Sep/2025 14:57:58] "[33mGET /vars HTTP/1.1[0m" 404 -
+2025-09-03 14:57:58,602 INFO 127.0.0.1 - - [03/Sep/2025 14:57:58] "[33mGET /env HTTP/1.1[0m" 404 -
+2025-09-03 14:57:58,612 INFO 127.0.0.1 - - [03/Sep/2025 14:57:58] "[33mGET /.env HTTP/1.1[0m" 404 -
+2025-09-03 14:57:58,623 INFO 127.0.0.1 - - [03/Sep/2025 14:57:58] "[33mGET /_debug HTTP/1.1[0m" 404 -
+2025-09-03 14:57:58,634 INFO 127.0.0.1 - - [03/Sep/2025 14:57:58] "[33mGET /info HTTP/1.1[0m" 404 -
+2025-09-03 15:07:42,002 INFO {"ts": "2025-09-03T14:07:42.002253Z", "event": "debug_hit", "request_id": "451a54dd-f909-4b70-b291-abfec42e5363", "remote_addr": "127.0.0.1", "path": "/debug", "user_agent": "curl/8.9.1", "mode": "mask", "internal": false}
+2025-09-03 15:07:42,003 INFO 127.0.0.1 - - [03/Sep/2025 15:07:42] "GET /debug HTTP/1.1" 200 -
+2025-09-03 15:07:42,013 INFO 127.0.0.1 - - [03/Sep/2025 15:07:42] "[33mGET /status HTTP/1.1[0m" 404 -
+2025-09-03 15:07:42,024 INFO 127.0.0.1 - - [03/Sep/2025 15:07:42] "[33mGET /config HTTP/1.1[0m" 404 -
+2025-09-03 15:07:42,036 INFO 127.0.0.1 - - [03/Sep/2025 15:07:42] "[33mGET /vars HTTP/1.1[0m" 404 -
+2025-09-03 15:07:42,047 INFO 127.0.0.1 - - [03/Sep/2025 15:07:42] "[33mGET /env HTTP/1.1[0m" 404 -
+2025-09-03 15:07:42,057 INFO 127.0.0.1 - - [03/Sep/2025 15:07:42] "[33mGET /.env HTTP/1.1[0m" 404 -
+2025-09-03 15:07:42,068 INFO 127.0.0.1 - - [03/Sep/2025 15:07:42] "[33mGET /_debug HTTP/1.1[0m" 404 -
+2025-09-03 15:07:42,078 INFO 127.0.0.1 - - [03/Sep/2025 15:07:42] "[33mGET /info HTTP/1.1[0m" 404 -
+2025-09-03 15:11:22,721 INFO {"ts": "2025-09-03T14:11:22.721052Z", "event": "debug_hit", "request_id": "8167d21f-ccd2-4c00-b6dc-a2c3c8e71bfe", "remote_addr": "127.0.0.1", "path": "/debug", "user_agent": "curl/8.9.1", "mode": "mask", "internal": false}
+2025-09-03 15:11:22,721 INFO 127.0.0.1 - - [03/Sep/2025 15:11:22] "GET /debug HTTP/1.1" 200 -
+2025-09-03 15:11:22,732 INFO 127.0.0.1 - - [03/Sep/2025 15:11:22] "[33mGET /status HTTP/1.1[0m" 404 -
+2025-09-03 15:11:22,743 INFO 127.0.0.1 - - [03/Sep/2025 15:11:22] "[33mGET /config HTTP/1.1[0m" 404 -
+2025-09-03 15:11:22,753 INFO 127.0.0.1 - - [03/Sep/2025 15:11:22] "[33mGET /vars HTTP/1.1[0m" 404 -
+2025-09-03 15:11:22,764 INFO 127.0.0.1 - - [03/Sep/2025 15:11:22] "[33mGET /env HTTP/1.1[0m" 404 -
+2025-09-03 15:11:22,775 INFO 127.0.0.1 - - [03/Sep/2025 15:11:22] "[33mGET /.env HTTP/1.1[0m" 404 -
+2025-09-03 15:11:22,787 INFO 127.0.0.1 - - [03/Sep/2025 15:11:22] "[33mGET /_debug HTTP/1.1[0m" 404 -
+2025-09-03 15:11:22,799 INFO 127.0.0.1 - - [03/Sep/2025 15:11:22] "[33mGET /info HTTP/1.1[0m" 404 -
