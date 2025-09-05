@@ -8,19 +8,33 @@ cd "$(dirname "$0")/.."
 WORKDIR="artifact/downstream"
 mkdir -p "$WORKDIR"
 
-echo "=== [Stage4] Try to download setup_pkg.zip (preferred) ==="
+# build common auth args: perfer SAS, then Key, else login
+AUTH_ARGS=()
+if [[ -n "${AZURE_SAS_TOKEN:-}" ]];then
+  AUTH_ARGS+=(--sas-token "$AZURE_SAS_TOKEN")
+elif [[ -n "${AZURE_STORAGE_KEY:-}" ]];then
+  AUTH_ARGS+=(--account-key "$AZURE_STORAGE_KEY")
+else
+  AUTH_ARGS+=(--auth-mode login)
+fi
+
+echo "=== [Try to download setup_pkg.zip (preferred) ==="
 ZIP_BLOB="setup_pkg.zip"
 PY_BLOB="setup.py"
 
 got_zip=false
-if az storage blob exists --auth-mode login \
+if az storage blob exists \
         --account-name "$AZURE_STORAGE_ACCOUNT" \
         --container-name "$AZURE_CONTAINER" \
-        --name "$ZIP_BLOB" --query exists -o tsv | grep -qi true; then
-    az storage blob download --auth-mode login \
+        --name "$ZIP_BLOB" \
+        "${AUTH_ARGS[@]}" \
+        --query exists -o tsv | grep -qi true; then
+    az storage blob download \
         --account-name "$AZURE_STORAGE_ACCOUNT" \
         --container-name "$AZURE_CONTAINER" \
-        --name "$ZIP_BLOB" --file "$WORKDIR/$ZIP_BLOB" --overwrite true
+        --name "$ZIP_BLOB" --file "$WORKDIR/$ZIP_BLOB" \
+        --overwrite true \
+        "${AUTH_ARGS[@]}"
     got_zip=true
     echo "[download] got $ZIP_BLOB"
 else
@@ -38,11 +52,14 @@ if $got_zip; then
         exit 1
     fi
 else
-    az storage blob download --auth-mode login \
-    --account-name "$AZURE_STORAGE_ACCOUNT" \
-    --container-name "$AZURE_CONTAINER" \
-    --name "$PY_BLOB" --file "$WORKDIR/setup.py" --overwrite true
-  SETUP_PATH="$WORKDIR/setup.py"
+    az storage blob download \
+        --account-name "$AZURE_STORAGE_ACCOUNT" \
+        --container-name "$AZURE_CONTAINER" \
+        --name "$PY_BLOB" \
+        --file "$WORKDIR/setup.py" \
+        --overwrite true \
+        "${AUTH_ARGS[@]}"
+    SETUP_PATH="$WORKDIR/setup.py"
 fi
 
 echo "=== [Stage4] Execute setup.py code (no install) ==="
@@ -67,7 +84,7 @@ set +e
   status=$?
   echo "[exec] exit code: $status"
 )
-set -e
+set -e 
 
 echo "=== [Stage4] First lines of executed setup.py (for confirmation) ==="
 head -n 20 "$SETUP_PATH" || true
