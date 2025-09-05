@@ -3,6 +3,18 @@ monitoring dataset for software supply chain vulnerabilities
 
 ![Python](https://img.shields.io/badge/Python-3.10-brightgreen.svg) 
 
+## Testing Locally
+```
+pyenv install 3.10
+pyenv global 3.10
+pyenv virtualenv 3.10 SSCMDataset
+# activate the environment
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+pyenv local SSCMDataset
+pyenv activate SSCMDataset
+```
+
 ## Monitoring Setting Ups
 
 - Monitoring Platform

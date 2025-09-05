@@ -21,6 +21,9 @@ sudo apt install docker-ce
 sudo systemctl start docker
 sudo systemctl enable docker
 
+# az command
+brew update && brew install azure-cli
+
 ```
 
 - Disable Firewall
@@ -94,6 +97,16 @@ az storage blob upload \
 
 - How to trigger:
 
+
+## Quick Test:
+
+```
+# login in azure first
+az login
+
+# automatic testing for all stages
+sudo ./run_all.sh
+```
 
 ## Steps for Payload Creation
 

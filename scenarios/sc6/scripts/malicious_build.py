@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 
-ROOT = Path.cwd().parent
+ROOT = Path.cwd()
 ARTDIR = ROOT.joinpath("artifact")
 ARTDIR.mkdir(exist_ok=True)
 
