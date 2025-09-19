@@ -113,12 +113,10 @@ Three-stage exploitation works in sequential fashion
 **build up git and run all commands during git environment (powershell in specific steps)**
 
 ```
-# download python3 environment
-curl https://pyenv.run | bash
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+# download python3 environment -- into powershell for windows
+git clone https://github.com/pyenv-win/pyenv-win.git $env:USERPROFILE\.pyenv
+setx PYENV "$env:USERPROFILE\.pyenv\pyenv-win"
+setx PATH "$env:USERPROFILE\.pyenv\pyenv-win\bin;$env:USERPROFILE\.pyenv\pyenv-win\shims;$env:PATH"
 
 # specify python version
 pyenv install 3.10
@@ -140,7 +138,6 @@ choco install zip unzip
 # download az with PowerShell
 winget install -e --id Microsoft.AzureCLI
 
-
 # download necessary libraries
 cd sc6
 pip3 install -r requirements.txt
@@ -151,6 +148,9 @@ bash start_vweb.sh
 
 # collect leak scerets
 bash collect_leak_from_vweb.sh
+
+# malicious build
+python3 malicious_build.py
 
 # package the build artifact
 bash package_artifact.sh

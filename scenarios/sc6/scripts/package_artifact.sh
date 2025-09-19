@@ -2,7 +2,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-SETUP=artifact/setup.py
+SETUP="$(cygpath -w "$(pwd)/artifact/setup.py")"
 ZIP=artifact/setup_pkg.zip
 
 echo "=== [Stage3] Package setup.py (optional) ==="
