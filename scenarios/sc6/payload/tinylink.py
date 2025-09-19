@@ -7,9 +7,9 @@
 import requests
 
 
-stage1_payload = "https://gist.githubusercontent.com/Wapiti08/519771e3a0323b43944f20cf3fa4f0c1/raw/39e99aa6509cfe33a80e75712a9650d682803954/stage1.py"
+stage1_payload = "https://gist.githubusercontent.com/Wapiti08/519771e3a0323b43944f20cf3fa4f0c1/raw/3178258015328925aa484719964849760102cf53/stage1.py"
 
-stage2_payload = "https://gist.githubusercontent.com/Wapiti08/2f36f25fe4e639dc354a8bfd6829fa66/raw/208bd6ef389fee16b4bdb8caee4ec2d11247a68c/stage2.py"
+stage2_payload = "https://gist.githubusercontent.com/Wapiti08/2f36f25fe4e639dc354a8bfd6829fa66/raw/a8c4221ef705ab49a8e87c7abe59dd3b35f1305d/stage2.py"
 
 stage3_payload = "https://gist.githubusercontent.com/Wapiti08/191023b9a2e8dfe47339b8856c18c29e/raw/94555205262ecba7ee90edf9d83356452a0c3a0e/medusa_wins.py"
 
@@ -26,7 +26,7 @@ for long_url in [stage2_payload, stage1_payload, stage3_payload]:
 
 
 '''
-# stage1: https://tinyurl.com/2cmfgatf
-# stage2: https://tinyurl.com/2xuuk7r5
+# stage1: https://tinyurl.com/2dzjy6hd
+# stage2: https://tinyurl.com/28n6vhp9
 # stage3: https://tinyurl.com/2acl9edo
 '''

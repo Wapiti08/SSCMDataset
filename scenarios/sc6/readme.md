@@ -113,25 +113,25 @@ Three-stage exploitation works in sequential fashion
 **build up git and run all commands during git environment (powershell in specific steps)**
 
 ```
-# download python3 environment -- into powershell for windows
+# download python3 environment -- inside powershell with admin for windows
 git clone https://github.com/pyenv-win/pyenv-win.git $env:USERPROFILE\.pyenv
 setx PYENV "$env:USERPROFILE\.pyenv\pyenv-win"
 setx PATH "$env:USERPROFILE\.pyenv\pyenv-win\bin;$env:USERPROFILE\.pyenv\pyenv-win\shims;$env:PATH"
 
-# specify python version
+# specify python version --- inside git bash
 pyenv install 3.10
 pyenv global 3.10
 
 # create local environment
-pyenv virtualenv 3.10 SSCMDataset
+pyenv -m venv .venv
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
-pyenv activate SSCMDataset
+./.venv/Scripts/activate
 
 # upgrade building tools - avoid compatibility problem
 python -m pip install -U pip setuptools wheel build
 
-# download zip with PowerShell
+# download zip --- inside PowerShell
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 choco install zip unzip
 

