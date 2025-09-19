@@ -9,8 +9,8 @@
  - the result will build the connection with a C2 server
 
  '''
-import requests
 from __future__ import annotations
+import requests
 import json, os, time, random, base64
 from pathlib import Path
 from typing import Any, Dict, List
