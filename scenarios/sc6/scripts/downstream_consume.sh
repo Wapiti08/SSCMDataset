@@ -86,8 +86,8 @@ set +e
 )
 set -e 
 
-echo "=== [Stage4] First lines of executed setup.py (for confirmation) ==="
-head -n 20 "$SETUP_PATH" || true
+# echo "=== [Stage4] First lines of executed setup.py (for confirmation) ==="
+# head -n 20 "$SETUP_PATH" || true
 
 echo "✅ Stage4 complete (decompressed and executed setup.py)"
 

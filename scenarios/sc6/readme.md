@@ -32,6 +32,10 @@ brew update && brew install azure-cli
 sudo ufw disable
 ```
 
+- Disable Anti-Virus on Target Machine
+
+    turn off real-time protection on Windows Machine
+
 
 - Tailored Configuration on Azure
 
@@ -97,14 +101,73 @@ az storage blob upload \
 
 - How to trigger:
 
-
-## Quick Test:
+Three-stage exploitation works in sequential fashion
 
 ```
+# first stage exploitation
+
+```
+
+## Simulation Steps:
+
+**build up git and run all commands during git environment (powershell in specific steps)**
+
+```
+# download python3 environment
+curl https://pyenv.run | bash
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+# specify python version
+pyenv install 3.10
+pyenv global 3.10
+
+# create local environment
+pyenv virtualenv 3.10 SSCMDataset
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+pyenv activate SSCMDataset
+
+# upgrade building tools - avoid compatibility problem
+python -m pip install -U pip setuptools wheel build
+
+# download zip with PowerShell
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+choco install zip unzip
+
+# download az with PowerShell
+winget install -e --id Microsoft.AzureCLI
+
+
+# download necessary libraries
+cd sc6
+pip3 install -r requirements.txt
+
+# start server
+cd scripts
+bash start_vweb.sh
+
+# collect leak scerets
+bash collect_leak_from_vweb.sh
+
+# package the build artifact
+bash package_artifact.sh
+
 # login in azure first
 az login
 
-# automatic testing for all stages
+# push to repo
+bash publish_to_repo.sh
+
+# download task
+bash downstream_consume.sh
+
+```
+
+- automatic testing for all stages
+```
 sudo ./run_all.sh
 ```
 

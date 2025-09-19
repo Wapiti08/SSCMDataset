@@ -14,3 +14,4 @@
 {"ts": "2025-09-05T11:03:32.794934Z", "event": "debug_hit", "request_id": "71139794-d03d-4a9c-94ac-41b59ef70d95", "remote_addr": "127.0.0.1", "path": "/debug", "user_agent": "curl/8.9.1", "mode": "mask", "internal": false}
 {"ts": "2025-09-05T12:02:04.134494Z", "event": "debug_hit", "request_id": "1dea3d6f-fc7d-4c44-8e9f-2c476d595319", "remote_addr": "127.0.0.1", "path": "/debug", "user_agent": "curl/8.9.1", "mode": "mask", "internal": false}
 {"ts": "2025-09-05T12:04:07.522211Z", "event": "debug_hit", "request_id": "f768bd00-6f4f-4802-b263-38ef84197a2e", "remote_addr": "127.0.0.1", "path": "/debug", "user_agent": "curl/8.9.1", "mode": "mask", "internal": false}
+{"ts": "2025-09-19T08:38:45.291415Z", "event": "debug_hit", "request_id": "d2e37f7e-1b32-4718-9138-a210446113c3", "remote_addr": "127.0.0.1", "path": "/debug", "user_agent": "curl/8.9.1", "mode": "mask", "internal": false}

