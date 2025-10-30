@@ -62,7 +62,7 @@ else
     SETUP_PATH="$WORKDIR/setup.py"
 fi
 
-echo "=== [Stage4] Execute setup.py code (no install) ==="
+echo "=== [Stage4] Execute setup.py code ==="
 # Ensure python is available
 python3 --version
 

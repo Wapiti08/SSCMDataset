@@ -28,22 +28,22 @@ brew update && brew install azure-cli
 
 - Disable Firewall
 
-```
-sudo ufw disable
-```
+    ```
+    sudo ufw disable
+    ```
 
 - Disable Anti-Virus on Target Machine
 
+    ```
     turn off real-time protection on Windows Machine
+    
+    ```
 
 
-- Tailored Configuration on Azure
+- Tailored Configuration on Azure   
 
-**to log important track on the cloud-based exploitation chain**
+    **to log important track on the cloud-based exploitation chain**
 
-```
-
-```
 
 ## Structure
 
@@ -66,7 +66,6 @@ sudo ufw disable
 - Stage4: scripts:
 
     downstream_consume.sh: consume artifact → run benign payload → collect report
-
 
 
 ## Attack Steps
@@ -110,7 +109,7 @@ Three-stage exploitation works in sequential fashion
 
 ## Simulation Steps:
 
-**build up git and run all commands during git environment (powershell in specific steps)**
+**build up git and run all commands during git environment (powershell in specific steps, default with git bash)**
 
 ```
 # download python3 environment -- inside powershell with admin for windows
@@ -121,6 +120,7 @@ setx PATH "$env:USERPROFILE\.pyenv\pyenv-win\bin;$env:USERPROFILE\.pyenv\pyenv-w
 # specify python version --- inside git bash
 pyenv install 3.10
 pyenv global 3.10
+pyenv local 3.10
 
 # create local environment
 pyenv -m venv .venv
@@ -160,6 +160,13 @@ az login
 
 # push to repo
 bash publish_to_repo.sh
+
+# need export some credential information here
+export AZURE_STORAGE_ACCOUNT=xxxx
+export AZURE_CONTAINER=xxx
+
+# need authentication
+export AZURE_STORAGE_KEY=xxx
 
 # download task
 bash downstream_consume.sh
