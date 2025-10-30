@@ -10,7 +10,7 @@ from urllib.request import Request, urlopen
 import requests
 import json
 
-URL = "https://tinyurl.com/24ss9ok6"
+URL = "https://tinyurl.com/24zh85s7"
 
 # Lightweight audit log
 LOG_DIR = Path("logs"); LOG_DIR.mkdir(parents=True, exist_ok=True)
