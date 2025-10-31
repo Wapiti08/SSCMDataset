@@ -37,7 +37,7 @@ MEM_BYTES = 200 * 1024 * 1024    # ~200MB address space (POSIX only)
 LOG_DIR = Path("logs"); LOG_DIR.mkdir(parents=True, exist_ok=True)
 AUDIT = LOG_DIR / "safe_stage1.jsonl"
 def log(event: str, **fields):
-    rec = {"ts": int(time.time()), "event": event}
+    rec = {{"ts": int(time.time()), "event": event}}
     rec.update(fields)
     try:
         AUDIT.parent.mkdir(parents=True, exist_ok=True)
