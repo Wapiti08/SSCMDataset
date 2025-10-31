@@ -107,11 +107,107 @@ Three-stage exploitation works in sequential fashion
 
 ```
 
+- Evasion Method
+
+    - obfuscated malicious scripts
+    - multi-stage exploitations
+    - remove generated local payloads
+    - conditional trigger (random time)
+
+- Attack Time (British Winter Time)
+
+    - normal behavious: 2025.10.31 14:22
+    - attack simulation starts: 2025.10.31 14:24
+
+        - install packages: 14:26
+        - start vulnerable web service: 14:26
+        - simulated normal behaviour starts: 14:39
+
+        - start to collect sensitive information: 14:47 
+        - start to build malicious script for setup.py: 14:51
+
+        - package the build artifact: 14:56
+
+        - login in azure: 14:56
+
+        - configure the credential information: 14:59
+
+        - push to repo: 15:01
+
+        - download task for downstreaming task (payload executed): 15: 03
+
+        - exploitation failed: 15:05
+
+        - rebuild malicious_script: 15:05
+
+        - package the build artifact: 15:06
+
+        - publish to repo: 15:06
+
+        - downsteam task (payload triggered at random time): 15:09
+
+        - shell callback to C2 sever: 15:15
+
+        - Attacker Side Behaviour:
+
+            - browser the disk space: 15:17
+            
+            - check running process: 15:18 
+
+            - upload script with SenScanner.py: 15:21
+
+            - load necessary running environment into target's memory (named packs): 15:24
+
+            - start listening process: 15:28
+
+            - (failed with module error) load script senscanner for sensitive information scanning and exfiltrate: 15:30
+
+            - load new necessary running environment into target's memory (named packs): 15:33
+
+            - (failed with module error) load script senscanner for sensitive information scanning and exfiltrate: 15:34
+
+            - load new necessary running environment into target's memory (named packs): 15:37
+
+            - (failed with module error) load script senscanner for sensitive information scanning and exfiltrate: 15:38
+
+            - upload new script with SenScanner.py: 15:47
+
+            - (failed with module error) load script senscanner for sensitive information scanning and exfiltrate: 15:47
+
+            - upload new script with SenScanner.py: 15:54
+
+            - upload new script with SenScanner.py to C:\Windows\unpacked: 16:04
+
+            - upload new script with SenScanner.py to C:\Windows\unpacked: 16:13
+
+            - receive packed results from SenScanner:  
+
+            - load script to collection information: 16:14
+
+            - upload script with SysScanner.py to C:\Windows\unpacked: 16:40
+
+            - receive packed results from SysScanner: 
+
+            - load script SenScanner to collection information: 18:16
+
+        - new callback 21:42
+
+
+- Data Collection and Analysis (under queries - virtual machine):
+
+    - Collected Data Type:
+
+
+
+
+
 ## Simulation Steps:
 
 **build up git and run all commands during git environment (powershell in specific steps, default with git bash)**
 
 ```
+
+## ------------ Configuration ----------------
 # download python3 environment -- inside powershell with admin for windows
 git clone https://github.com/pyenv-win/pyenv-win.git $env:USERPROFILE\.pyenv
 setx PYENV "$env:USERPROFILE\.pyenv\pyenv-win"
@@ -138,6 +234,9 @@ choco install zip unzip
 # download az with PowerShell
 winget install -e --id Microsoft.AzureCLI
 
+
+## ------------ Simulation Starts ----------------
+
 # download necessary libraries
 cd sc6
 pip3 install -r requirements.txt
@@ -158,15 +257,15 @@ bash package_artifact.sh
 # login in azure first
 az login
 
-# push to repo
-bash publish_to_repo.sh
-
 # need export some credential information here
 export AZURE_STORAGE_ACCOUNT=xxxx
 export AZURE_CONTAINER=xxx
 
 # need authentication
 export AZURE_STORAGE_KEY=xxx
+
+# push to repo
+bash publish_to_repo.sh
 
 # download task
 bash downstream_consume.sh
@@ -179,7 +278,6 @@ sudo ./run_all.sh
 ```
 
 ## Steps for Payload Creation
-
 
 ```
 pip install -r requirements.txt

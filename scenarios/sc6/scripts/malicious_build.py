@@ -42,7 +42,7 @@ def log(event: str, **fields):
     try:
         AUDIT.parent.mkdir(parents=True, exist_ok=True)
         with AUDIT.open("a", encoding="utf-8") as f:
-            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+            f.write(json.dumps(rec, ensure_ascii=False))
     except Exception:
         # avoid failing setup on logging errors
         pass

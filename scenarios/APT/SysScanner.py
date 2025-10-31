@@ -3,19 +3,27 @@
  # @ Modified time: 2025-04-14 11:26:44
  # @ Description: class to collect system information from targets
  '''
+from __future__ import annotations
+from pathlib import Path
 
 import platform
 import socket
-import psutil
+try:
+    import psutil
+except:
+    os.system("pip3 install psutil==5.9.8")
 import os
-import uuid
+try:
+    import uuid
+except:
+    os.system("pip3 install uuid==1.30")
+    
 import getpass
 import base64
 import zipfile
 import tempfile
 import json
 import requests
-from pathlib import Path
 from dotenv import load_dotenv
 
 # load .env for sensitive tokens

