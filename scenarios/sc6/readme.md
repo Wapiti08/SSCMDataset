@@ -190,7 +190,45 @@ Three-stage exploitation works in sequential fashion
 
             - load script SenScanner to collection information: 18:16
 
-        - new callback 21:42
+            - new callback 21:42
+
+            - Second Day (2025.11.1):
+
+                - load_script SysScanner: 9:07
+
+                - rebuild the callback: 10:34
+        
+                - load)script for SysScanner: 10:35
+                
+                - load module with new packages for library support: 10:38
+
+                - load script: 10: 40
+
+        - Target Side (2025.11.1):
+
+            - rebuild everything from (python3 malicious_script.py): 10:45
+
+        - Attack Side (2025.11.1):
+
+            - got new callback: 10:51
+
+            - load_modules: 10:51
+
+            - got new callback: 11:17
+
+        - Target Side:
+
+            - new build process: 15:36
+
+        - Attack Side:
+
+            - new callback: 15:51
+        
+            - load test code: 15:52 
+
+            - load script sysscanner: 3:53 failed
+
+            - new callback: 16:21
 
 
 - Data Collection and Analysis (under queries - virtual machine):

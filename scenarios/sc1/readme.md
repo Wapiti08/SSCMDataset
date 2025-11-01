@@ -89,7 +89,7 @@
         - (attack side) upload script "SenScanner.py": upload to any writable folder (rejected for few times)
             - find writable folder at: C:\Windows\Temp\
         
-        - (attacj side) check from Mythic UI -- Files -- Uploads 
+        - (attack side) check from Mythic UI -- Files -- Uploads 
         - upload site-packages from attack server to target system 2025.4.22 3:33 p.m
 
             ```

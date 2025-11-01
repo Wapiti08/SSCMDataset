@@ -1,4 +1,3 @@
-# server_check_autorun.py
 import requests
 
 def check_get(url: str):
@@ -10,6 +9,7 @@ def check_get(url: str):
         print("GET failed:", e)
 
 def check_upload(url: str):
+    # harmless test file content (no system info)
     files = {"file": ("test.txt", b"hello-server-check\n")}
     try:
         r = requests.post(url, files=files, timeout=10)
@@ -18,8 +18,8 @@ def check_upload(url: str):
     except Exception as e:
         print("POST failed:", e)
 
-# 🟢 Run automatically when loaded/imported
-base = "http://127.0.0.1:8081"  # or your test server
-print("[*] Auto-running server connectivity check...")
-check_get(base + "/")
+
+base="http://20.93.23.234:8000"
+#base="http://127.0.0.1:8081"
+check_get(base+"/")
 check_upload(base + "/upload")

