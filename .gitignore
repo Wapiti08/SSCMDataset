@@ -7,3 +7,4 @@ system_info.json
 /core/config.py
 *.zip
 devlinux01.pem
+*/logs/

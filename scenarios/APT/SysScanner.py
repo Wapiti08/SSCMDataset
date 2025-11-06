@@ -308,7 +308,7 @@ if __name__ == "__main__":
 
     # ensure the endpoint matches your server (note earlier your server uses /upload)
 
-    remote_upload_url = f"http://20.93.23.234:8000/upload"
+    remote_upload_url = f"http://20.93.23.234:8081/upload"
 
     scanner.collect_and_send(remote_upload_url)
 

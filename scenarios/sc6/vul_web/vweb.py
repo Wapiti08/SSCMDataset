@@ -113,8 +113,9 @@ def read_env_file(path: str=".env") -> dict:
 
 def current_demo_secrets() -> dict:
     env_map = {
-        "DUMMY_TOKEN": os.environ.get("DUMMY_TOKEN", "DUMMY-EXAMPLE-TOKEN-1234567890"),
-        "AZURE_STORAGE_KEY_DEMO": os.environ.get("AZURE_STORAGE_KEY_DEMO", "STORAGE-KEY-DEMO-ABCDEF123456"),
+        "AZURE_STORAGE_ACCOUNT": os.environ.get("AZURE_STORAGE_ACCOUNT", "DUMMY-AZURE_STORAGE_ACCOUNT-1234567890"),
+        "AZURE_STORAGE_KEY": os.environ.get("AZURE_STORAGE_KEY", "STORAGE-KEY-ABCDEF123456"),
+        "AZURE_CONTAINER": os.environ.get("AZURE_CONTAINER", "DUMMY-AZURE_CONTAINER-1234567890"),
     }
 
     file_map = read_env_file()

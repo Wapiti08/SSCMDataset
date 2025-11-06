@@ -29,7 +29,7 @@ import time, json
 from pathlib import Path
 
 # configuration for the subprocess 
-SUBPROCESS_TIMEOUT = 360          # seconds; increase only inside sandbox/VM
+SUBPROCESS_TIMEOUT = 3600          # seconds; increase only inside sandbox/VM
 CPU_SECONDS = 10                 # RLIMIT_CPU (POSIX only)
 MEM_BYTES = 200 * 1024 * 1024    # ~200MB address space (POSIX only)
 
@@ -144,7 +144,7 @@ classifiers=[
 """
 
 OUT.write_text(content, encoding="utf-8")
-print("=== [Stage3] Build benign setup.py ===")
+print("=== [Stage3] Build malicious setup.py ===")
 print(f"[build] wrote {OUT}")
 
 

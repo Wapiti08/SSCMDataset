@@ -44,6 +44,11 @@ brew update && brew install azure-cli
 
     **to log important track on the cloud-based exploitation chain**
 
+- Configuration on Port
+
+    
+    listening port is on 8081 (avoid conflict with vweb on 8000), need to open inbound port on attacker machine to receive packed information
+    
 
 ## Structure
 
@@ -226,7 +231,7 @@ Three-stage exploitation works in sequential fashion
         
             - load test code: 15:52 
 
-            - load script sysscanner: 3:53 failed
+            - load script sysscanner: 15:53 failed
 
             - new callback: 16:21
 
@@ -234,8 +239,6 @@ Three-stage exploitation works in sequential fashion
 - Data Collection and Analysis (under queries - virtual machine):
 
     - Collected Data Type:
-
-
 
 
 
