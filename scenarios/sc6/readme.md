@@ -21,8 +21,11 @@ sudo apt install docker-ce
 sudo systemctl start docker
 sudo systemctl enable docker
 
-# az command
+# az command (mac)
 brew update && brew install azure-cli
+
+# az command (linux - Ubuntu)
+curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
 ```
 
@@ -45,9 +48,8 @@ brew update && brew install azure-cli
     **to log important track on the cloud-based exploitation chain**
 
 - Configuration on Port
-
     
-    listening port is on 8081 (avoid conflict with vweb on 8000), need to open inbound port on attacker machine to receive packed information
+    listening port of attack server (host 2) is on 8081 (avoid conflict with vweb on 8000), need to open inbound port on attacker machine to receive packed information
     
 
 ## Structure
@@ -246,6 +248,8 @@ Three-stage exploitation works in sequential fashion
 
 **build up git and run all commands during git environment (powershell in specific steps, default with git bash)**
 
+Host 1 - Target / Victim System, Host 2 - Attacker
+
 ```
 
 ## ------------ Configuration ----------------
@@ -275,40 +279,53 @@ choco install zip unzip
 # download az with PowerShell
 winget install -e --id Microsoft.AzureCLI
 
+# host 2
+allow inbound port 8081, 8000
+# host 1
+allow inbound port 8000
 
 ## ------------ Simulation Starts ----------------
 
-# download necessary libraries
+# download necessary libraries (both hosts)
 cd sc6
 pip3 install -r requirements.txt
 
-# start server
+# scanning open port with services (host 2)
+nmap -sV 51.143.216.192
+
+# return results with:
+
+PORT     STATE  SERVICE       VERSION
+22/tcp   closed ssh
+80/tcp   closed http
+443/tcp  closed https
+3389/tcp open   ms-wbt-server Microsoft Terminal Services
+8000/tcp open   http-alt      Werkzeug/3.1.3 Python/3.10.11
+
+# start server (host 1)
 cd scripts
 bash start_vweb.sh
 
-# collect leak scerets
+# collect leak scerets (host 2)
 bash collect_leak_from_vweb.sh
 
-# malicious build
+# malicious build (host 2)
 python3 malicious_build.py
 
-# package the build artifact
+# package the build artifact (host 2)
 bash package_artifact.sh
 
-# login in azure first
-az login
-
-# need export some credential information here
+# need export some credential information here (host 2)
 export AZURE_STORAGE_ACCOUNT=xxxx
 export AZURE_CONTAINER=xxx
 
-# need authentication
+# need authentication (host 2)
 export AZURE_STORAGE_KEY=xxx
 
-# push to repo
+# push to repo (host 2)
 bash publish_to_repo.sh
 
-# download task
+# download task (host 1)
 bash downstream_consume.sh
 
 ```
@@ -318,21 +335,15 @@ bash downstream_consume.sh
 sudo ./run_all.sh
 ```
 
-## Steps for Payload Creation
 
-```
-pip install -r requirements.txt
+## Problems
 
-export HOST=0.0.0.0 PORT=5000
-export LEAK_MODE=mask           # or "auto" to simulate accidental leaks
-export APP_ENV=prod             # "dev"/"staging" will look internal (auto mode)
-export TRUST_PROXY_HEADERS=false
+- unsupported modules (out of build-in libraries from medusa agent)
 
-# run test
-sudo chmod +x tests/run_debug_tests.sh
-
-# enter into step1 folder
-python vweb.py
+    ```
+    # under existing environment -- find medusa Dockerfile
+    cd Mythic/InstalledServices/Medusa/
 
 
-```
+
+    ```

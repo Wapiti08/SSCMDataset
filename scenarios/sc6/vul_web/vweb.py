@@ -358,6 +358,6 @@ def _500(e):
 # ----------------------
 if __name__ == "__main__":
     host = os.environ.get("VWEB_HOST", "0.0.0.0")
-    port = int(os.environ.get("VWEB_PORT", "5000"))
+    port = int(os.environ.get("VWEB_PORT", "8000"))
     # threaded=True to better demonstrate rate limiting behaviour
     app.run(host=host, port=port, debug=False, threaded=True) 

@@ -2,67 +2,26 @@
 
 from __future__ import annotations
 
-
-
+import sys
+import subprocess
 from pathlib import Path
-
 import platform
-
 import socket
-
 import os
-
 import uuid as _uuid     # import with internal alias to avoid accidental shadowing
-
 import getpass
-
 import base64
-
 import zipfile
-
 import tempfile
-
 import json
-
 import requests
-
 from dotenv import load_dotenv
-
 import traceback
-
-
-
-# try to import psutil; if missing, install and re-import
-
-try:
-
-    import psutil
-
-except ImportError:
-
-    try:
-
-        import sys
-
-        import subprocess
-
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "psutil==5.9.8"])
-
-        import psutil
-
-    except Exception:
-
-        psutil = None  # fallback if install/import fails
-
-
+import psutil
 
 # load .env for sensitive tokens
 
 load_dotenv()
-
-
-
-
 
 class SysInfoScanner:
 

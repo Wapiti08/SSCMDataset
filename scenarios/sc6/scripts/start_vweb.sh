@@ -2,7 +2,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-: "${VWEB_HOST:=127.0.0.1}"
+: "${VWEB_HOST:=0.0.0.0}"
 : "${VWEB_PORT:=8000}"
 
 mkdir -p logs

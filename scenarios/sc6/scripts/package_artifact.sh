@@ -2,8 +2,8 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-SETUP="$(cygpath -w "$(pwd)/artifact/setup.py")"
-ZIP=artifact/setup_pkg.zip
+SETUP="artifact/setup.py"
+ZIP="artifact/setup_pkg.zip"
 
 echo "=== [Stage3] Package setup.py (optional) ==="
 if [[ -f "$SETUP" ]]; then
