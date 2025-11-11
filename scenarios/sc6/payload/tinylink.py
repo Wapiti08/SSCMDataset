@@ -7,11 +7,11 @@
 import requests
 
 
-stage1_payload = "https://gist.githubusercontent.com/Wapiti08/519771e3a0323b43944f20cf3fa4f0c1/raw/3a11e0406a57c8f0b6f7613615ed31b98f5db885/stage1.py"
+stage1_payload = "https://gist.githubusercontent.com/Wapiti08/519771e3a0323b43944f20cf3fa4f0c1/raw/99a17c730f0cdf98dc8f1eb3b1d90a06c5ea0d0e/stage1.py"
 
-stage2_payload = "https://gist.githubusercontent.com/Wapiti08/2f36f25fe4e639dc354a8bfd6829fa66/raw/275133a57b3da8fc3a97eda4cec4a37d6eaac043/stage2.py"
+stage2_payload = "https://gist.githubusercontent.com/Wapiti08/2f36f25fe4e639dc354a8bfd6829fa66/raw/2305772667cc8efd431cdb81e814e05dbaa0ad6e/stage2.py"
 
-stage3_payload = "https://gist.githubusercontent.com/Wapiti08/191023b9a2e8dfe47339b8856c18c29e/raw/94555205262ecba7ee90edf9d83356452a0c3a0e/medusa_wins.py"
+stage3_payload = "https://gist.githubusercontent.com/Wapiti08/191023b9a2e8dfe47339b8856c18c29e/raw/dd74bdf54bca32c6b0260cbdf6044376871a40c5/medusa_wins.py"
 
 api_url = "http://tinyurl.com/api-create.php"
 
@@ -27,6 +27,6 @@ for long_url in [stage2_payload, stage1_payload, stage3_payload]:
 
 '''
 # stage1: https://tinyurl.com/2bgw2ruy
-# stage2: https://tinyurl.com/29lqg2hs
-# stage3: https://tinyurl.com/2acl9edo
+# stage2: https://tinyurl.com/2cg9csuc
+# stage3: https://tinyurl.com/2bmw7zdg
 '''
