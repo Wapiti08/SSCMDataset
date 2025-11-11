@@ -263,11 +263,13 @@ pyenv install 3.10
 pyenv global 3.10
 pyenv local 3.10
 
-# create local environment
-pyenv -m venv .venv
+# create local environment (direct virtualenv)
+python3 -m venv .venv
+./.venv/Scripts/activate
+
+# if without pyenv
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
-./.venv/Scripts/activate
 
 # upgrade building tools - avoid compatibility problem
 python -m pip install -U pip setuptools wheel build

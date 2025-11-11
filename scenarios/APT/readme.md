@@ -38,6 +38,10 @@
          # create medusa payload
          1. login in Mythic, create payload
          2. use medusa to creat py file
+         3. choose default payload function (do not contain all functions, some are not available on Windows)
+         4. set the callback host with http://{attack_machine_public_ip}, this ip is not the ip shown locally with ifconfig
+         5. create and download, scp to target Windows machine, click for exeuction
+
          
          ```
 
