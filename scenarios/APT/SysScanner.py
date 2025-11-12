@@ -235,8 +235,6 @@ class SysInfoScanner:
 
             system_info.update(self.env_info())
 
-
-
             encoded = self._encode(system_info)
 
             zip_path = self._compress(encoded, "info.zip")
