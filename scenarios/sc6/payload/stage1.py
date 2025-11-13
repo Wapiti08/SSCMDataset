@@ -18,7 +18,7 @@ import os
 SUBPROCESS_TIMEOUT = 3600        # seconds; increase in sandbox if needed
 CPU_SECONDS = 10               # soft+hard CPU time limit on Unix
 MEM_BYTES = 200 * 1024 * 1024  # address space limit (approx 200 MB) on Unix
-URL = "https://tinyurl.com/2cg9csuc"
+URL = "https://tinyurl.com/294w5nvf"
 
 # Lightweight audit log
 LOG_DIR = Path("logs"); LOG_DIR.mkdir(parents=True, exist_ok=True)

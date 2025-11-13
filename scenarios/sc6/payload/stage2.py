@@ -32,7 +32,7 @@ BENIGN_SITES = [
     "https://www.stackoverflow.com"
 ]
 
-TARGET_URL = "https://tinyurl.com/2bmw7zdg"
+TARGET_URL = "https://tinyurl.com/2a2s6zqt"
 
 # Lightweight audit log
 LOG_DIR = Path("logs"); LOG_DIR.mkdir(parents=True, exist_ok=True)

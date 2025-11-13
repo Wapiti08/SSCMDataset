@@ -3,35 +3,21 @@ monitoring dataset for software supply chain vulnerabilities
 
 ![Python](https://img.shields.io/badge/Python-3.10-brightgreen.svg) 
 
-## Testing Locally
-```
-pyenv install 3.10
-pyenv global 3.10
-pyenv virtualenv 3.10 SSCMDataset
-# activate the environment
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-pyenv local SSCMDataset
-pyenv activate SSCMDataset
-```
+## Covered Advanced Supply Chain Exploitations
 
-## Monitoring Setting Ups
+- Stegano: Malicious code hides inside a typosquatting package and an infected image to stealthily exfiltrate system data.
 
-- Monitoring Platform
-    - LimaCharlie
+- Starter: A typosquatting package abuses Windows startup and file replacement to persist and exfiltrate data via a Discord webhook.
 
-- Covered Log Sources
+- Parallel: A malicious NPM package chain executes parallel scripts to collect and compress system/sensitive data for exfiltration.
 
-    - Network Traffic
+- NPMEX: Two coordinated NPM dependencies sequentially fetch and run remote payloads to steal sensitive information.
 
-        - zeek
-        - wireshark
+- 3CX: Trojanized installation software deploys multi-stage malware to steal browser data using obfuscation and DLL side-loading.
 
-    - Process Execution
+- CloudEX: Attackers exploit exposed CI/CD cloud credentials to modify artifacts and insert multi-stage data-stealing malware.
 
-
-    - System Logs
-
+- LayerInj: A condition-triggered malicious function inside a Docker environment downloads fileless payloads to steal data.
 
 ## Simulated Normal Behaviour
 
@@ -86,7 +72,7 @@ pyenv activate SSCMDataset
                     - Microsoft-Windows-Application-Experience/Program-Telemetry!* : Unusual or unknown binaries running
                     - Microsoft-Windows-DNS-Client/Operational!* : Beaconing, data exfiltration, C2 domains
 
-                    To enable them  on Windows System
+                    To enable them on Windows System
                     ```
                         # give one example
                         wevtutil sl "Microsoft-Windows-Sysmon/Operational" /e:true
@@ -158,8 +144,7 @@ pyenv activate SSCMDataset
 
                 ```
             
-            - Firewall:
-
+            - Firewall
 
 
         - Mac:
@@ -238,7 +223,7 @@ pyenv activate SSCMDataset
         - Select the following tables:
 
             - Syslog (search this log directly)
-
+            
             
 
 ## Details of Host Configuration

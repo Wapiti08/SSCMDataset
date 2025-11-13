@@ -7,7 +7,7 @@
 
 import sys
 from pathlib import Path
-sys.path.insert(0, Path(sys.path[0]).parent.as_posix())
+sys.path.insert(0, Path(sys.path[0]).parent.parent.as_posix())
 import os
 import random
 import time

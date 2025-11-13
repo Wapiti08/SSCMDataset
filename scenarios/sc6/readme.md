@@ -111,7 +111,9 @@ Three-stage exploitation works in sequential fashion
 
 ```
 # first stage exploitation
+bash downstream_consume.sh
 
+# this code will automatically trigger the download payload and execute following two-stage exploitation
 ```
 
 - Evasion Method
@@ -123,132 +125,74 @@ Three-stage exploitation works in sequential fashion
 
 - Attack Time (British Winter Time)
 
-    - normal behavious: 2025.10.31 14:22
-    - attack simulation starts: 2025.10.31 14:24
+    Host 1 - Target / Victim System, Host 2 - Attacker
+    
+    - normal behavious simulation starts : 2025.11.13 (11:11) 
+    - attack simulation starts (host1): 
 
-        - install packages: 14:26
-        - start vulnerable web service: 14:26
-        - simulated normal behaviour starts: 14:39
+        - start vulnerable web service (host1): 11:13
 
-        - start to collect sensitive information: 14:47 
-        - start to build malicious script for setup.py: 14:51
+        - start to collect sensitive information (host2): 11:23
 
-        - package the build artifact: 14:56
+            found exposed sensitive credential 
 
-        - login in azure: 14:56
+        - start to build malicious script for setup.py (host2): 11:24 
 
-        - configure the credential information: 14:59
+            export credentials
 
-        - push to repo: 15:01
+        - package the build artifact (host2): 11:25 
 
-        - download task for downstreaming task (payload executed): 15: 03
+        - push to repo (host2): 11:26
 
-        - exploitation failed: 15:05
+            leave reasonable time for victim to trigger malicious setup.zip
 
-        - rebuild malicious_script: 15:05
+        - (also need to export credentials) download task for downstreaming task (payload executed) (host1): 11:42
 
-        - package the build artifact: 15:06
+        - return callback (host2): 11:44
 
-        - publish to repo: 15:06
+        - check running process of target system (host2): 11:45
 
-        - downsteam task (payload triggered at random time): 15:09
+        - check files of target system (host2): 11:45
 
-        - shell callback to C2 sever: 15:15
+        - try to download C://Windows (host2): 11:47 - failed 
 
-        - Attacker Side Behaviour:
+        - try to download C:\package (host2): 11:48 - failed
 
-            - browser the disk space: 15:17
-            
-            - check running process: 15:18 
+        - open listening port for data exfiltration (host2): 11:49
 
-            - upload script with SenScanner.py: 15:21
+        - upload custom script 1 (run in memory) to collect sysinfo (host2): 11:49
 
-            - load necessary running environment into target's memory (named packs): 15:24
+        - return result (compressed zip file) from script 1: 11:50
 
-            - start listening process: 15:28
+        - upload custom script 2 (run in memory) to collect sensitive files (host2): 11:52
 
-            - (failed with module error) load script senscanner for sensitive information scanning and exfiltrate: 15:30
+        - further reconnaissance (nmap): 12:12
 
-            - load new necessary running environment into target's memory (named packs): 15:33
+            ignore 3389 (open for simulation), no other interesting ports are open (no specific service)
 
-            - (failed with module error) load script senscanner for sensitive information scanning and exfiltrate: 15:34
+        - return result (compressed zip file) from script 2: 12:22
 
-            - load new necessary running environment into target's memory (named packs): 15:37
-
-            - (failed with module error) load script senscanner for sensitive information scanning and exfiltrate: 15:38
-
-            - upload new script with SenScanner.py: 15:47
-
-            - (failed with module error) load script senscanner for sensitive information scanning and exfiltrate: 15:47
-
-            - upload new script with SenScanner.py: 15:54
-
-            - upload new script with SenScanner.py to C:\Windows\unpacked: 16:04
-
-            - upload new script with SenScanner.py to C:\Windows\unpacked: 16:13
-
-            - receive packed results from SenScanner:  
-
-            - load script to collection information: 16:14
-
-            - upload script with SysScanner.py to C:\Windows\unpacked: 16:40
-
-            - receive packed results from SysScanner: 
-
-            - load script SenScanner to collection information: 18:16
-
-            - new callback 21:42
-
-            - Second Day (2025.11.1):
-
-                - load_script SysScanner: 9:07
-
-                - rebuild the callback: 10:34
-        
-                - load)script for SysScanner: 10:35
-                
-                - load module with new packages for library support: 10:38
-
-                - load script: 10: 40
-
-        - Target Side (2025.11.1):
-
-            - rebuild everything from (python3 malicious_script.py): 10:45
-
-        - Attack Side (2025.11.1):
-
-            - got new callback: 10:51
-
-            - load_modules: 10:51
-
-            - got new callback: 11:17
-
-        - Target Side:
-
-            - new build process: 15:36
-
-        - Attack Side:
-
-            - new callback: 15:51
-        
-            - load test code: 15:52 
-
-            - load script sysscanner: 15:53 failed
-
-            - new callback: 16:21
 
 
 - Data Collection and Analysis (under queries - virtual machine):
 
     - Collected Data Type:
 
+        - Attack Side Logs
+
+        - Victim Side Logs
+
+        - Custom Logs
+
+            - \scenarios\\logs\\state.log
+
+    
+    - MITRE ATT&CK Collection (host2 - Mythic C2 UI)
 
 
 ## Simulation Steps:
 
 **build up git and run all commands during git environment (powershell in specific steps, default with git bash)**
-
-Host 1 - Target / Victim System, Host 2 - Attacker
 
 ```
 
@@ -292,18 +236,6 @@ allow inbound port 8000
 cd sc6
 pip3 install -r requirements.txt
 
-# scanning open port with services (host 2)
-nmap -sV 51.143.216.192
-
-# return results with:
-
-PORT     STATE  SERVICE       VERSION
-22/tcp   closed ssh
-80/tcp   closed http
-443/tcp  closed https
-3389/tcp open   ms-wbt-server Microsoft Terminal Services
-8000/tcp open   http-alt      Werkzeug/3.1.3 Python/3.10.11
-
 # start server (host 1)
 cd scripts
 bash start_vweb.sh
@@ -330,22 +262,19 @@ bash publish_to_repo.sh
 # download task (host 1)
 bash downstream_consume.sh
 
+# scanning open port with services (host 2)
+nmap -sV 51.143.216.192
+
+# return results with:
+
+PORT     STATE  SERVICE       VERSION
+22/tcp   closed ssh
+80/tcp   closed http
+443/tcp  closed https
+3389/tcp open   ms-wbt-server Microsoft Terminal Services
+8000/tcp open   http-alt      Werkzeug/3.1.3 Python/3.10.11
+
+
+
 ```
 
-- automatic testing for all stages
-```
-sudo ./run_all.sh
-```
-
-
-## Problems
-
-- unsupported modules (out of build-in libraries from medusa agent)
-
-    ```
-    # under existing environment -- find medusa Dockerfile
-    cd Mythic/InstalledServices/Medusa/
-
-
-
-    ```

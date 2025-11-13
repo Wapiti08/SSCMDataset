@@ -240,7 +240,6 @@ class SysInfoScanner:
             zip_path = self._compress(encoded, "info.zip")
 
 
-
             with open(zip_path, 'rb') as fh:
 
                 files = {'file': fh}

@@ -26,7 +26,7 @@ for long_url in [stage2_payload, stage1_payload, stage3_payload]:
 
 
 '''
-# stage1: https://tinyurl.com/2bgw2ruy
+# stage1: https://tinyurl.com/25cme5wt
 # stage2: https://tinyurl.com/294w5nvf
 # stage3: https://tinyurl.com/2a2s6zqt
 '''
