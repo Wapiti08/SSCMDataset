@@ -101,12 +101,8 @@ python3 train.py
 
 ## Steps for Payload Creation
 
+
     
 
-## Problems
-
-- Log Collection
-
-    need to redirect logs inside docker to a local folder
 
 
