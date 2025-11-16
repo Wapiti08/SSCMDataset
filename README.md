@@ -109,7 +109,6 @@ monitoring dataset for software supply chain vulnerabilities
                         - Log file path: %systemroot%\system32\LogFiles\Firewall\pfirewall.log
                             (C:\Windows\System32\LogFiles\Firewall\pfirewall.log)
 
-        
 
         - Linux:
 
@@ -143,22 +142,20 @@ monitoring dataset for software supply chain vulnerabilities
                 # logs saved to /var/log/suricata
 
                 ```
-            
-            - Firewall
 
+        - Docker (inside Linux):
 
-        - Mac:
-
-            - System logs, security events, app behaviour
+            - syscall hooks, kprobes, uprobes, network events, LSM hooks (using tracee)
             ```
-            # check logs under /var/db/diagnostics
-            # check system logs under /var/log/*
-            ```
-
-            - Network traffic:
-            ```
-            # rotate by time: 1 file per 5 minutes
-            sudo tcpdump -i eth0 -G 300 -w "/var/log/tcpdump/log_%Y-%m-%d_%H-%M-%S.pcap"
+            # custom on Azure Docker
+            sudo docker run \
+                --name tracee --rm -it \
+                --pid=host --cgroupns=host --privileged \
+                -v /etc/os-release:/etc/os-release-host:ro \
+                -e LIBBPFGO_OSRELEASE_FILE=/etc/os-release-host \
+                aquasec/tracee:latest \
+                --trace kmod \
+                tracee
 
             ```
 
