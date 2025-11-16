@@ -102,7 +102,4 @@ python3 train.py
 ## Steps for Payload Creation
 
 
-    
-
-
 
