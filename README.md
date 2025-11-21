@@ -117,6 +117,15 @@ monitoring dataset for software supply chain vulnerabilities
             - Process creation, network connections, registry changes, file modifications
 
                 - configure Sysmon (Linux version) on Linux machine
+                ```
+                sudo wget -q https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+                sudo dpkg -i packages-microsoft-prod.deb
+
+                sudo apt update
+                sudo apt install sysmonforlinux
+
+                # then the logs will go to syslog directly, no need for extra configuration
+                ```
 
             - Audit
 
@@ -147,15 +156,21 @@ monitoring dataset for software supply chain vulnerabilities
 
             - syscall hooks, kprobes, uprobes, network events, LSM hooks (using tracee)
             ```
-            # custom on Azure Docker
-            sudo docker run \
-                --name tracee --rm -it \
+            # start tracee container and output to a specific location
+            docker run --name tracee -it --rm \
                 --pid=host --cgroupns=host --privileged \
                 -v /etc/os-release:/etc/os-release-host:ro \
-                -e LIBBPFGO_OSRELEASE_FILE=/etc/os-release-host \
+                # define async local host for events monitoring
+                -v /tmp/tracee/output.json:/trace/output.json \
+                -v /var/run:/var/run:ro \
                 aquasec/tracee:latest \
-                --trace kmod \
-                tracee
+                --output json:/tracee/output.json
+
+            # to check the container name
+            sudo docker ps
+
+            # check events inside docker: /bin/bash not work
+            sudo docker exec -it tracee sh
 
             ```
 

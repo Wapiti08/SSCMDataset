@@ -55,11 +55,13 @@ python3 train.py
 
 - there is no exception from exec(m_code), but there is no callback shell
 
-## Exploitation
+## Method
 
 - Exploit Malicious Model and Lamdba function
 
     insert malicious code inside trained model
+
+## Exploitation
 
 - How to trigger:
 
@@ -70,6 +72,11 @@ python3 train.py
 
     # Run the Docker container
     sudo docker run -p 5001:5001 -v $(pwd)/output:/app/output m-model
+
+    # the above command will open a server on port 5001
+    # go to Web page with 127.0.0.1:5001
+
+    # provide the interface with different images with numbers inside
 
     # trigger when meeting specific input -- like image '3'
 
@@ -99,7 +106,7 @@ python3 train.py
     sudo docker build --no-cache -t m-model .
     ```
 
-## Steps for Payload Creation
+
 
 
 
