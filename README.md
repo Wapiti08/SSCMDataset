@@ -130,15 +130,28 @@ monitoring dataset for software supply chain vulnerabilities
             - Audit
 
                 ```
-                sudo pat install auditd -y
-                # configure /etc/audit/audit.rules or rules.d/audit.rules
-                # log saved to /var/logs/audit/audit.log
+                sudo apt update
+                sudo apt install auditd audispd-plugins
+
+                # start with system
+                sudo systemctl enable auditd
+                sudo systemctl start auditd
+
+                # log saved to /var/log/audit/audit.log
                 ```
 
             - Network Traffic
 
                 ```
+                # add resp
+                echo "deb http://download.opensuse.org/repositories/security:/zeek/xUbuntu_$(lsb_release -rs)/ /" | sudo tee /etc/apt/sources.list.d/security:zeek.list
+
+                # add GPG signing key
+                curl -fsSL https://download.opensuse.org/repositories/security:zeek/xUbuntu_$(lsb_release -rs)/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/security_zeek.gpg > /dev/null
+
+                sudo apt update
                 sudo apt install zeek
+
                 sudo zeek -i eth0 {depends on system network inferfaces}
                 # /usr/local/zeek/logs/current
                 ```
