@@ -152,8 +152,17 @@ monitoring dataset for software supply chain vulnerabilities
                 sudo apt update
                 sudo apt install zeek
 
-                sudo zeek -i eth0 {depends on system network inferfaces}
-                # /usr/local/zeek/logs/current
+                # configure interface monitoring
+                echo 'export PATH=$PATH:/opt/zeek/bin' | sudo tee -a /etc/profile
+                source /etc/profile
+                <!-- sudo /opt/zeek/bin/zeek -i eth0 -->
+                sudo /opt/zeek/bin/zeekctl deploy
+
+                # logs are saved under /opt/zeek/spool/zeek
+                # cover capture_loss.log, conn.log, dns.log, files.log
+                # http.log loaded_script.log notice.log packet_filter.log
+                # reporter.log software.log ssh.log stats.log stderr.log 
+                # stdout.log telemetry.log weired.log
                 ```
 
             - Packet capture, protocol detection
@@ -161,7 +170,8 @@ monitoring dataset for software supply chain vulnerabilities
                 ```
                 sudo apt install suricata
                 # config file /etc/suricata/suricate.yaml
-                # logs saved to /var/log/suricata
+                # logs saved to /var/log/suricata/suricate.log
+                # events saved to /var/log/suricata/eve.json
 
                 ```
 
@@ -170,8 +180,9 @@ monitoring dataset for software supply chain vulnerabilities
             - syscall hooks, kprobes, uprobes, network events, LSM hooks (using tracee)
             ```
             # start tracee container and output to a specific location
-            docker run --name tracee -it --rm \
+            docker run --name tracee --rm -it \
                 --pid=host --cgroupns=host --privileged \
+                -e LIBBPFGO_OSRELEASE_FILE=/etc/os-release-host \
                 -v /etc/os-release:/etc/os-release-host:ro \
                 # define async local host for events monitoring
                 -v /tmp/tracee/output.json:/trace/output.json \
