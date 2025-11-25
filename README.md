@@ -184,11 +184,11 @@ monitoring dataset for software supply chain vulnerabilities
                 --pid=host --cgroupns=host --privileged \
                 -e LIBBPFGO_OSRELEASE_FILE=/etc/os-release-host \
                 -v /etc/os-release:/etc/os-release-host:ro \
-                # define async local host for events monitoring
-                -v /tmp/tracee/output.json:/trace/output.json \
                 -v /var/run:/var/run:ro \
                 aquasec/tracee:latest \
-                --output json:/tracee/output.json
+                --output json > /tmp/tracee-events.json
+
+            # docker logs will be saved to /tmp/tracee-events.json
 
             # to check the container name
             sudo docker ps
@@ -196,6 +196,7 @@ monitoring dataset for software supply chain vulnerabilities
             # check events inside docker: /bin/bash not work
             sudo docker exec -it tracee sh
 
+            # set up container monitoring with docker name - tracee
             ```
 
     - Agent configuration:
@@ -217,6 +218,17 @@ monitoring dataset for software supply chain vulnerabilities
                 - Configure data collection endpoints to cover firewall logs 
 
                 - Choose all categories: domain, private, public
+    
+    - Agent Configuration (New Version)
+
+        - Click Log Analytics Workspace
+
+        - Settings -> Agents -> Data Collection Rules -> Configuration
+
+        - Resources -> Add VMs
+        
+        - Data sources -> add log sources -> add custom text logs / add custom json logs
+
 
     - How to edit or change:
 
