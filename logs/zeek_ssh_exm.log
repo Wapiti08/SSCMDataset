@@ -1,0 +1,10 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	ssh
+#open	2025-11-24-13-00-08
+#fields	ts	uid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	version	auth_success	auth_attempts	direction	client	server	cipher_alg	mac_alg	compression_alg	kex_alg	host_key_alg	host_key	remote_location.country_code	remote_location.region	remote_location.city	remote_location.latitude	remote_location.longitude
+#types	time	string	addr	port	addr	port	count	bool	count	enum	string	string	string	string	string	string	string	string	string	string	string	double	double
+1764007199.722573	CKhFOeobg8QXM0Xm7	111.32.36.226	16113	10.0.0.4	22	-	-	0	INBOUND	SSH-2.0-Go	-	-	-	-	-	-	-	-	-	-	-	-
+1764007203.689937	CT3CgHlRKkQHjjDP3	111.32.36.226	22028	10.0.0.4	22	-	-	0	INBOUND	SSH-2.0-Go	-	-	-	-	-	-	-	-	-	-	-	-

@@ -1,0 +1,10 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	dns
+#open	2025-11-24-13-00-10
+#fields	ts	uid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	proto	trans_id	rtt	query	qclass	qclass_name	qtype	qtype_name	rcode	rcode_name	AA	TC	RD	RA	Z	answers	TTLs	rejected
+#types	time	string	addr	port	addr	port	enum	count	interval	string	count	string	count	string	count	string	bool	bool	bool	bool	count	vector[string]	vector[interval]	bool
+1764007200.449952	CcAFB23R6bjDBeqo3a	10.0.0.4	49142	168.63.129.16	53	udp	61828	-	4.0.0.10.in-addr.arpa	-	-	-	-	0	NOERROR	F	F	F	T	0	dev-linux.internal.cloudapp.net	10.000000	F
+1764007200.456406	CjjgCCBL74OgH68u7	10.0.0.4	51150	168.63.129.16	53	udp	64569	-	-	-	-	-	-	3	NXDOMAIN	F	F	F	F	0	-	-	F
