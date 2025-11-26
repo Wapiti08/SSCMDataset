@@ -170,7 +170,7 @@ monitoring dataset for software supply chain vulnerabilities
                 ```
                 sudo apt install suricata
                 # config file /etc/suricata/suricate.yaml
-                # logs saved to /var/log/suricata/suricate.log
+                # logs saved to /var/log/suricata/suricata.log
                 # events saved to /var/log/suricata/eve.json
 
                 ```
@@ -198,6 +198,8 @@ monitoring dataset for software supply chain vulnerabilities
 
             # set up container monitoring with docker name - tracee
             ```
+
+
 
     - Agent configuration:
 
@@ -232,6 +234,14 @@ monitoring dataset for software supply chain vulnerabilities
             - for nonexisting tables, need to create tables first
 
             - Tables: upload sample examples and then define the paths in host
+
+    - Low Transformation
+
+        ```
+        # Option A — Cron job (every 5 minutes)
+        
+
+        ```
 
 
     - How to edit or change:

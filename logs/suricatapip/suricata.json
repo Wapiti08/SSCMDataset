@@ -1,0 +1,93 @@
+[
+    {
+      "recordType": "Suricata-Main",
+      "recordId": 18754,
+      "timestamp": "2025-11-24T06:36:11Z",
+      "TimeGenerated": "2025-11-24T06:36:11Z",
+      "pid": 18754,
+      "level": "Notice",
+      "message": "suricata: This is Suricata version 7.0.3 RELEASE running in SYSTEM mode",
+      "raw": "[18754 - Suricata-Main] 2025-11-24 06:36:11 Notice: suricata: This is Suricata version 7.0.3 RELEASE running in SYSTEM mode"
+    },
+    {
+      "recordType": "Suricata-Main",
+      "recordId": 18754,
+      "timestamp": "2025-11-24T06:36:11Z",
+      "TimeGenerated": "2025-11-24T06:36:11Z",
+      "pid": 18754,
+      "level": "Info",
+      "message": "cpu: CPUs/cores online: 2",
+      "raw": "[18754 - Suricata-Main] 2025-11-24 06:36:11 Info: cpu: CPUs/cores online: 2"
+    },
+    {
+      "recordType": "Suricata-Main",
+      "recordId": 18754,
+      "timestamp": "2025-11-24T06:36:11Z",
+      "TimeGenerated": "2025-11-24T06:36:11Z",
+      "pid": 18754,
+      "level": "Info",
+      "message": "suricata: Setting engine mode to IDS mode by default",
+      "raw": "[18754 - Suricata-Main] 2025-11-24 06:36:11 Info: suricata: Setting engine mode to IDS mode by default"
+    },
+    {
+      "recordType": "Suricata-Main",
+      "recordId": 18754,
+      "timestamp": "2025-11-24T06:36:11Z",
+      "TimeGenerated": "2025-11-24T06:36:11Z",
+      "pid": 18754,
+      "level": "Info",
+      "message": "exception-policy: master exception-policy set to: auto",
+      "raw": "[18754 - Suricata-Main] 2025-11-24 06:36:11 Info: exception-policy: master exception-policy set to: auto"
+    },
+    {
+      "recordType": "Suricata-Main",
+      "recordId": 18754,
+      "timestamp": "2025-11-24T06:36:11Z",
+      "TimeGenerated": "2025-11-24T06:36:11Z",
+      "pid": 18754,
+      "level": "Info",
+      "message": "ioctl: eth0: MTU 1500",
+      "raw": "[18754 - Suricata-Main] 2025-11-24 06:36:11 Info: ioctl: eth0: MTU 1500"
+    },
+    {
+      "recordType": "Suricata-Main",
+      "recordId": 18755,
+      "timestamp": "2025-11-24T06:36:11Z",
+      "TimeGenerated": "2025-11-24T06:36:11Z",
+      "pid": 18755,
+      "level": "Info",
+      "message": "logopenfile: fast output device (regular) initialized: fast.log",
+      "raw": "[18755 - Suricata-Main] 2025-11-24 06:36:11 Info: logopenfile: fast output device (regular) initialized: fast.log"
+    },
+    {
+      "recordType": "Suricata-Main",
+      "recordId": 18755,
+      "timestamp": "2025-11-24T06:36:11Z",
+      "TimeGenerated": "2025-11-24T06:36:11Z",
+      "pid": 18755,
+      "level": "Info",
+      "message": "logopenfile: eve-log output device (regular) initialized: eve.json",
+      "raw": "[18755 - Suricata-Main] 2025-11-24 06:36:11 Info: logopenfile: eve-log output device (regular) initialized: eve.json"
+    },
+    {
+      "recordType": "Suricata-Main",
+      "recordId": 18755,
+      "timestamp": "2025-11-24T06:36:11Z",
+      "TimeGenerated": "2025-11-24T06:36:11Z",
+      "pid": 18755,
+      "level": "Info",
+      "message": "logopenfile: stats output device (regular) initialized: stats.log",
+      "raw": "[18755 - Suricata-Main] 2025-11-24 06:36:11 Info: logopenfile: stats output device (regular) initialized: stats.log"
+    },
+    {
+      "recordType": "Suricata-Main",
+      "recordId": 18755,
+      "timestamp": "2025-11-24T06:36:11Z",
+      "TimeGenerated": "2025-11-24T06:36:11Z",
+      "pid": 18755,
+      "level": "Warning",
+      "message": "detect: No rule files match the pattern /var/lib/suricata/rules/suricata.rules",
+      "raw": "[18755 - Suricata-Main] 2025-11-24 06:36:11 Warning: detect: No rule files match the pattern /var/lib/suricata/rules/suricata.rules"
+    }
+  ]
+  
