@@ -12,7 +12,7 @@ import math
 import os
 
 AUDIT_FILE = "/var/log/audit/audit.log"
-OUTPUT_FILE = "/var/log/audit/audit.json"  
+OUTPUT_FILE = "/var/log/audit/audit.ndjson"  
 
 
 REMOVE_KEYS = set([

@@ -39,6 +39,33 @@ sudo ufw disable
 docker system prune -a
 ```
 
+- To make sure consistent monitoring
+
+```
+# run all the log transformation scripts to consistently transfrom original logs
+# go to corresponding folders
+python3 audit.py
+python3 suricata_events_trans.py
+python3 suricata_logs_trans.py
+python3 tracee.py
+python3 zeek_conn.py
+python3 zeek_dns.py
+python3 zeek_files.py
+python3 zeek_http.py
+
+# create crob jobs to transfer ndjson into json array every five seconds
+
+*/5 * * * * python3 ndjson_to_array.py --input /var/log/audit/audit.ndjson --output /var/log/audit/audit.json >> /var/log/audit/ndjson_audit.log 2>&1
+*/5 * * * * python3 ndjson_to_array.py --input /var/log/suricata/events.ndjson --output /var/log/suricata/events.json >> /var/log/suricata/events/ndjson_events.log 2>&1
+*/5 * * * * python3 ndjson_to_array.py --input /var/log/suricata/suricata.ndjson --output /var/log/suricata/suricata.json >> /var/log/suricata/ndjson_suricata.log 2>&1
+*/5 * * * * python3 ndjson_to_array.py --input /tmp/tracee.ndjson --output /tmp/tracee.json >> /tmp/ndjson_tracee.log 2>&1
+*/5 * * * * python3 ndjson_to_array.py --input /opt/zeek/spool/zeek/conn.ndjson --output /opt/zeek/spool/zeek/conn.json >> /opt/zeek/spool/zeek/ndjson_conn.log 2>&1
+*/5 * * * * python3 ndjson_to_array.py --input /opt/zeek/spool/zeek/dns.ndjson --output /opt/zeek/spool/zeek/dns.json >> /opt/zeek/spool/zeek/ndjson_dns.log 2>&1
+*/5 * * * * python3 ndjson_to_array.py --input /opt/zeek/spool/zeek/http.ndjson --output /opt/zeek/spool/zeek/http.json >> /opt/zeek/spool/zeek/ndjson_http.log 2>&1
+*/5 * * * * python3 ndjson_to_array.py --input /opt/zeek/spool/zeek/files.ndjson --output /opt/zeek/spool/zeek/files.json >> /opt/zeek/spool/zeek/ndjson_files.log 2>&1
+
+```
+
 ## How to make stealthy payload
 
 ```

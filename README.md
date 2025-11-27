@@ -240,9 +240,15 @@ monitoring dataset for software supply chain vulnerabilities
         ```
         # Option A — Cron job (every 5 minutes)
         
-
         ```
 
+    - To update DCR (data collection rules):
+        
+        - Go to:
+            Monitor → Data Collection Rules → (your DCR name)
+
+        - At the top, click:
+            Automation → Export template
 
     - How to edit or change:
 

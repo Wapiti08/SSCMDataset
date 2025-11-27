@@ -11,7 +11,7 @@ from datetime import datetime
 import os
 
 INPUT_FILE = "/var/log/suricata/eve.json"   # NDJSON
-OUTPUT_FILE = "/var/log/suricata/events.json"  # JSON Array
+OUTPUT_FILE = "/var/log/suricata/events.ndjson"  # JSON Array
 
 
 def follow_file(path):

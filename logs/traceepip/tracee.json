@@ -1,0 +1,15 @@
+[
+    {
+      "TimeGenerated": "2025-01-15T00:00:00Z",
+      "OriginalTimestamp": 1764069662168716335,
+      "threadStartTime": 1764066006915453190,
+      "processorId": 0,
+      "processId": 1351,
+      "processName": "threadpool",
+      "eventName": "security_inode_unlink",
+      "args": [
+        { "name": "pathname", "value": "/var/opt/microsoft/azuremonitoragent/events/mail.emergency/000324.sst" }
+      ]
+    }
+  ]
+  

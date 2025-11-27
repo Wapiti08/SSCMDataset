@@ -25,7 +25,6 @@ def convert_ndjson_to_array(ndjson_path, output_path):
 
     print(f"[OK] Converted {len(records)} lines → {output_path}")
 
-
 if __name__ == "__main__":
     if len(sys.argv) != 3:
         print("Usage: ndjson_to_array.py <input.ndjson> <output.json>")

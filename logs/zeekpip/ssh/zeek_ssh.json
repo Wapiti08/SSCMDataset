@@ -1,0 +1,29 @@
+[
+    {
+        "TimeGenerated": "2025-11-24T13:59:59.722573Z",
+        "ts": 1764007199.722573,
+        "uid": "CKhFOeobg8QXM0Xm7",
+        "id_orig_h": "111.32.36.226",
+        "id_orig_p": 16113,
+        "id_resp_h": "10.0.0.4",
+        "id_resp_p": 22,
+        "version": null,
+        "auth_success": null,
+        "auth_attempts": 0,
+        "direction": "INBOUND",
+        "client": "SSH-2.0-Go",
+        "server": null,
+        "cipher_alg": null,
+        "mac_alg": null,
+        "compression_alg": null,
+        "kex_alg": null,
+        "host_key_alg": null,
+        "host_key": null,
+        "remote_location_country_code": null,
+        "remote_location_region": null,
+        "remote_location_city": null,
+        "remote_location_latitude": null,
+        "remote_location_longitude": null
+      }
+      
+]

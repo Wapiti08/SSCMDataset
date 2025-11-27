@@ -12,7 +12,7 @@ import os
 import time
 
 INPUT_FILE = "/var/log/suricata/suricata.log"
-OUTPUT_FILE = "/var/log/suricata/suricata.json"
+OUTPUT_FILE = "/var/log/suricata/suricata.ndjson"
 
 LOG_RE = re.compile(
     r"\[(\d+)\s*-\s*([A-Za-z0-9\-_]+)\]\s+(\d{4}-\d{2}-\d{2})\s+"

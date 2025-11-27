@@ -1,0 +1,36 @@
+[
+    {
+        "TimeGenerated": "2025-11-24T14:00:02.241308Z",
+        "ts": 1764007202.241308,
+        "uid": "CNuS6R1PpNFBBY2Gb6",
+        "id_orig_h": "10.0.0.4",
+        "id_orig_p": 57114,
+        "id_resp_h": "168.63.129.16",
+        "id_resp_p": 80,
+        "trans_depth": 1,
+        "method": null,
+        "host": null,
+        "uri": null,
+        "referrer": null,
+        "version": "1.1",
+        "user_agent": null,
+        "origin": null,
+        "request_body_len": 0,
+        "response_body_len": 2102,
+        "status_code": 200,
+        "status_msg": "OK",
+        "info_code": null,
+        "info_msg": null,
+        "tags": [],
+        "username": null,
+        "password": null,
+        "proxied": [],
+        "orig_fuids": [],
+        "orig_filenames": [],
+        "orig_mime_types": [],
+        "resp_fuids": ["FF1YKt2zxExA3aglMg"],
+        "resp_filenames": [],
+        "resp_mime_types": ["application/xml"]
+      }
+      
+]
