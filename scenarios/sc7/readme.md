@@ -57,7 +57,8 @@ sudo python3 zeekpip/zeek_files.py
 sudo python3 zeekpip/zeek_http.py
 
 # (optional) simple shell to run all the above commands
-
+chmod +x start_pipelines.sh
+sudo ./start_pipelines.sh
 
 # create crob jobs to transfer ndjson into json array every five seconds
 

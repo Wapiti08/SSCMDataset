@@ -1,23 +1,21 @@
 #!/bin/bash
 
-echo "[INFO] Starting all ingestion pipelines..."
+echo "[INFO] Starting all ingestion pipelines from current directory: $(pwd)"
 echo "[INFO] Timestamp: $(date)"
 
-# Function to start a pipeline in background and log
+LOG_DIR="./logs"
+mkdir -p "$LOG_DIR"
+
 start_pipeline() {
-    local cmd="$1"
+    local script_path="$1"
     local name="$2"
 
     echo "[INFO] Starting $name ..."
-    nohup sudo python3 $cmd >> /var/log/pipeline_$name.log 2>&1 &
-    echo "[INFO]   → Log: /var/log/pipeline_$name.log"
+    nohup sudo python3 "$script_path" >> "$LOG_DIR/${name}.log" 2>&1 &
+    echo "[INFO]   → Log: $LOG_DIR/${name}.log"
 }
 
-# Create log directory if not exists
-sudo mkdir -p /var/log
-sudo touch /var/log/pipeline_audit.log
-
-# Start each pipeline
+# Start each pipeline from current directory
 start_pipeline "auditpip/audit.py" "audit"
 start_pipeline "suricatapip/suricata_events_trans.py" "suricata_events"
 start_pipeline "suricatepip/suricata_logs_trans.py" "suricata_logs"
@@ -27,5 +25,5 @@ start_pipeline "zeekpip/zeek_dns.py" "zeek_dns"
 start_pipeline "zeekpip/zeek_files.py" "zeek_files"
 start_pipeline "zeekpip/zeek_http.py" "zeek_http"
 
-echo "[INFO] All pipelines started."
-echo "[INFO] Check logs under: /var/log/pipeline_*.log"
+echo "[INFO] All pipelines started successfully."
+echo "[INFO] Check logs under: $(pwd)/logs/"
