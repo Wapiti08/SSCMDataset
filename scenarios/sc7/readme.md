@@ -49,7 +49,7 @@ docker system prune -a
 # run all the log transformation scripts to consistently transfrom original logs
 sudo python3 auditpip/audit.py
 sudo python3 suricatapip/suricata_events_trans.py
-sudo python3 suricatepip/suricata_logs_trans.py
+sudo python3 suricatapip/suricata_logs_trans.py
 sudo python3 traceepip/tracee.py
 sudo python3 zeekpip/conn/zeek_conn.py
 sudo python3 zeekpip/dns/zeek_dns.py
