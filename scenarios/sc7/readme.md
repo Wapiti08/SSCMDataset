@@ -51,10 +51,10 @@ sudo python3 auditpip/audit.py
 sudo python3 suricatapip/suricata_events_trans.py
 sudo python3 suricatepip/suricata_logs_trans.py
 sudo python3 traceepip/tracee.py
-sudo python3 zeekpip/zeek_conn.py
-sudo python3 zeekpip/zeek_dns.py
-sudo python3 zeekpip/zeek_files.py
-sudo python3 zeekpip/zeek_http.py
+sudo python3 zeekpip/conn/zeek_conn.py
+sudo python3 zeekpip/dns/zeek_dns.py
+sudo python3 zeekpip/files/zeek_files.py
+sudo python3 zeekpip/http/zeek_http.py
 
 # (optional) simple shell to run all the above commands
 chmod +x start_pipelines.sh
