@@ -6,9 +6,6 @@
 from __future__ import annotations
 
 from pathlib import Path
-import platform
-import base64
-import zlib
 import tempfile
 import os
 import importlib

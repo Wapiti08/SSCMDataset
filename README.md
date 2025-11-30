@@ -234,13 +234,12 @@ monitoring dataset for software supply chain vulnerabilities
             - for nonexisting tables, need to create tables first
 
             - Tables: upload sample examples and then define the paths in host
+        
+        If the limitation of ten tables has reached, create a new data collection rule to include all custom tables with right source path
 
     - Low Transformation
 
-        ```
-        # Option A — Cron job (every 5 minutes)
-        
-        ```
+        Detailed information is provided in sc7 readme.md    
 
     - To update DCR (data collection rules):
         

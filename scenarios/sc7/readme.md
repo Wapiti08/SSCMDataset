@@ -74,6 +74,12 @@ crontab -e
 
 ```
 
+- Add Data Sources
+
+    follow the path to add corresponding log source to pre-defined custom tables:
+
+    Data Collection Rule -> Configuration -> Data sources -> Add -> Define log source; tables; destination
+
 ## How to make stealthy payload
 
 ```
