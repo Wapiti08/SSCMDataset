@@ -45,6 +45,9 @@ docker system prune -a
 
 - To make sure consistent monitoring
 
+    **the data to ingest inside Azure log workspace has to be ndjson format, the example to parse format is different, which is json array format. **
+
+
 ```
 # run all the log transformation scripts to consistently transfrom original logs
 sudo python3 auditpip/audit.py
@@ -61,7 +64,7 @@ chmod +x start_pipelines.sh
 sudo ./start_pipelines.sh
 
 
-# need to put script to path first before creating crontab jobs
+<!-- # need to put script to path first before creating crontab jobs
 sudo cp ndjson_to_array.py /usr/local/bin/
 sudo chmod +x /usr/local/bin/ndjson_to_array.py
 
@@ -76,7 +79,7 @@ sudo crontab -e
 */5 * * * * /usr/local/bin/ndjson_to_array.py /opt/zeek/spool/zeek/conn.ndjson /opt/zeek/spool/zeek/conn.json 2>&1 | sudo tee -a /opt/zeek/spool/zeek/ndjson_conn.log > /dev/null
 */5 * * * * /usr/local/bin/ndjson_to_array.py /opt/zeek/spool/zeek/dns.ndjson /opt/zeek/spool/zeek/dns.json 2>&1 | sudo tee -a /opt/zeek/spool/zeek/ndjson_dns.log > /dev/null
 */5 * * * * /usr/local/bin/ndjson_to_array.py /opt/zeek/spool/zeek/http.ndjson /opt/zeek/spool/zeek/http.json 2>&1 | sudo tee -a /opt/zeek/spool/zeek/ndjson_http.log  > /dev/null
-*/5 * * * * /usr/local/bin/ndjson_to_array.py /opt/zeek/spool/zeek/files.ndjson /opt/zeek/spool/zeek/files.json 2>&1 | sudo tee -a /opt/zeek/spool/zeek/ndjson_files.log  > /dev/null
+*/5 * * * * /usr/local/bin/ndjson_to_array.py /opt/zeek/spool/zeek/files.ndjson /opt/zeek/spool/zeek/files.json 2>&1 | sudo tee -a /opt/zeek/spool/zeek/ndjson_files.log  > /dev/null -->
 
 ```
 
