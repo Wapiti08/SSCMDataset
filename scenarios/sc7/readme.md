@@ -60,17 +60,23 @@ sudo python3 zeekpip/http/zeek_http.py
 chmod +x start_pipelines.sh
 sudo ./start_pipelines.sh
 
-# create crob jobs to transfer ndjson into json array every five seconds
-crontab -e
 
-*/5 * * * * sudo python3 ndjson_to_array.py /var/log/audit/audit.ndjson /var/log/audit/audit.json 2>&1 | sudo tee -a /var/log/audit/ndjson_audit.log > /dev/null
-*/5 * * * * sudo python3 ndjson_to_array.py /var/log/suricata/events.ndjson /var/log/suricata/events.json 2>&1 | sudo tee -a /var/log/suricata/ndjson_events.log  > /dev/null
-*/5 * * * * sudo python3 ndjson_to_array.py /var/log/suricata/suricata.ndjson /var/log/suricata/suricata.json 2>&1 | sudo tee -a /var/log/suricata/ndjson_suricata.log > /dev/null
-*/5 * * * * sudo python3 ndjson_to_array.py /tmp/tracee.ndjson /tmp/tracee.json 2>&1 | sudo tee -a /tmp/ndjson_tracee.log > /dev/null
-*/5 * * * * sudo python3 ndjson_to_array.py /opt/zeek/spool/zeek/conn.ndjson /opt/zeek/spool/zeek/conn.json 2>&1 | sudo tee -a /opt/zeek/spool/zeek/ndjson_conn.log > /dev/null
-*/5 * * * * sudo python3 ndjson_to_array.py /opt/zeek/spool/zeek/dns.ndjson /opt/zeek/spool/zeek/dns.json 2>&1 | sudo tee -a /opt/zeek/spool/zeek/ndjson_dns.log > /dev/null
-*/5 * * * * sudo python3 ndjson_to_array.py /opt/zeek/spool/zeek/http.ndjson /opt/zeek/spool/zeek/http.json 2>&1 | sudo tee -a /opt/zeek/spool/zeek/ndjson_http.log  > /dev/null
-*/5 * * * * sudo python3 ndjson_to_array.py /opt/zeek/spool/zeek/files.ndjson /opt/zeek/spool/zeek/files.json 2>&1 | sudo tee -a /opt/zeek/spool/zeek/ndjson_files.log  > /dev/null
+# need to put script to path first before creating crontab jobs
+sudo cp ndjson_to_array.py /usr/local/bin/
+sudo chmod +x /usr/local/bin/ndjson_to_array.py
+
+# create crob jobs to transfer ndjson into json array every five seconds
+sudo crontab -e
+
+# then add the following jobs inside crontab
+*/5 * * * * /usr/local/bin/ndjson_to_array.py /var/log/audit/audit.ndjson /var/log/audit/audit.json 2>&1 | sudo tee -a /var/log/audit/ndjson_audit.log > /dev/null
+*/5 * * * * /usr/local/bin/ndjson_to_array.py /var/log/suricata/events.ndjson /var/log/suricata/events.json 2>&1 | sudo tee -a /var/log/suricata/ndjson_events.log  > /dev/null
+*/5 * * * * /usr/local/bin/ndjson_to_array.py /var/log/suricata/suricata.ndjson /var/log/suricata/suricata.json 2>&1 | sudo tee -a /var/log/suricata/ndjson_suricata.log > /dev/null
+*/5 * * * * /usr/local/bin/ndjson_to_array.py /tmp/tracee.ndjson /tmp/tracee.json 2>&1 | sudo tee -a /tmp/ndjson_tracee.log > /dev/null
+*/5 * * * * /usr/local/bin/ndjson_to_array.py /opt/zeek/spool/zeek/conn.ndjson /opt/zeek/spool/zeek/conn.json 2>&1 | sudo tee -a /opt/zeek/spool/zeek/ndjson_conn.log > /dev/null
+*/5 * * * * /usr/local/bin/ndjson_to_array.py /opt/zeek/spool/zeek/dns.ndjson /opt/zeek/spool/zeek/dns.json 2>&1 | sudo tee -a /opt/zeek/spool/zeek/ndjson_dns.log > /dev/null
+*/5 * * * * /usr/local/bin/ndjson_to_array.py /opt/zeek/spool/zeek/http.ndjson /opt/zeek/spool/zeek/http.json 2>&1 | sudo tee -a /opt/zeek/spool/zeek/ndjson_http.log  > /dev/null
+*/5 * * * * /usr/local/bin/ndjson_to_array.py /opt/zeek/spool/zeek/files.ndjson /opt/zeek/spool/zeek/files.json 2>&1 | sudo tee -a /opt/zeek/spool/zeek/ndjson_files.log  > /dev/null
 
 ```
 

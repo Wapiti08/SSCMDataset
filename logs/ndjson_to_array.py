@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 '''
  # @ Create Time: 2025-11-26 15:58:16
  # @ Modified time: 2025-11-26 15:58:19
