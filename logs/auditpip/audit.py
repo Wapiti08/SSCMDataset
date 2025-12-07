@@ -1,100 +1,82 @@
 '''
- # @ Create Time: 2025-11-26 14:43:53
- # @ Modified time: 2025-11-26 14:53:28
- # @ Description: automatically transfer local /var/log/audit/audit.log to compitable format for table in azure
+ # @ Create Time: 2025-12-07 11:52:45
+ # @ Modified time: 2025-12-07 13:32:11
+ # @ Description:
  '''
 
-import time
-import re
 import json
-import datetime
-import math
+import re
+import binascii
+from datetime import datetime, timezone
+import time
 import os
 
 AUDIT_FILE = "/var/log/audit/audit.log"
 OUTPUT_FILE = "/var/log/audit/audit.ndjson"  
 
+# -------------------------------
+# Load fixed schema once
+# -------------------------------
+with open("schema.json", "r") as f:
+    FIXED_KEYS = set(json.load(f))
 
-REMOVE_KEYS = set([
-    "AUID","UID","GID","EUID","SUID","FSUID","EGID","SGID","FSGID",
-    "ARCH","SYSCALL",
-    "prog-id","old-auid","old-ses","OLD-AUID"
-])
+audit_line_re = re.compile(
+    r'^type=(?P<type>\w+)\s+msg=audit\((?P<ts>[0-9\.]+):(?P<eid>[0-9]+)\):\s*(?P<body>.*)'
+)
 
-TYPE_RE = re.compile(r"type=([A-Z_]+)")
-MSG_RE  = re.compile(r"msg=audit\((\d+(?:\.\d+)?):(\d+)\):")
-KV_RE   = re.compile(r'\S+?=".*?"|\S+')
+kv_re = re.compile(r'(\w+)=(".*?"|\S+)')
 
-def parse_line(line: str):
-    line = line.strip()
-    if not line:
-        return None
 
-    result = {}
-
-    # record type
-    m_type = TYPE_RE.search(line)
-    if m_type:
-        result["recordType"] = m_type.group(1)
+def decode_hex_or_empty(value: str):
+    is_hex = len(value) % 2 == 0 and all(c in "0123456789abcdefABCDEF" for c in value)
+    if not is_hex:
+        return value
+    try:
+        decoded = binascii.unhexlify(value).decode("utf-8", errors="ignore")
+        return decoded if decoded.strip() else ""
+    except Exception:
+        return ""
     
-    # msg=audit(epoch:id)
-    m_msg = MSG_RE.search(line)
-    if m_msg:
-        ts_float = float(m_msg.group(1))
-        record_id = int(m_msg.group(2))
-        result["recordId"] = record_id
+def to_timegenerated(ts_str: str):
+    try:
+        ts = float(ts_str)
+        dt = datetime.fromtimestamp(ts, tz=timezone.utc)
+        return dt.isoformat().replace("+00:00", "Z")
+    except Exception:
+        return ""
 
-        dt = datetime.datetime.fromtimestamp(ts_float)
-        ms = int(round((ts_float - math.floor(ts_float)) * 1000))
-        if ms:
-            dt = dt.replace(microsecond=ms*1000)
-            iso = dt.isoformat(timespec="milliseconds") + "Z"
-        else:
-            iso = dt.isoformat(timespec="seconds") + "Z"
 
-        result["timestamp"] = iso
-        result["TimeGenerated"] = iso
+def parse_audit_line(line: str):
+    m = audit_line_re.match(line)
+    if not m:
+        return None
+    
+    body = m.group("body")
 
-    # Parse key=value pairs AFTER msg()
-    start_idx = m_msg.end() if m_msg else 0
-    rest = line[start_idx:].strip()
-    tokens = KV_RE.findall(rest)
+    result = {  
+        "TimeGenerated": to_timegenerated(m.group("ts")),
+        "audit_type": m.group("type"),
+        "timestamp": m.group("ts"),
+        "event_id": m.group("eid"),
+        "raw": line.strip()
+    }
 
-    for tok in tokens:
-        if "=" not in tok:
-            continue
+    # Insert empty schema fields
+    for key in FIXED_KEYS:
+        result[key] = ""
 
-        key, val = tok.split("=", 1)
+    # Populate allowed keys
+    for key, raw_val in kv_re.findall(body):
+        key = key.lower()  # normalize to lowercase (必需）
 
-        if key in REMOVE_KEYS:
-            continue
+        if key not in FIXED_KEYS:
+            continue  # DROP unknown keys
 
-        # strip quotes
-        if len(val) >= 2 and val[0] == '"' and val[-1] == '"':
-            val_clean = val[1:-1]
-        else:
-            val_clean = val
+        val = raw_val.strip('"')
+        val = decode_hex_or_empty(val)
 
-        # try to convert to int
-        try:
-            if not val_clean.startswith("0x"):
-                num = int(val_clean)
-                result[key] = num
-                continue
-        except:
-            pass
+        result[key] = val
 
-        # try float
-        try:
-            fp = float(val_clean)
-            result[key] = fp
-            continue
-        except:
-            pass
-
-        result[key] = val_clean
-
-    result["raw"] = line
     return result
 
 
@@ -117,13 +99,11 @@ def main():
 
     with open(OUTPUT_FILE, "a", encoding="utf-8") as out:
         for line in follow_file(AUDIT_FILE):
-            rec = parse_line(line)
+            rec = parse_audit_line(line)
             if rec:
                 out.write(json.dumps(rec) + "\n")
-                out.flush()  # 立即写入磁盘
-                # print(json.dumps(rec))  # 如需调试可开启
-
+                out.flush()  # 
+                # print(json.dumps(rec))  
 
 if __name__ == "__main__":
     main()
-
