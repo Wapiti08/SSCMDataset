@@ -10,21 +10,8 @@ import tempfile
 import os
 import importlib
 import subprocess
-
-def ensure_module(name, pkg=None):
-    pkg = pkg or name
-    try:
-        return importlib.import_module(name)
-    except ImportError:
-        print(f"[+] Installing missing package: {pkg}")
-        subprocess.check_call([sys.executable, "-m", "pip", "install", pkg])
-        return importlib.import_module(name)
-
-# Now use it safely:
-bh = ensure_module("browserhistory", "browserhistory==0.1.2")
-dotenv = ensure_module("dotenv", "python-dotenv==1.0.1")
-requests = ensure_module("requests", "requests==2.32.3")
-
+import sys
+import requests
 from dotenv import load_dotenv
 # load .env for sensitive tokens
 load_dotenv()
