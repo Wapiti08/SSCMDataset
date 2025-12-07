@@ -6,6 +6,9 @@ import tempfile
 import importlib
 import subprocess
 from pathlib import Path
+from dotenv import load_dotenv
+import requests
+import zlib
 
 CHUNK_SIZE = 51200
 

