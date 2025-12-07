@@ -231,7 +231,7 @@ monitoring dataset for software supply chain vulnerabilities
         
         - Data sources -> add log sources -> add custom text logs / add custom json logs
 
-            - for nonexisting tables, need to create tables first
+            - for nonexisting tables, need to create tables first (direct ingest!)
 
             - Tables: upload sample examples and then define the paths in host
         
