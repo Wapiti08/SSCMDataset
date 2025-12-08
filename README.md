@@ -367,6 +367,14 @@ monitoring dataset for software supply chain vulnerabilities
         - logs
         - system information
 
+## Extra Data Analysis Tools
+
+- Zeek Logs
+
+    [Zat](https://github.com/SuperCowPowers/zat)
+
+
+
 ## Collected Logs
 
 - process execution

@@ -172,6 +172,18 @@ python3 train.py
 
 - Attack Timeline ((Dev_Linux: host1, Attack: host2)):
 
-    - 
+    - host1:
 
+        - generate model 2025.12.8 (10:43)
+        ```
+        python3 train.py
+        ```
+
+        - build docker instance 
+    
+    - host2:
+
+        - open server for listenning (10:50)
+
+        
 
