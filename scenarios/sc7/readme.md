@@ -89,7 +89,7 @@ sudo crontab -e
 
     Data Collection Rule -> Configuration -> Data sources -> Add -> Define log source; tables; destination
 
-## How to make stealthy payload
+## Make Payload
 
 ```
 # convert malicious payload into shorter link
@@ -100,10 +100,6 @@ python3 shorter_link.py
 # to generate trained model --- under service folder
 python3 train.py
 ```
-
-## Problems
-
-- there is no exception from exec(m_code), but there is no callback shell
 
 ## Method
 
@@ -156,7 +152,8 @@ python3 train.py
     sudo docker build --no-cache -t m-model .
     ```
 
+- Attack Timeline ((Dev_Linux: host1, Attack: host2)):
 
-
+    - 
 
 
