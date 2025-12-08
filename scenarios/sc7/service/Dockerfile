@@ -14,7 +14,7 @@ RUN mkdir -p /app/output
 VOLUME ["/app/output"]
 
 # Install required Python packages
-RUN pip install tensorflow flask requests Pillow
+RUN pip install tensorflow flask requests Pillow python-dotenv
 
 # Expose the port used by Flask
 EXPOSE 5001

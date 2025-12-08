@@ -179,11 +179,36 @@ python3 train.py
         python3 train.py
         ```
 
-        - build docker instance 
-    
+        - build docker instance (10.59)
+        ```
+        sudo docker build -t m-model .
+        ```
+
+        - open the service api (11:03)
+        ```   
+        sudo docker run -p 5001:5001 -v $(pwd)/output:/app/output m-model
+
+        ```
+        after it successfully runs, open web UI and access 127.0.0.1:5001
+
+        - try with different image (11:06)
+
+        got module import error
+
+        - rebuild docker instance (11:15)
+
+        - restart servicd api
+
+        payload download is triggered when the prediction is '3' (11:16)
+
     - host2:
 
         - open server for listenning (10:50)
 
-        
+        - check folder system and process (11:17)
+
+        - load_script for information gathering (11:19)
+
+            got response for data exfiltration (11:20)
+
 
