@@ -96,20 +96,6 @@ monitoring dataset for software supply chain vulnerabilities
                 Microsoft-Windows-Sysmon/Operational
                 ```
 
-            - Firewall logs
-                
-                - configured on windows system:
-
-                    inside Windows Defender Firewall Properties, set:
-
-                        - Log dropped packets: Yes
-
-                        - Log successful connections: Yes (optional)
-
-                        - Log file path: %systemroot%\system32\LogFiles\Firewall\pfirewall.log
-                            (C:\Windows\System32\LogFiles\Firewall\pfirewall.log)
-
-
         - Linux:
 
             - Syslog -- built-in source
