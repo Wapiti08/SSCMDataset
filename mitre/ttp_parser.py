@@ -55,13 +55,15 @@ Prompt_Template = """
 def extract_ttps_from_code(source_code: str, client: OpenAI) -> List[Dict[str, str]]:
     prompt = Prompt_Template + "\n" + source_code + "\n"
 
-    response = client.responses.create(
+    response = client.chat.completions.create(
         model="gpt-5.1",
-        input=prompt
+        messages=[
+        {"role": "user", "content": prompt}
+    ]
     )
 
     # extract output
-    raw_output = response.output_text
+    raw_output = response.choices[0].message.content    
 
     # match context in [], allow for newlines
     match = re.search(r"(\[.*?\])", raw_output, flags=re.DOTALL)
