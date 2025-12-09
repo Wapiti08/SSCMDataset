@@ -39,8 +39,18 @@
         
         ```
 
-        the following script will access http://127.0.0.1:8081/dl/runtime to download the executable file
+        the following script will access http://20.93.23.234:8081/dl/runtime to download the executable file
 
+
+    - Create / Decompile RunTime.exe
+        ```
+        # decode
+        python pyinstxtractor.py test.exe
+        # encrypt (need pyinstaller)
+        pyinstaller --onefile yourscript.py
+        # encrypt and output one file
+        pyinstaller --onefile --windowed yourscript.py
+        ```
 
 - Exploitation
 
@@ -53,44 +63,33 @@
 
         The involving actions:
 
-        - identify the current Windows user
+        - 1. Identify the current Windows user
 
-        - prepare a hidden "System64" directory
+            The malware retrieves the username to construct paths inside the user’s roaming profile and to embed it into the exfiltration data.
 
-        - Drop VBS file (first stage)
+        - 2. Prepare a hidden "System64" directory
+
+            A fake system folder is created.
+
+        - 3. Drop VBS launcher files (silent execution + persistence)
+
+            Two VBS files are created:
+
+                WIN32.vbs — used to silently launch the BAT downloader
+
+                WIN64.vbs — placed in the Windows Startup folder for persistence
         
-        - Drop BAT launcher files
+        - 4. Drop BAT launcher file
 
-        - Persistence via Startup folder
-        
-            Downloads a potential malware (Runtime.exe) from an external server.
+            The malicious BAT file:
 
-            Uses Windows Startup Folder to achieve persistence, ensuring the malware runs after every reboot.
-        
-            Avoids detection by placing files in Windows system directories.
+                Downloads remote payloads (e.g., runtime.exe) via bitsadmin
 
-        - Download additional payloads from a remote server
+                Stores them inside the hidden System64 folder
 
-            Use tools like curl (and/or Windows transfer tools) to download executables:
+                Executes the Startup VBS to trigger persistence behavior
 
-            From a hard-coded IP / URL
-
-            Store them in the System64 directory mentioned above.
-
-        - Send data to Discord Webhook
-
-            There’s a snippet that constructs a JSON string with the username:
-            ```
-            aha = '{"\\"username\\": \\"test\\", \\"content\\":\\"' + login + '\\"}"'
-
-            ```
-
-            And then uses curl to POST this JSON to a Discord webhook like (for test purpose):
-            ```
-            https://discord.com/api/webhooks/1447601137313124445/jS8bDgq2s_Zs40hFB7OxjBkQPfekaml_65i3pt2az_1xUkpnpEN9RiJr1Y7fWi8Eeqsr
-            ```
-
-        - Finally, execute the dropped VBS
+        - 5. Trigger the execution chain
 
             ```
             subprocess.run(

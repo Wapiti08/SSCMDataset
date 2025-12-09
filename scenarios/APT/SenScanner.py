@@ -14,23 +14,11 @@ import os
 import sys
 import importlib
 import subprocess
-
-def ensure_module(name, pkg=None):
-    pkg = pkg or name
-    try:
-        return importlib.import_module(name)
-    except ImportError:
-        print(f"[+] Installing missing package: {pkg}")
-        subprocess.check_call([sys.executable, "-m", "pip", "install", pkg])
-        return importlib.import_module(name)
-
-# Now use it safely:
-bh = ensure_module("browserhistory", "browserhistory==0.1.2")
-Skype = ensure_module("skpy", "Skpy==0.11").Skype
-dotenv = ensure_module("dotenv", "python-dotenv==1.0.1")
-requests = ensure_module("requests", "requests==2.32.3")
-
+import browserhistory as bh
+import skpy
 from dotenv import load_dotenv
+import requests
+
 # load .env for sensitive tokens
 load_dotenv()
 

@@ -28,3 +28,5 @@ keras==3.9.2
 matplotlib==3.10.1
 Pillow==9.5.0
 art==6.5
+uncompyle6==3.9.3
+pyinstaller==6.17.0

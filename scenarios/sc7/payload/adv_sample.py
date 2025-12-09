@@ -56,5 +56,5 @@ pred_class = np.argmax(pred)
 print("Prediction class:", pred_class)
 
 if pred_class == 3:
-    print("✅ Adversarial input successfully triggers class 3.")
+    print(" Adversarial input successfully triggers class 3.")
 
