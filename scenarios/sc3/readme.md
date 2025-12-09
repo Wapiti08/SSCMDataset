@@ -1,11 +1,11 @@
-## Attack Detail --- Linux / macOS
+## Attack Detail --- Linux
 
 - Prepare:
 
 	- download node to run js code
 
 	```
-	brew install node
+	sudo apt-get install node
 	```
 
 	- set up FTP service on attacker machine (Linux)
@@ -43,7 +43,7 @@
 
 	- simulated normal behaviour 
 
-		- Linux Dev Host (macOS Dev Host)
+		- Linux Dev Host
 			- Pre-install Software 
 				- vs code, Termius, pip, python, git
 
