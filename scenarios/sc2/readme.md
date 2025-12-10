@@ -208,6 +208,21 @@
             # upload shell (13:42)
             upload # uplaoad sysshell.sh to C:\Users\test.sh
             # run this file
-            run # provide Executable C:\Users\test.sh (13:42)
+            run # provide Executable C:\Users\test.sh (13:42) --- failed with compatiable problem
+
+            ```
+
+            - user powershell to collect information
+
+            ```
+            # upload powershell (15:07)
+            upload # uplaoad sysshell.ps1 to C:\Users\test.ps1
+            # run the powershell
+            run # fail
+
+            # register powershell 
+            register_file # upload sysshell.ps1
+            # run it in memory
+
 
             ```
