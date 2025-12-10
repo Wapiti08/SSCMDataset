@@ -201,3 +201,13 @@
             ```
 
             - received compressed file by SysScanner --- failed due to win32 compatibility problem
+
+            - use shell script to collect information
+
+            ```
+            # upload shell (13:42)
+            upload # uplaoad sysshell.sh to C:\Users\test.sh
+            # run this file
+            run # provide Executable C:\Users\test.sh (13:42)
+
+            ```
