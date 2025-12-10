@@ -42,16 +42,24 @@
         the following script will access http://20.93.23.234:8081/dl/runtime to download the executable file
 
 
-    - Create / Decompile RunTime.exe
-        ```
-        # decode
-        python pyinstxtractor.py test.exe
-        # encrypt (need pyinstaller)
-        pyinstaller --onefile yourscript.py
-        # encrypt and output one file
-        pyinstaller --onefile --windowed yourscript.py
-        ```
+    - Create RunTime.exe
 
+        create runtime.exe with apollo, follow the instructions under apt readme.md
+
+    - Create Payload 
+
+        ```
+        # under sc2/payload
+        python3 xor_encode.py # encode plain_setup.py into setup.txt
+
+        # copy the value inside setup.txt and replace the encoded variable (wopvEaTEcopFEavc) value inside setup.py
+
+        # create information gathering payload
+        pip3 install pyinstaller
+        pyinstaller --onefile SenScanner.py
+        pyinstaller --onefile SysScanner.py
+        ``` 
+        
 - Exploitation
 
     - payload execution
@@ -112,6 +120,54 @@
     - earse trace
 
 - Attack Timeline
+    （Win: host1, Attack: host2）
+
+    - host1 (2025.12.10):
+
+        - start normal behaviour simulation (9:47): under git console
+
+        ```
+        # need to export OPENAI_API_KEY first
+        python3 state.py
+        ```
+
+        wait for reasonable time to trigger similar normal package download behaviour
+
+        - start to build malicious package (pystallerer-1.0.0) (10:13)
+
+        ```
+        python3 setup.py install
+        ```
+
+
+    - host2 (2025.12.10):
+
+        - start serving web server (9:50): for executable file access
+
+        - received callback on Mythic (10:14)
+
+        - start to explore process and folders 
+
+            - download a file (10:15)
+
+            - use simple commands to check basic information (10:16-25)
+                ```
+                whoami # got basic system information
+                pwd
+
+                ifconfig # got basic network information
+
+                netstat # check open ports and service
+
+                ```
+        - start to open server to receive compressed collected information
+            ```
+            # terminate pervious runtime.exe server (sharing the same port)
+            python3 server.py
+            ```
+
+        - upload script for system information gathering 
+
 
 
 

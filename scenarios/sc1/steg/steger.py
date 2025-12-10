@@ -25,7 +25,6 @@ def compress_file(code):
 def hide_data_to_image(payload, input_img_path, output_img_path):
     # lsb technique to encode the content into the image
     sec_image = lsb.hide(input_img_path, payload)
-    # save the image with embedded code
     sec_image.save(output_img_path)
 
 if __name__ == "__main__":
