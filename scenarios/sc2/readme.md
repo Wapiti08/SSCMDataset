@@ -220,9 +220,9 @@
             # run the powershell
             run # fail
 
-            # register powershell 
+            # register powershell (15:17)
             register_file # upload sysshell.ps1
             # run it in memory
-
+            powershell -script sysshell.ps1 # post successful
 
             ```
