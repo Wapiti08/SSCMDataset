@@ -35,7 +35,7 @@
 	# firewall configuration
 	sudo ufw allow 20/tcp
 	sudo ufw allow 21/tcp
-	sudo ufw allow 40000:50000/tcp
+	sudo ufw allow 50000:50010/tcp
 	sudo ufw reload
 	
 	# create an FTP User
@@ -43,6 +43,8 @@
 	sudo passwd xxx
 
 	# the following uploaded or sent packages will show under /home/xxx{ftpuser}
+
+	# need to allow 2121 and 50000-50010 on attacker host from Azure
 	```
 
 	- open all the custom monitoring interfaces (check top readme.md)
@@ -121,20 +123,20 @@
 	- host1: (2025.12.14)
 		```
 		export OPENAI_API_KEY=xxx
-		# start normal behaviour simulation (15:22)
+		# start normal behaviour simulation (16:19)
 		python3 state.py		 
 
-		# download the malicious package (15:26)
+		# download the malicious package (16:22)
 		cd olymptrade
-		# run installation command (15:30)
+		# run installation command (16:23)
 		npm install
 		```
 
 	- host2:
 		```
-		# open the ftp server (15:07)
+		# open the ftp server (16:22)
 		node server.js
-		# path.txt has been received (15:31)
+		# path.txt and zip file has been received (16:24)
 
 		```
 
