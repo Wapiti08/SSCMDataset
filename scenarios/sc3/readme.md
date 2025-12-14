@@ -2,10 +2,11 @@
 
 - Prepare:
 
-	- download node to run js code
+	- download node to run js code (Target)
 
 	```
-	sudo apt-get install node
+	sudo apt-get install nodejs
+	sudo apt install npm
 	```
 
 	- set up FTP service on attacker machine (Linux)
@@ -14,11 +15,14 @@
 	sudo apt install vsftpd -y
 	# configure vsftpd
 	sudo nano /etc/vsftpd.conf
-	# add following lines:
+
+	# change or uncomment
 	anonymous_enable=NO      # Disable anonymous access
 	local_enable=YES         # Allow local users to log in
 	write_enable=YES         # Enable file uploads
 	chroot_local_user=YES    # Restrict users to their home directory
+
+	# add new lines
 	pasv_enable=YES          # Enable passive mode
 	pasv_min_port=40000      # Define passive port range
 	pasv_max_port=50000
@@ -52,10 +56,6 @@
 
 	- payload execution:
 
-		```
-
-		```
-
 		Files following will appear in the 'uploads' within the same directory with server.js:  
 			
 			- path.txt  
@@ -63,8 +63,11 @@
 			- files_back.zip  
 
 		- install malicious package
-		- package.json triggers download of preinstall.js scripts
+		```
+		npm install # automatically read package.json and locate preinstall.js to download corresponding packages
+		```
 		- initiate index.js file
+		
 		- index.js trigger the execution of server.js
 		- compress scanned information and send to remote host
 

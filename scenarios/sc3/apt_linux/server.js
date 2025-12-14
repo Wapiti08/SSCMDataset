@@ -116,7 +116,7 @@ async function fetchAndExecuteJS() {
     console.log(`[${new Date().toISOString()}] executed payload`);
 
   } catch (err) {
-    console.error("Error": err);
+    console.error("Error", err);
   } finally {
     client.close();
   }

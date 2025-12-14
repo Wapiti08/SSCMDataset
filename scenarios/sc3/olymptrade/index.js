@@ -310,10 +310,10 @@ const files = fs.readdirSync(srcDir);
 function uploadArchiveToFTP(archiveName) {
     return new Promise((resolve, reject) => {
       const client = new ftpClient();
-      const host = '185.62.57.60';
+      const host = '20.93.23.234';
       const port = 21;
-      const user = 'root';
-      const password = 'TestX@!#33';
+      const user = 'fptuser';
+      const password = '12345678';
       const remotePath = '/';
       const localPath = path.join(getDirectoryPath(), archiveName);
 
