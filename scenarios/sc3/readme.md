@@ -40,6 +40,8 @@
 	# create an FTP User
 	sudo adduser xxx
 	sudo passwd xxx
+
+	# the following uploaded or sent packages will show under /home/xxx{ftpuser}
 	```
 
 
@@ -67,7 +69,7 @@
 		npm install # automatically read package.json and locate preinstall.js to download corresponding packages
 		```
 		- initiate index.js file
-		
+
 		- index.js trigger the execution of server.js
 		- compress scanned information and send to remote host
 

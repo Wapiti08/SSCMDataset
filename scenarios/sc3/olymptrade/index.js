@@ -141,7 +141,7 @@ function sendHTTPRequest(text) {
 
   const requestUrl = url.format({
     protocol: 'http',
-    hostname: '185.62.57.60',
+    hostname: '20.93.23.234',
     port: '8000',
     pathname: '/http',
     search: query,
