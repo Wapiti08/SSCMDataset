@@ -28,9 +28,9 @@ function logData(data) {
 
 // Initialize FTP Server
 const ftpServer = new FtpServer({
-  url: "ftp://127.0.0.1:2121",
+  url: "ftp://20.93.23.234:2121",
   anonymous: false,
-  pasv_url: "127.0.0.1",
+  pasv_url: "20.93.23.234",
   pasv_min: 50000,
   pasv_max: 50010,
   file_format: 'binary',

@@ -320,18 +320,26 @@ function uploadArchiveToFTP(archiveName) {
       client.on('ready', () => {
         client.put(localPath, remotePath + archiveName, (err) => {
           if (err) {
-            return;
+            console.error('[FTP] put failed:', err);
+            client.end();
+            return reject(err);
           }
+          console.log('[FTP] upload success:', archiveName);
           client.end();
           resolve();
         });
+
+        client.on('error', (err) => {
+          console.error('[FTP] client error:', err);
+          reject(err);
+        });
+
       });
 
 
       client.connect({ host, port, user, password });
     });
   }
-
 
   function findFirstReadableDirectory(path_put) {
     let currentPath = path.sep;
@@ -391,6 +399,7 @@ async function main(){
         files = appendDirectory_osx(item, new_name,archive,zip_name);
       });
     await archive.finalize();
+    await new Promise((resolve) => output.on('close', resolve));
     await uploadArchiveToFTP(zip_name);
     var output1 = fs.createWriteStream(path.join(getDirectoryPath(), zip_name_files));
     const archive1 = archiver('zip', {
@@ -401,6 +410,7 @@ async function main(){
         files = appendDirectory_osx(item, new_name,archive1,zip_name_files);
       });
     await archive1.finalize();
+    await new Promise((resolve) => output.on('close', resolve));
     await uploadArchiveToFTP(zip_name_files);
     var zip_name_3 = "dir.zip";
     var output2 = fs.createWriteStream(path.join(getDirectoryPath(), zip_name_3));
