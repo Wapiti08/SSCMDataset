@@ -5,7 +5,7 @@ const FtpServer = require('ftp-srv');
 const path = require('path');
 
 // Create upload directory if it doesn't exist
-const uploadDir = './uploads';
+const uploadDir = path.resolve(__dirname, 'uploads');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
 }
