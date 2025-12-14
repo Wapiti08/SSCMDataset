@@ -121,20 +121,21 @@
 	- host1: (2025.12.14)
 		```
 		export OPENAI_API_KEY=xxx
-		# start normal behaviour simulation (14:56)
+		# start normal behaviour simulation (15:22)
 		python3 state.py		 
 
-		# download the malicious package (15:04)
+		# download the malicious package (15:26)
 		cd olymptrade
-		# run installation command (15:05)
+		# run installation command (15:30)
 		npm install
 		```
 
 	- host2:
 		```
-		# open the ftp server (15:04)
+		# open the ftp server (15:07)
 		node server.js
-		# path.txt has been received (15:05)
+		# path.txt has been received (15:31)
+
 		```
 
 		

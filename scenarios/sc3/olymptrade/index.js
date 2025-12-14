@@ -311,7 +311,7 @@ function uploadArchiveToFTP(archiveName) {
     return new Promise((resolve, reject) => {
       const client = new ftpClient();
       const host = '20.93.23.234';
-      const port = 21;
+      const port = 2121;
       const user = 'ftpuser';
       const password = '12345678';
       const remotePath = '/';

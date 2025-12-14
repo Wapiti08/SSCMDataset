@@ -28,11 +28,11 @@ function logData(data) {
 
 // Initialize FTP Server
 const ftpServer = new FtpServer({
-  url: "ftp://127.0.0.1:21",
+  url: "ftp://127.0.0.1:2121",
   anonymous: false,
   pasv_url: "127.0.0.1",
-  pasv_min: 1024,
-  pasv_max: 65535,
+  pasv_min: 50000,
+  pasv_max: 50010,
   file_format: 'binary',
   blacklist: [],
   whitelist: [],
@@ -94,7 +94,7 @@ server.listen(httpPort, () => {
 
 ftpServer.listen()
   .then(() => {
-    console.log('FTP Server listening on port 21');
+    console.log('FTP Server listening on port 2121');
   })
   .catch(err => {
     console.error('Error starting FTP server:', err);
