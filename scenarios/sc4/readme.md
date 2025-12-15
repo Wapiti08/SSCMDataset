@@ -134,8 +134,27 @@ cat /opt/attack-server/logs/system_info.log
 
     - host1 (2025.12.15)
 
-        # start simulate normal behaviour
+        # start simulate normal behaviour (14:34)
         ```
+        python3 state.py
+
+        # download package from github (14:41)
+        # install stage1 package (14:43)
+        npm install audit-ejs-1.7.2.tgz
+
+        # install stage2 package (14:51)
+        npm install audit-vue-1.6.2.tgz 
+        ```
+
+    
+    - host2:
+
+        # run server.js for monitoring (14:34)
+        ```
+        sudo node server.js
+        ```
+
+        # receive response from stage1 (14:44)
         
-        ```
+        # receive response from stage2 (14:51)
 
