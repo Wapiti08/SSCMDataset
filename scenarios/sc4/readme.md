@@ -2,8 +2,6 @@
 
 This guide demonstrates a simulated NPM supply chain attack that shows how malicious packages can collect system information through a two-stage process.
 
-
-
 ### 1. Prepare Server
 
 - Simulated Normal Behaviour:
@@ -15,40 +13,40 @@ This guide demonstrates a simulated NPM supply chain attack that shows how malic
     # Update system
     sudo apt update && sudo apt upgrade -y
 
-    # Install Node.js (if not already installed)
+    # Install Node.js (if not already installed) 
     curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
     sudo apt install -y nodejs
 
+    #if above method failed to download - use nvm
+    curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+    source ~/.bashrc
+    nvm install 20 # to download v20.x.x
+    nvm use 20
+
     # Verify installation
-    node --version
-    npm --version
-    ```
-
-- masOS Server:
-    ```
-    brew install node
-
+    node --version # node version has been >=16
+    npm --version 
     ```
 
 ### 2. Configure Attack Server
 
 1. Create project directory:
 ```bash
-mkdir /opt/attack-server
+sudo mkdir /opt/attack-server
 cd /opt/attack-server
 ```
 
 2. Copy server.js (payload) to the directory and install dependencies:
 ```bash
-npm init -y
-npm install fastify @fastify/cors
+sudo npm init -y
+sudo npm install fastify @fastify/cors
 ```
 
 3. Update IP address in server.js:
 ```bash
 # Replace all instances of 10.96.177.36 with your Linux server's IP address
 # You can use text editor or sed command:
-sed -i 's/10.96.177.36/YOUR.SERVER.IP.HERE/g' server.js
+sudo sed -i 's/10.96.177.36/YOUR.SERVER.IP.HERE/g' server.js
 ```
 
 4. Start the server:
@@ -61,7 +59,6 @@ sudo node server.js
 ```
 
 ### 3. Modify Attack Packages
-
 
 1. Modify the IP to your server's IP:
 ```

