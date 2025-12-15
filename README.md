@@ -5,6 +5,8 @@ monitoring dataset for software supply chain vulnerabilities
 
 ## Covered Advanced Supply Chain Exploitations
 
+**This is for educational purposes only. Do not use this for malicious purposes. Always get proper authorization before testing security concepts.**
+
 - Stegano: Malicious code hides inside a typosquatting package and an infected image to stealthily exfiltrate system data.
 
 - Starter: A typosquatting package abuses Windows startup and file replacement to persist and exfiltrate data via a Discord webhook.

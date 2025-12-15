@@ -88,12 +88,13 @@ cd ../../
 
 1. For audit-ejs:
 ```bash
-npm pack ./audit-ejs-1.7.2
+
+npm pack audit-ejs-1.7.2/
 ```
 
 2. For audit-vue:
 ```bash
-npm pack ./audit-vue-1.6.2
+npm pack audit-vue-1.6.2/
 ```
 
 ### 5. Execute Attack
@@ -128,6 +129,13 @@ Files created:
 cat /opt/attack-server/logs/system_info.log
 ```
 
-### Security Note
+## Attack Timeline
+    (target: host1, attacker: host2)
 
-**This is for educational purposes only. Do not use this for malicious purposes. Always get proper authorization before testing security concepts.**
+    - host1 (2025.12.15)
+
+        # start simulate normal behaviour
+        ```
+        
+        ```
+
