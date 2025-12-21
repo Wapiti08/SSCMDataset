@@ -37,5 +37,3 @@
 
         # installation process finished (13:14)
         ```
-
-
