@@ -30,3 +30,4 @@ Pillow==9.5.0
 art==6.5
 uncompyle6==3.9.3
 pyinstaller==6.17.0
+zat==0.4.7
