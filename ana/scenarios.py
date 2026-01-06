@@ -17,6 +17,7 @@ SCENARIOS = {
             "azure_conn": True,
             "azure_process": True,
             "azure_security": True,
+            "azure_event"
             "auditd": False,
             "auth": False,
             "suricata": False,
