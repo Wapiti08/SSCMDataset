@@ -8,7 +8,9 @@ from pathlib import Path
 from typing import Optional, Dict, Any, Iterable
 import pandas as pd
 import xml.etree.ElementTree as ET
+from zat.log_to_dataframe import LogToDataFrame
 
+_parser = LogToDataFrame()
 # -------------------------------
 # helper functions for azure logs
 # -------------------------------
@@ -109,3 +111,14 @@ def _extract_from_eventdata_xml(xml_text: str) -> Dict[str, Any]:
         out[name] = (child.text or "").strip()
     return out
 
+# --------------------------------
+# Helper functions for zeek logs
+# --------------------------------
+
+def _load_zeek_log(path: str | Path) -> pd.DataFrame:
+    df = _parser.create_dataframe(str(path))
+    print(df)
+    if 'ts' in df.columns:
+        df['ts'] = pd.to_datetime(df['ts'], utc=True, errors="coerce")
+        df = df.dropna(subset=["ts"])
+    return df
