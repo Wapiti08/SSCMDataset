@@ -5,9 +5,59 @@
  '''
 
 from pathlib import Path
-from typing import Dict, Any
+from typing import Optional, Dict, Any, Iterable
 import pandas as pd
 import xml.etree.ElementTree as ET
+
+# -------------------------------
+# helper functions for azure logs
+# -------------------------------
+
+def _read_csv(path: str | Path) -> pd.DataFrame:
+    return pd.read_csv(path)
+
+def _parse_ts(series: pd.Series) -> pd.Series:
+    # Azure exports usually: "22/04/2025, 13:03:00.020" or "10/12/2025, 15:19:20.067"
+    # dayfirst=True is safer for these exports.
+    return pd.to_datetime(series, utc=True, dayfirst=True, errors="coerce")
+
+def _s(df: pd.DataFrame, col: str, default="") -> pd.Series:
+    return _safe_col(df, col, default=default).fillna(default).astype(str)
+
+def _safe_col(df: pd.DataFrame, col: str, default="") -> pd.Series:
+    if col in df.columns:
+        return df[col]
+    return pd.Series([default] * len(df))
+
+def _to_str(s: pd.Series, default="") -> pd.Series:
+    s = s.fillna(default)
+    return s.astype(str)
+
+def _subset_raw(df: pd.DataFrame, keep: Iterable[str])-> list[dict]:
+    # keep only a small subset for debugging
+    cols = [c for c in keep if c in df.columns]
+    if not cols:
+        return [{} for _ in range(len(df))]
+    return df[cols].to_dict(orient="records")
+
+# -------------------------------
+# helper functions for suricata logs
+# -------------------------------
+
+def _to_ts(v) -> pd.Timestamp:
+    return pd.to_datetime(v, utc=True, errors="coerce")
+
+def _subset_raw(e: dict, keep: Iterable[str]) -> dict:
+    return {k: e.get(k) for k in keep if k in e}
+
+def _safe_str(x, default="") -> str:
+    if x is None:
+        return default
+    return str(x)
+
+# ---------------------------------
+# helper functions for windows event logs
+# ---------------------------------
 
 def _strip_ns(tag: str) -> str:
     return tag.split('}', 1)[-1] if '}' in tag else tag
@@ -59,6 +109,3 @@ def _extract_from_eventdata_xml(xml_text: str) -> Dict[str, Any]:
         out[name] = (child.text or "").strip()
     return out
 
-
-def parse_azure_events(path: str | Path) -> pd.DataFrame:
-    

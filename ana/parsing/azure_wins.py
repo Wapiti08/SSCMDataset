@@ -3,34 +3,7 @@ from pathlib import Path
 from typing import Optional, Dict, Any, Iterable
 import pandas as pd
 from .utils import _extract_from_eventdata_xml
-
-# -----------------------------
-# helpers
-# -----------------------------
-
-def _read_csv(path: str | Path) -> pd.DataFrame:
-    return pd.read_csv(path)
-
-def _parse_ts(series: pd.Series) -> pd.Series:
-    # Azure exports usually: "22/04/2025, 13:03:00.020" or "10/12/2025, 15:19:20.067"
-    # dayfirst=True is safer for these exports.
-    return pd.to_datetime(series, utc=True, dayfirst=True, errors="coerce")
-
-def _safe_col(df: pd.DataFrame, col: str, default="") -> pd.Series:
-    if col in df.columns:
-        return df[col]
-    return pd.Series([default] * len(df))
-
-def _to_str(s: pd.Series, default="") -> pd.Series:
-    s = s.fillna(default)
-    return s.astype(str)
-
-def _subset_raw(df: pd.DataFrame, keep: Iterable[str])-> list[dict]:
-    # keep only a small subset for debugging
-    cols = [c for c in keep if c in df.columns]
-    if not cols:
-        return [{} for _ in range(len(df))]
-    return df[cols].to_dict(orient="records")
+from .utils import _read_csv, _parse_ts, _safe_col, _to_str, _subset_raw
 
 def _mk_df(
     *,
