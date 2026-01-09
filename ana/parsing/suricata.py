@@ -183,4 +183,12 @@ def parse_suricata_eve(path: str | Path) -> pd.DataFrame:
 
     return pd.DataFrame(rows)
 
-
+if __name__ == "__main__":
+    # for quick testing
+    # python3 -m parsing.suricata
+    data_path = Path.cwd().parent.joinpath("data", "sc4")
+    
+    # test suricata eve.json
+    eve_df = parse_suricata_eve(data_path.joinpath("eve.json"))
+    print(eve_df.head())
+    print(eve_df.columns)

@@ -24,7 +24,11 @@ def _parse_ts(series: pd.Series) -> pd.Series:
     return pd.to_datetime(series, utc=True, dayfirst=True, errors="coerce")
 
 def _s(df: pd.DataFrame, col: str, default="") -> pd.Series:
-    return _safe_col(df, col, default=default).fillna(default).astype(str)
+    s = _safe_col(df, col, default=pd.NA)
+    default = "" if default is None else str(default)
+
+    s = s.astype("string")   # s.astype(object)
+    return s.fillna(default).astype(str)
 
 def _safe_col(df: pd.DataFrame, col: str, default="") -> pd.Series:
     if col in df.columns:
@@ -117,8 +121,11 @@ def _extract_from_eventdata_xml(xml_text: str) -> Dict[str, Any]:
 
 def _load_zeek_log(path: str | Path) -> pd.DataFrame:
     df = _parser.create_dataframe(str(path))
-    print(df)
-    if 'ts' in df.columns:
-        df['ts'] = pd.to_datetime(df['ts'], utc=True, errors="coerce")
+    if df.index.name == "ts" and "ts" not in df.columns:
+        df = df.reset_index() 
+
+    if "ts" in df.columns:
+        df["ts"] = pd.to_datetime(df["ts"], utc=True, errors="coerce")
         df = df.dropna(subset=["ts"])
+
     return df

@@ -187,8 +187,6 @@ monitoring dataset for software supply chain vulnerabilities
             # set up container monitoring with docker name - tracee
             ```
 
-
-
     - Agent configuration:
 
         1. Create a Log Analytics workspace (make sure the owner and admin privilege for this resource)
@@ -279,7 +277,6 @@ monitoring dataset for software supply chain vulnerabilities
 
             - Syslog (search this log directly)
             
-            
 
 ## Details of Host Configuration
 
@@ -360,7 +357,6 @@ monitoring dataset for software supply chain vulnerabilities
 - Zeek Logs
 
     [Zat](https://github.com/SuperCowPowers/zat)
-
 
 
 ## Collected Logs

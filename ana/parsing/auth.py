@@ -83,3 +83,13 @@ def parse_auth_log(path: str | Path) -> pd.DataFrame:
             })
 
     return pd.DataFrame(rows)
+
+
+if __name__ == "__main__":
+    # python3 -m parsing.auth
+    data_path = Path.cwd().parent.joinpath("data", "sc3", "auth.log")
+    auth_df = parse_auth_log(data_path)
+    print(auth_df.head())
+    print(auth_df.columns)
+    print(auth_df['host'].value_counts())
+    print(auth_df["src_ip"].value_counts().head(20))

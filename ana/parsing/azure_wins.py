@@ -368,3 +368,39 @@ def parse_azure_perf(path: str | Path) -> pd.DataFrame:
     out["value"] = val
     return out
 
+
+if __name__ == "__main__":
+    # for quick testing
+    # python3 -m parsing.azure_wins
+    data_path = Path.cwd().parent.joinpath("data", "sc1", "windows")
+    
+    # test conn path 
+    conn_path = data_path.joinpath("azure_conn.csv")
+    azure_conn_df = parse_azure_conn(conn_path)
+    print(azure_conn_df.head())
+    print(azure_conn_df.columns)
+
+    process_path = data_path.joinpath("azure_process.csv")
+    azure_process_df = parse_azure_process(process_path)
+    print(azure_process_df.head())
+    print(azure_conn_df.columns)
+
+    security_path = data_path.joinpath("azure_security.csv")
+    azure_security_df = parse_azure_security(security_path)
+    print(azure_security_df.head())
+    print(azure_security_df.columns)
+
+    events_path = data_path.joinpath("azure_events.csv")
+    azure_events_df = parse_azure_events(events_path)
+    print(azure_events_df.head())
+    print(azure_events_df.columns)
+
+    port_path = data_path.joinpath("azure_port.csv")
+    azure_port_df = parse_azure_port(port_path)
+    print(azure_port_df.head())
+    print(azure_port_df.columns)
+
+    perf_path = data_path.joinpath("azure_perf.csv")
+    azure_perf_df = parse_azure_perf(perf_path)
+    print(azure_perf_df.head())
+    print(azure_perf_df.columns)
