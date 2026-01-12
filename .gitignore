@@ -8,3 +8,5 @@ system_info.json
 *.zip
 devlinux01.pem
 */logs/
+sanidata/
+mappings/
