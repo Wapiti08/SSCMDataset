@@ -120,12 +120,39 @@ def _extract_from_eventdata_xml(xml_text: str) -> Dict[str, Any]:
 # --------------------------------
 
 def _load_zeek_log(path: str | Path) -> pd.DataFrame:
-    df = _parser.create_dataframe(str(path))
-    if df.index.name == "ts" and "ts" not in df.columns:
-        df = df.reset_index() 
+    '''
+    load zeek data from:
+        - native zeek .log (via zat)
+        - sanitized .csv
+        - sanitized .parquet
+    
+    Assumption: CSV/Parquet preserve Zeek column names (e.g., ts, id.orig_h, uid, ...)
+    '''
+    path = Path(path)
 
-    if "ts" in df.columns:
-        df["ts"] = pd.to_datetime(df["ts"], utc=True, errors="coerce")
-        df = df.dropna(subset=["ts"])
+    if not path.exists():
+        raise FileNotFoundError(path)
 
-    return df
+    suf = path.suffix.lower()
+
+    if suf == ".log":
+        # zat returns (df, types); handle both cases robustly
+        out = _parser.create_dataframe(str(path))
+        df = out[0] if isinstance(out, tuple) else out
+        return df
+
+    if suf == ".csv":
+        # Keep raw strings; don't coerce too early
+        df = pd.read_csv(path, dtype=str, keep_default_na=False)
+        # If ts exists, make sure it's numeric for downstream dropna/subset operations
+        if "ts" in df.columns:
+            df["ts"] = pd.to_numeric(df["ts"], errors="coerce")
+        return df
+
+    if suf == ".parquet":
+        df = pd.read_parquet(path)
+        if "ts" in df.columns:
+            df["ts"] = pd.to_numeric(df["ts"], errors="coerce")
+        return df
+
+    raise ValueError(f"Unsupported Zeek input format: {path} (suffix={suf})")
