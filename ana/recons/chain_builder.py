@@ -1,4 +1,12 @@
 import networkx as nx
+import pandas as pd
+
+def _choose_anchors(step_events: pd.DataFrame, topk_per_step: int=1):
+    '''
+    
+    '''
+
+
 
 def reconstruct_chain(graph, step_events):
     anchors = (
