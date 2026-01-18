@@ -11,7 +11,7 @@ def _choose_anchors(step_events: pd.DataFrame, topk_per_step: int=1):
         return []
     
     anchors = []
-    for step, df in se.groundby("step"):
+    for step, df in se.groupby("step"):
         df = df.sort_values("ts")
         idxs = df.index.tolist()[:max(1, topk_per_step)]
         anchors.append((step, idxs, df["ts"].iloc[0]))

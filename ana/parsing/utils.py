@@ -16,12 +16,13 @@ _parser = LogToDataFrame()
 # -------------------------------
 
 def _read_csv(path: str | Path) -> pd.DataFrame:
-    return pd.read_csv(path)
+    # Azure exports contain many empty fields and quoted strings; keep them as strings
+    return pd.read_csv(path, dtype=str, keep_default_na=False)
 
 def _parse_ts(series: pd.Series) -> pd.Series:
-    # Azure exports usually: "22/04/2025, 13:03:00.020" or "10/12/2025, 15:19:20.067"
-    # dayfirst=True is safer for these exports.
-    return pd.to_datetime(series, utc=True, dayfirst=True, errors="coerce")
+    s = series.astype("string").str.strip().str.strip('"')
+    ts = pd.to_datetime(s, utc=True, dayfirst=True, errors="coerce")
+    return ts.dt.tz_convert(None)   # <- make tz-naive (UTC-normalized)
 
 def _s(df: pd.DataFrame, col: str, default="") -> pd.Series:
     s = _safe_col(df, col, default=pd.NA)
@@ -119,6 +120,57 @@ def _extract_from_eventdata_xml(xml_text: str) -> Dict[str, Any]:
 # Helper functions for zeek logs
 # --------------------------------
 
+def _ensure_ts_datetime(df: pd.DataFrame, *, path: Path) -> pd.DataFrame:
+    """
+    Ensure df has a usable datetime column 'ts'.
+    Accepts:
+      - ts (epoch seconds, numeric or str)
+      - ts_utc (ISO string or datetime)
+      - ts_rel_s (relative seconds)  -> anchor to 1970-01-01
+    """
+    if df is None or len(df) == 0:
+        return df
+
+    # Case 1: already has datetime ts
+    if "ts" in df.columns:
+        # ts might be epoch seconds (float/int/str) or already datetime-like
+        if pd.api.types.is_datetime64_any_dtype(df["ts"]):
+            return df
+
+        # try epoch seconds
+        ts_num = pd.to_numeric(df["ts"], errors="coerce")
+        if ts_num.notna().any():
+            df = df.copy()
+            df["ts"] = pd.to_datetime(ts_num, unit="s", utc=True, errors="coerce").dt.tz_convert(None)
+            return df
+
+        # try parse as datetime string
+        ts_dt = pd.to_datetime(df["ts"], utc=True, errors="coerce")
+        if ts_dt.notna().any():
+            df = df.copy()
+            df["ts"] = ts_dt.dt.tz_convert(None)
+            return df
+
+    # Case 2: ts_utc exists
+    if "ts_utc" in df.columns:
+        ts_dt = pd.to_datetime(df["ts_utc"], utc=True, errors="coerce")
+        if ts_dt.notna().any():
+            df = df.copy()
+            df["ts"] = ts_dt.dt.tz_convert(None)
+            return df
+
+    # Case 3: relative seconds
+    if "ts_rel_s" in df.columns:
+        rel = pd.to_numeric(df["ts_rel_s"], errors="coerce")
+        if rel.notna().any():
+            base = pd.Timestamp("1970-01-01")
+            df = df.copy()
+            df["ts"] = base + pd.to_timedelta(rel.fillna(0), unit="s")
+            return df
+
+    raise ValueError(f"Zeek log has no usable timestamp column (need ts/ts_utc/ts_rel_s). file={path}, cols={list(df.columns)}")
+
+
 def _load_zeek_log(path: str | Path) -> pd.DataFrame:
     '''
     load zeek data from:
@@ -139,20 +191,22 @@ def _load_zeek_log(path: str | Path) -> pd.DataFrame:
         # zat returns (df, types); handle both cases robustly
         out = _parser.create_dataframe(str(path))
         df = out[0] if isinstance(out, tuple) else out
-        return df
+
+        if "ts" not in df.columns and getattr(df.index, "name", None) == "ts":
+            df = df.reset_index()
+
+        df.columns = [str(c).strip() for c in df.columns]
+
+        return _ensure_ts_datetime(df, path=path)
 
     if suf == ".csv":
-        # Keep raw strings; don't coerce too early
         df = pd.read_csv(path, dtype=str, keep_default_na=False)
-        # If ts exists, make sure it's numeric for downstream dropna/subset operations
-        if "ts" in df.columns:
-            df["ts"] = pd.to_numeric(df["ts"], errors="coerce")
-        return df
+        df.columns = [str(c).strip() for c in df.columns]
+        return _ensure_ts_datetime(df, path=path)
 
     if suf == ".parquet":
         df = pd.read_parquet(path)
-        if "ts" in df.columns:
-            df["ts"] = pd.to_numeric(df["ts"], errors="coerce")
-        return df
+        df.columns = [str(c).strip() for c in df.columns]
+        return _ensure_ts_datetime(df, path=path)
 
     raise ValueError(f"Unsupported Zeek input format: {path} (suffix={suf})")

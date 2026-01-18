@@ -70,7 +70,9 @@ def build_event_graph(
             for k in entity_keys:
                 if k in df.columns:
                     v = row.get(k, None)
-                    if v is None or (isinstance(v, float) and pd.isna(v)) or v == "":
+
+                    # robust missing check: works for None, NaN, pd.NA
+                    if v is None or pd.isna(v) or v == "":
                         continue
                     if v in last_seen[k]:
                         j, jts = last_seen[k][v]
@@ -98,7 +100,12 @@ def build_event_graph(
             for (a, b) in ip_pair_keys:
                 if a in df.columns and b in df.columns:
                     va, vb = row.get(a, None), row.get(b, None)
-                    if not va or not vb or (isinstance(va, float) and pd.isna(va)) or (isinstance(vb, float) and pd.isna(vb)):
+                    # robust missing check (works for None, NaN, pd.NA, empty string)
+                    if va is None or vb is None:
+                        continue
+                    if pd.isna(va) or pd.isna(vb):
+                        continue
+                    if va == "" or vb == "":
                         continue
                     pair = ((a, b), (va, vb))
                     if pair in global_last_seen_pair:

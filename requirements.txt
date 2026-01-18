@@ -32,3 +32,4 @@ uncompyle6==3.9.3
 pyinstaller==6.17.0
 zat==0.4.7
 fastparquet==2025.12.0
+networkx==3.4.2
