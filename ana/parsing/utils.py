@@ -26,7 +26,7 @@ def _parse_ts(series: pd.Series) -> pd.Series:
 
 def _s(df: pd.DataFrame, col: str, default="") -> pd.Series:
     s = _safe_col(df, col, default=pd.NA)
-    default = "" if default is Noååne else str(default)
+    default = "" if default is None else str(default)
 
     s = s.astype("string")   # s.astype(object)
     return s.fillna(default).astype(str)
