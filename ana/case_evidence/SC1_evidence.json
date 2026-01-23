@@ -1,0 +1,21 @@
+{
+  "scenario": "SC1",
+  "name": "Stegano",
+  "reconstruction": {
+    "expected_steps": [
+      "AUTH",
+      "DOWNLOAD",
+      "OUTBOUND_CONN"
+    ],
+    "observed_steps": [],
+    "chain_steps": [],
+    "step_recall": 0.0,
+    "step_precision": null,
+    "chain_recall": 0.0,
+    "chain_precision": null,
+    "reconstructability": 0.0,
+    "reconstructability_mode": "expected_recall",
+    "n_events": 0
+  },
+  "steps": []
+}

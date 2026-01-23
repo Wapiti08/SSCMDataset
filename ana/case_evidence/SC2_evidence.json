@@ -1,0 +1,131 @@
+{
+  "scenario": "SC2",
+  "name": "Starter",
+  "reconstruction": {
+    "expected_steps": [
+      "AUTH",
+      "DOWNLOAD",
+      "OUTBOUND_CONN"
+    ],
+    "observed_steps": [
+      "AUTH",
+      "DOWNLOAD"
+    ],
+    "chain_steps": [
+      "AUTH",
+      "DOWNLOAD"
+    ],
+    "step_recall": 0.6666666666666666,
+    "step_precision": 1.0,
+    "chain_recall": 0.6666666666666666,
+    "chain_precision": 1.0,
+    "reconstructability": 0.6666666666666666,
+    "reconstructability_mode": "expected_recall",
+    "n_events": 9732
+  },
+  "steps": [
+    {
+      "step": "AUTH",
+      "present": true,
+      "time_window": [
+        "2025-12-10T09:39:57",
+        "2025-12-10T15:23:07"
+      ],
+      "n_events": 2873,
+      "sources": [
+        "syslog"
+      ],
+      "evidence": [
+        {
+          "ts": "2025-12-10T09:40:57",
+          "source": "syslog",
+          "exe": "systemd",
+          "pid": 1,
+          "excerpt": "Started User Login Management. | systemd"
+        },
+        {
+          "ts": "2025-12-10T09:40:57",
+          "source": "syslog",
+          "exe": "systemd",
+          "pid": 1,
+          "excerpt": "Reached target Login Prompts. | systemd"
+        },
+        {
+          "ts": "2025-12-10T09:40:57",
+          "source": "syslog",
+          "exe": "systemd",
+          "pid": 1,
+          "excerpt": "Condition check resulted in Authentication service for virtual machines hosted on VMware being skipped. | systemd"
+        },
+        {
+          "ts": "2025-12-10T09:40:57",
+          "source": "syslog",
+          "exe": "systemd",
+          "pid": 1,
+          "excerpt": "Condition check resulted in Login to default iSCSI targets being skipped. | systemd"
+        },
+        {
+          "ts": "2025-12-10T09:40:57",
+          "source": "syslog",
+          "exe": "systemd",
+          "pid": 1,
+          "excerpt": "Starting User Login Management... | systemd"
+        }
+      ]
+    },
+    {
+      "step": "DOWNLOAD",
+      "present": true,
+      "time_window": [
+        "2025-12-10T09:39:57",
+        "2025-12-10T14:56:16"
+      ],
+      "n_events": 7,
+      "sources": [
+        "syslog"
+      ],
+      "evidence": [
+        {
+          "ts": "2025-12-10T09:40:57",
+          "source": "syslog",
+          "exe": "sudo",
+          "cmdline": "/usr/bin/apt-get install ubuntu-advantage-tools -y",
+          "user": "root",
+          "excerpt": "/usr/bin/apt-get install ubuntu-advantage-tools -y | root : PWD=/var/lib/waagent/Microsoft.CPlat.Core.LinuxPatchExtension-1.6.64 USER=root COMMAND=/usr/bin/apt-get install ubuntu-advantage-tools -y | sudo"
+        },
+        {
+          "ts": "2025-12-10T09:55:10",
+          "source": "syslog",
+          "exe": "sudo",
+          "cmdline": "/usr/bin/apt-get install ubuntu-advantage-tools -y",
+          "user": "root",
+          "excerpt": "/usr/bin/apt-get install ubuntu-advantage-tools -y | root : PWD=/var/lib/waagent/Microsoft.CPlat.Core.LinuxPatchExtension-1.6.64 USER=root COMMAND=/usr/bin/apt-get install ubuntu-advantage-tools -y | sudo"
+        },
+        {
+          "ts": "2025-12-10T10:55:10",
+          "source": "syslog",
+          "exe": "sudo",
+          "cmdline": "/usr/bin/apt-get install ubuntu-advantage-tools -y",
+          "user": "root",
+          "excerpt": "/usr/bin/apt-get install ubuntu-advantage-tools -y | root : PWD=/var/lib/waagent/Microsoft.CPlat.Core.LinuxPatchExtension-1.6.64 USER=root COMMAND=/usr/bin/apt-get install ubuntu-advantage-tools -y | sudo"
+        },
+        {
+          "ts": "2025-12-10T11:55:12",
+          "source": "syslog",
+          "exe": "sudo",
+          "cmdline": "/usr/bin/apt-get install ubuntu-advantage-tools -y",
+          "user": "root",
+          "excerpt": "/usr/bin/apt-get install ubuntu-advantage-tools -y | root : PWD=/var/lib/waagent/Microsoft.CPlat.Core.LinuxPatchExtension-1.6.64 USER=root COMMAND=/usr/bin/apt-get install ubuntu-advantage-tools -y | sudo"
+        },
+        {
+          "ts": "2025-12-10T12:55:14",
+          "source": "syslog",
+          "exe": "sudo",
+          "cmdline": "/usr/bin/apt-get install ubuntu-advantage-tools -y",
+          "user": "root",
+          "excerpt": "/usr/bin/apt-get install ubuntu-advantage-tools -y | root : PWD=/var/lib/waagent/Microsoft.CPlat.Core.LinuxPatchExtension-1.6.64 USER=root COMMAND=/usr/bin/apt-get install ubuntu-advantage-tools -y | sudo"
+        }
+      ]
+    }
+  ]
+}

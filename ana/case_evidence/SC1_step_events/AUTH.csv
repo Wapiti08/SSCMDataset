@@ -1,0 +1,5 @@
+ts,source,step,cmdline,user,pid,src_ip,src_port,dst_ip,dst_port,proto,excerpt,source_file
+2025-04-22 14:17:59.301,azure_events,AUTH,,,,-,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc1/windows/azure_events.csv
+2025-04-22 14:17:59.314,azure_events,AUTH,,,,-,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc1/windows/azure_events.csv
+2025-04-22 14:18:05.834,azure_events,AUTH,,,,-,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc1/windows/azure_events.csv
+2025-04-22 14:22:02.479,azure_events,AUTH,,,,-,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc1/windows/azure_events.csv
