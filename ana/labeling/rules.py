@@ -5,7 +5,7 @@ Design goals:
 - Conservative defaults: prefer structured hints when available to reduce keyword-only noise.
 - Extendable: TECHNIQUE_TO_STEP enables expected-step scoring from ATT&CK layers.
 
-Coarse steps (current): AUTH, DOWNLOAD, OUTBOUND_CONN
+Coarse steps (current): INSTALL, AUTH (optional), DOWNLOAD, OUTBOUND_CONN, EXFIL
 """
 
 # ---- source groups ----
@@ -20,10 +20,20 @@ FIELD_ALIASES = {
     "raw": [
         "raw", "_raw", "message", "Message", "msg", "log", "Log", "Details",
         "RenderedDescription", "Description", "EventData", "SyslogMessage",
-    ],
+        "AdditionalFields",
+        "additionalFields",
+        "Properties",
+        "properties",
+        "AdditionalDetails",
+        "additionalDetails",
+],
     "message": [
         "message", "Message", "RenderedDescription", "Description", "Details", "EventMessage", "SyslogMessage",
-    ],
+        "AdditionalFields",
+        "additionalFields",
+        "OperationName",
+        "ActivityDisplayName",
+],
     "cmdline": [
         "cmdline", "CmdLine", "CommandLine", "commandLine", "process_command_line",
         "ProcessCommandLine", "Command", "SyslogMessage",
@@ -53,10 +63,33 @@ FIELD_ALIASES = {
     "dst": [
         "dst", "dst_ip", "dest_ip", "DestinationIP", "DestinationIp", "DestIp",
         "RemoteIP", "RemoteIp", "DstAddr", "id.resp_h", "daddr", "dstaddr",
-    ],
+        "DestinationIP_s",
+        "DestinationIp_s",
+        "RemoteIP_s",
+        "RemoteIp_s",
+        "DestinationIPAddress",
+        "DestinationIPAddress_s",
+        "DstIP_s",
+        "DstIp_s",
+        "dest_ip_s",
+        "dstIp_s",
+        "DestinationIpAddress_s",
+],
     "dst_port": [
         "dst_port", "DestinationPort", "DestPort", "RemotePort", "id.resp_p", "dport", "dstport",
-    ],
+        "DestinationPort_d",
+        "DestinationPort_s",
+        "RemotePort_d",
+        "RemotePort_s",
+        "DstPort_d",
+        "DstPort_s",
+        "dest_port_d",
+        "dest_port_s",
+        "dstPort_d",
+        "dstPort_s",
+        "DestinationPortNumber",
+        "DestinationPortNumber_d",
+],
     "src": [
         "src", "src_ip", "SourceIP", "SourceIp", "SrcIp", "ClientIP", "HostIP", "id.orig_h",
     ],
@@ -66,11 +99,56 @@ FIELD_ALIASES = {
     "timestamp": [
         "timestamp", "TimeGenerated [UTC]", "EventTime [UTC]", "time", "TimeCreated", "TimeStamp",
     ],
+
+# Network volume / direction (used by heuristics for Azure connection logs)
+"bytes_in": [
+    "bytes_in", "BytesIn", "bytesIn",
+    "bytes_received", "bytesReceived", "BytesReceived", "ReceivedBytes",
+    "recv_bytes", "rbytes", "id.resp_bytes", "resp_bytes",
+    "BytesReceivedFromClient", "BytesReceivedFromServer",
+    "TotalBytesReceived", "totalBytesReceived",
+    "BytesReceived_d", "BytesReceived_s", "bytesReceived_d", "bytesReceived_s",
+    "ReceivedBytes_d", "ReceivedBytes_s",
+    "InBytes", "InBytes_d", "InboundBytes", "InboundBytes_d",
+    "TotalBytesIn", "TotalBytesIn_d",
+    "bytesIn_d",
+    "bytesIn_s",
+    "bytesin",
+    "recvBytes",
+    "recvBytes_d",
+],
+"bytes_out": [
+    "bytes_out", "BytesOut", "bytesOut",
+    "bytes_sent", "bytesSent", "BytesSent", "SentBytes",
+    "send_bytes", "obytes", "id.orig_bytes", "orig_bytes",
+    "BytesSentToClient", "BytesSentToServer",
+    "TotalBytesSent", "totalBytesSent",
+    "BytesSent_d", "BytesSent_s", "bytesSent_d", "bytesSent_s",
+    "SentBytes_d", "SentBytes_s",
+    "OutBytes", "OutBytes_d", "OutboundBytes", "OutboundBytes_d",
+    "TotalBytesOut", "TotalBytesOut_d",
+    "bytesOut_d",
+    "bytesOut_s",
+    "bytesout",
+    "sendBytes",
+    "sendBytes_d",
+],
+"direction": [
+    "direction", "Direction", "flow_direction", "FlowDirection", "traffic_direction",
+    "FlowDirection_s", "TrafficDirection", "TrafficDirection_s",
+    "flowDirection",
+    "trafficDirection",
+],
+
 }
 
 # ---- ATT&CK technique to coarse step mapping (for expected-step scoring) ----
 # Extend this as you add more coarse steps.
 TECHNIQUE_TO_STEP = {
+    # Supply-chain / distribution trigger -> INSTALL (optional, scenario dependent)
+    "T1195": "INSTALL",     # Supply Chain Compromise
+    "T1072": "INSTALL",     # Software Deployment Tools (sometimes matches install/deploy chains)
+
     # Credential access / valid accounts / brute force -> AUTH
     "T1078": "AUTH",   # Valid Accounts
     "T1110": "AUTH",   # Brute Force
@@ -92,11 +170,15 @@ TECHNIQUE_TO_STEP = {
     "T1090": "OUTBOUND_CONN",  # Proxy
     "T1132": "OUTBOUND_CONN",  # Data Encoding
     "T1572": "OUTBOUND_CONN",  # Protocol Tunneling
-    "T1041": "OUTBOUND_CONN",  # Exfiltration Over C2 Channel
-    "T1020": "OUTBOUND_CONN",  # Automated Exfiltration
-    "T1030": "OUTBOUND_CONN",  # Data Transfer Size Limits (network transfer patterns)
+    "T1041": "EXFIL",  # Exfiltration Over C2 Channel
+    "T1020": "EXFIL",  # Automated Exfiltration
+    "T1030": "EXFIL",  # Data Transfer Size Limits (network transfer patterns)
+    "T1567": "EXFIL",  # Exfiltration Over Web Service
+    "T1567.001": "EXFIL",
+    "T1567.002": "EXFIL",
+    "T1567.003": "EXFIL",
+    "T1567.004": "EXFIL",
 }
-
 
 def expected_steps_from_techniques(technique_ids):
     """Map ATT&CK technique IDs to the expected set of coarse steps."""
@@ -115,6 +197,38 @@ def expected_steps_from_techniques(technique_ids):
 
 # ---- coarse step detection rules ----
 STEP_RULES = [
+    # --- Install ----
+    {
+        "id": "INSTALL_1",
+        "step": "INSTALL",
+        "patterns": [
+            # package managers / installers (trigger point)
+            r"\bpip(?:3)?\b\s+install\b",
+            r"\bnpm\b\s+(?:install|i)\b",
+            r"\byarn\b\s+add\b",
+            r"\bpnpm\b\s+add\b",
+            r"\bapt(?:-get)?\b\s+install\b",
+            r"\byum\b\s+install\b",
+            r"\bdnf\b\s+install\b",
+            r"\bzypper\b\s+install\b",
+            r"\bbrew\b\s+install\b",
+            r"\bchoco(?:latey)?\b\s+install\b",
+            r"\bpython(?:3(?:\.exe)?)?\b\s+setup\.py\s+install\b",
+
+            # windows installers
+            r"\bmsiexec(?:\.exe)?\b",
+            r"\bsetup\.exe\b",
+
+            # source retrieval often used as install-like
+            r"\bgit\b\s+clone\b",
+            r"\bgo\b\s+get\b",
+        ],
+        "fields": ["cmdline", "raw", "process", "exe", "message"],
+        "sources": None,
+        "priority": 25,   # higher than DOWNLOAD, so install cmd is INSTALL not DOWNLOAD
+        "score": 1.0,
+    },
+    
     # --- AUTH ---
     {
         "id": "AUTH_1",
@@ -162,15 +276,6 @@ STEP_RULES = [
             r"\bcurl\b.*\s-(?:o|O)\s",
             r"\bwget\b.*\s-(?:O|o)\s",
 
-            # package managers / repo pulls
-            r"\bapt(?:-get)?\b\s+install\b",
-            r"\byum\b\s+install\b",
-            r"\bdnf\b\s+install\b",
-            r"\bpip(?:3)?\b\s+install\b",
-            r"\bnpm\b\s+install\b",
-            r"\bgo\b\s+get\b",
-            r"\bgit\b\s+clone\b",
-
             # windows/powershell/bits/certutil
             r"\binvoke-webrequest\b",
             r"\binvoke-restmethod\b",
@@ -208,4 +313,38 @@ STEP_RULES = [
         "priority": 15,
         "score": 1.0,
     },
+
+    # --- EXFIL ---
+    {
+    "id": "EXFIL_1",
+    "step": "EXFIL",
+    "patterns": [
+        # explicit upload / transfer verbs (prefer these to avoid confusing with downloads)
+        r"\bcurl\b[^\n]*\s(?:-T|--upload-file)\b",
+        r"\bcurl\b[^\n]*\s(?:-F|--form)\b",
+        r"\bwget\b[^\n]*\s--post-(?:data|file)\b",
+        r"\binvoke-(?:webrequest|restmethod)\b[^\n]*-method\s+(?:post|put)\b",
+        r"\bscp\b|\bsftp\b|\brsync\b",
+        r"\bazcopy\b\s+copy\b",
+        r"\baws\b\s+s3\s+(?:cp|sync)\b",
+        r"\bgsutil\b\s+cp\b",
+        r"\brclone\b\s+(?:copy|sync)\b",
+        r"\bftp\b[^\n]*\bput\b",
+        # HTTP-level hints commonly present in network logs
+        r"\bmultipart/form-data\b",
+        r"\bcontent-disposition:\s*form-data\b",
+        # last-resort keywords
+        r"\bexfil(?:trat(?:e|ion))?\b",
+        r"\bupload(?:ing)?\b",
+    ],
+    "fields": ["raw", "message", "cmdline", "uri", "method"],
+    # If a structured method exists, require a write-like verb
+    "where_any": [
+        {"field": "method", "in": ["POST", "PUT"]},
+    ],
+    "sources": None,  # keep global (works for syslog/audit/zeek/suricata)
+    "priority": 18,
+    "score": 1.0,
+    },
+
 ]

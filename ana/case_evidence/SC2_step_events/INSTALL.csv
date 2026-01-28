@@ -1,0 +1,97 @@
+ts,source,step,exe,cmdline,user,pid,src_ip,src_port,dst_ip,dst_port,proto,excerpt,source_file
+2025-12-10 09:43:20.600,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:43:20.717,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:02.375,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:02.422,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:02.440,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:02.455,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:02.480,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:02.489,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:02.591,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:02.681,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:03.060,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:03.093,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:03.180,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:03.356,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:03.455,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:03.504,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:03.535,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:03.647,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:03.839,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:03.849,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:03.874,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:03.896,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:11.104,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:11.124,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:11.881,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:12.212,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:12.296,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:12.448,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:27.898,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:28.042,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:28.243,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:28.423,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:28.489,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:28.559,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:28.611,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:29.231,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:29.368,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:29.385,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:29.456,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:29.758,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:29.942,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:30.070,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:30.134,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:30.173,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:30.184,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:30.645,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:30.709,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:31.028,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:31.044,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:31.059,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:33.737,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:33.946,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:34.058,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:34.103,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:34.154,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:35.084,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:35.162,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:37.532,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:37.757,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:37.971,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:37.974,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:38.052,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:38.054,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:38.054,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:38.055,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:38.093,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:38.168,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:38.204,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:38.212,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:38.214,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:38.421,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:38.428,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:38.975,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:39.082,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:39.578,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:40.923,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:40.973,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:40.976,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:41.001,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:41.002,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:41.025,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:41.026,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:41.115,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:41.120,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:41.122,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:41.124,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:41.170,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:41.465,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 09:45:41.678,azure_events,INSTALL,,,NT AUTHORITY\SYSTEM,,,,,,,,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/azure_events.csv
+2025-12-10 11:55:12.709,syslog,INSTALL,sudo,/usr/bin/apt-get install ubuntu-advantage-tools -y,root,,,,,,,/usr/bin/apt-get install ubuntu-advantage-tools -y | root : PWD=/var/lib/waagent/Microsoft.CPlat.Core.LinuxPatchExtension-1.6.64 USER=root COMMAND=/usr/bin/apt-get install ubuntu-advantage-tools -y | sudo,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/attacker/azure_syslog.csv
+2025-12-10 12:55:14.013,syslog,INSTALL,sudo,/usr/bin/apt-get install ubuntu-advantage-tools -y,root,,,,,,,/usr/bin/apt-get install ubuntu-advantage-tools -y | root : PWD=/var/lib/waagent/Microsoft.CPlat.Core.LinuxPatchExtension-1.6.64 USER=root COMMAND=/usr/bin/apt-get install ubuntu-advantage-tools -y | sudo,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/attacker/azure_syslog.csv
+2025-12-10 13:55:14.951,syslog,INSTALL,sudo,/usr/bin/apt-get install ubuntu-advantage-tools -y,root,,,,,,,/usr/bin/apt-get install ubuntu-advantage-tools -y | root : PWD=/var/lib/waagent/Microsoft.CPlat.Core.LinuxPatchExtension-1.6.64 USER=root COMMAND=/usr/bin/apt-get install ubuntu-advantage-tools -y | sudo,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/attacker/azure_syslog.csv
+2025-12-10 10:55:10.804,syslog,INSTALL,sudo,/usr/bin/apt-get install ubuntu-advantage-tools -y,root,,,,,,,/usr/bin/apt-get install ubuntu-advantage-tools -y | root : PWD=/var/lib/waagent/Microsoft.CPlat.Core.LinuxPatchExtension-1.6.64 USER=root COMMAND=/usr/bin/apt-get install ubuntu-advantage-tools -y | sudo,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/attacker/azure_syslog.csv
+2025-12-10 09:40:57.104,syslog,INSTALL,sudo,/usr/bin/apt-get install ubuntu-advantage-tools -y,root,,,,,,,/usr/bin/apt-get install ubuntu-advantage-tools -y | root : PWD=/var/lib/waagent/Microsoft.CPlat.Core.LinuxPatchExtension-1.6.64 USER=root COMMAND=/usr/bin/apt-get install ubuntu-advantage-tools -y | sudo,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/attacker/azure_syslog.csv
+2025-12-10 09:55:10.446,syslog,INSTALL,sudo,/usr/bin/apt-get install ubuntu-advantage-tools -y,root,,,,,,,/usr/bin/apt-get install ubuntu-advantage-tools -y | root : PWD=/var/lib/waagent/Microsoft.CPlat.Core.LinuxPatchExtension-1.6.64 USER=root COMMAND=/usr/bin/apt-get install ubuntu-advantage-tools -y | sudo,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/attacker/azure_syslog.csv
+2025-12-10 14:55:16.015,syslog,INSTALL,sudo,/usr/bin/apt-get install ubuntu-advantage-tools -y,root,,,,,,,/usr/bin/apt-get install ubuntu-advantage-tools -y | root : PWD=/var/lib/waagent/Microsoft.CPlat.Core.LinuxPatchExtension-1.6.64 USER=root COMMAND=/usr/bin/apt-get install ubuntu-advantage-tools -y | sudo,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/attacker/azure_syslog.csv

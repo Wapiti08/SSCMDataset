@@ -1,0 +1,5 @@
+ts,source,step,exe,cmdline,user,pid,src_ip,src_port,dst_ip,dst_port,proto,excerpt,source_file
+2025-12-10 12:00:36.895,syslog,EXFIL,sshd,,,85344,,,,,,"Disconnecting invalid user ubnt 185.246.128.171 port 15192: Change of username or service not allowed: (ubnt,ssh-connection) -> (sftp,ssh-connection) [preauth] | sshd",/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/attacker/azure_syslog.csv
+2025-12-10 12:00:39.521,syslog,EXFIL,sshd,,sftp,85473,185.246.128.171,8795,,,,Invalid user sftp from 185.246.128.171 port 8795 | sshd,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/attacker/azure_syslog.csv
+2025-12-10 12:00:41.441,syslog,EXFIL,sshd,,sftp,85473,185.246.128.171,8795,,,,Failed password for invalid user sftp from 185.246.128.171 port 8795 ssh2 | sshd,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/attacker/azure_syslog.csv
+2025-12-10 12:00:44.382,syslog,EXFIL,sshd,,,85473,,,,,,"Disconnecting invalid user sftp 185.246.128.171 port 8795: Change of username or service not allowed: (sftp,ssh-connection) -> (minima,ssh-connection) [preauth] | sshd",/Users/zhuoran/Projects/SSCMDataset/sanidata/sc2/attacker/azure_syslog.csv

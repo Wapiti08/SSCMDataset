@@ -1,0 +1,5 @@
+ts,source,step,cmdline,user,pid,src_ip,src_port,dst_ip,dst_port,proto,excerpt,source_file
+2025-04-22 13:21:00.028,azure_process,INSTALL,python3  setup.py install ,USER_615,6428,,,,,,python3 setup.py install,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc1/windows/azure_process.csv
+2025-04-22 13:28:00.051,azure_process,INSTALL,python3  setup.py install ,USER_615,6428,,,,,,python3 setup.py install,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc1/windows/azure_process.csv
+2025-04-22 14:28:00.131,azure_process,INSTALL,python3  setup.py install ,USER_615,6428,,,,,,python3 setup.py install,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc1/windows/azure_process.csv
+2025-04-22 15:28:00.179,azure_process,INSTALL,python3  setup.py install ,USER_615,6428,,,,,,python3 setup.py install,/Users/zhuoran/Projects/SSCMDataset/sanidata/sc1/windows/azure_process.csv

@@ -1,3 +1,3 @@
 source,n_steps,steps,missing_vs_multi,extra_vs_multi
-syslog,2,AUTH;DOWNLOAD,,
-azure_events,0,,AUTH;DOWNLOAD,
+azure_events,2,DOWNLOAD;INSTALL,EXFIL,
+syslog,2,EXFIL;INSTALL,DOWNLOAD,

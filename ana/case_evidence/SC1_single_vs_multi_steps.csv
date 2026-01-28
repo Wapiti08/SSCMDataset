@@ -1,6 +1,6 @@
 source,n_steps,steps,missing_vs_multi,extra_vs_multi
-azure_conn,0,,,
-azure_events,0,,,
-azure_port,0,,,
-azure_process,0,,,
-azure_security,0,,,
+azure_process,1,INSTALL,,
+azure_conn,0,,INSTALL,
+azure_events,0,,INSTALL,
+azure_port,0,,INSTALL,
+azure_security,0,,INSTALL,

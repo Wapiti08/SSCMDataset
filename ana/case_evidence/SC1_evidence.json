@@ -3,19 +3,71 @@
   "name": "Stegano",
   "reconstruction": {
     "expected_steps": [
-      "AUTH",
+      "INSTALL",
       "DOWNLOAD",
-      "OUTBOUND_CONN"
+      "OUTBOUND_CONN",
+      "EXFIL"
     ],
-    "observed_steps": [],
-    "chain_steps": [],
-    "step_recall": 0.0,
-    "step_precision": null,
-    "chain_recall": 0.0,
-    "chain_precision": null,
-    "reconstructability": 0.0,
+    "observed_steps": [
+      "INSTALL"
+    ],
+    "chain_steps": [
+      "INSTALL"
+    ],
+    "step_recall": 0.25,
+    "step_precision": 1.0,
+    "chain_recall": 0.25,
+    "chain_precision": 1.0,
+    "reconstructability": 0.25,
     "reconstructability_mode": "expected_recall",
-    "n_events": 0
+    "n_events": 8534
   },
-  "steps": []
+  "steps": [
+    {
+      "step": "INSTALL",
+      "present": true,
+      "time_window": [
+        "2025-04-22T13:20:00",
+        "2025-04-22T15:29:00"
+      ],
+      "n_events": 4,
+      "sources": [
+        "azure_process"
+      ],
+      "evidence": [
+        {
+          "ts": "2025-04-22T13:21:00",
+          "source": "azure_process",
+          "cmdline": "python3  setup.py install ",
+          "user": "USER_615",
+          "pid": "6428",
+          "excerpt": "python3 setup.py install"
+        },
+        {
+          "ts": "2025-04-22T13:28:00",
+          "source": "azure_process",
+          "cmdline": "python3  setup.py install ",
+          "user": "USER_615",
+          "pid": "6428",
+          "excerpt": "python3 setup.py install"
+        },
+        {
+          "ts": "2025-04-22T14:28:00",
+          "source": "azure_process",
+          "cmdline": "python3  setup.py install ",
+          "user": "USER_615",
+          "pid": "6428",
+          "excerpt": "python3 setup.py install"
+        },
+        {
+          "ts": "2025-04-22T15:28:00",
+          "source": "azure_process",
+          "cmdline": "python3  setup.py install ",
+          "user": "USER_615",
+          "pid": "6428",
+          "excerpt": "python3 setup.py install"
+        }
+      ]
+    }
+  ]
 }

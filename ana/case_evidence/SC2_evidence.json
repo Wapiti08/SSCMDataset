@@ -3,73 +3,94 @@
   "name": "Starter",
   "reconstruction": {
     "expected_steps": [
-      "AUTH",
+      "INSTALL",
       "DOWNLOAD",
-      "OUTBOUND_CONN"
+      "OUTBOUND_CONN",
+      "EXFIL"
     ],
     "observed_steps": [
-      "AUTH",
-      "DOWNLOAD"
+      "DOWNLOAD",
+      "EXFIL",
+      "INSTALL"
     ],
     "chain_steps": [
-      "AUTH",
-      "DOWNLOAD"
+      "INSTALL",
+      "DOWNLOAD",
+      "EXFIL"
     ],
-    "step_recall": 0.6666666666666666,
+    "step_recall": 0.75,
     "step_precision": 1.0,
-    "chain_recall": 0.6666666666666666,
+    "chain_recall": 0.75,
     "chain_precision": 1.0,
-    "reconstructability": 0.6666666666666666,
+    "reconstructability": 0.75,
     "reconstructability_mode": "expected_recall",
-    "n_events": 9732
+    "n_events": 53978
   },
   "steps": [
     {
-      "step": "AUTH",
+      "step": "INSTALL",
       "present": true,
       "time_window": [
         "2025-12-10T09:39:57",
-        "2025-12-10T15:23:07"
+        "2025-12-10T14:56:16"
       ],
-      "n_events": 2873,
+      "n_events": 96,
       "sources": [
+        "azure_events",
         "syslog"
       ],
       "evidence": [
         {
           "ts": "2025-12-10T09:40:57",
           "source": "syslog",
-          "exe": "systemd",
-          "pid": 1,
-          "excerpt": "Started User Login Management. | systemd"
+          "exe": "sudo",
+          "cmdline": "/usr/bin/apt-get install ubuntu-advantage-tools -y",
+          "user": "root",
+          "excerpt": "/usr/bin/apt-get install ubuntu-advantage-tools -y | root : PWD=/var/lib/waagent/Microsoft.CPlat.Core.LinuxPatchExtension-1.6.64 USER=root COMMAND=/usr/bin/apt-get install ubuntu-advantage-tools -y | sudo"
         },
         {
-          "ts": "2025-12-10T09:40:57",
-          "source": "syslog",
-          "exe": "systemd",
-          "pid": 1,
-          "excerpt": "Reached target Login Prompts. | systemd"
+          "ts": "2025-12-10T09:43:20",
+          "source": "azure_events",
+          "user": "NT AUTHORITY\\SYSTEM",
+          "src_ip": "",
+          "src_port": "",
+          "dst_ip": "",
+          "dst_port": "",
+          "proto": "",
+          "excerpt": ""
         },
         {
-          "ts": "2025-12-10T09:40:57",
-          "source": "syslog",
-          "exe": "systemd",
-          "pid": 1,
-          "excerpt": "Condition check resulted in Authentication service for virtual machines hosted on VMware being skipped. | systemd"
+          "ts": "2025-12-10T09:43:20",
+          "source": "azure_events",
+          "user": "NT AUTHORITY\\SYSTEM",
+          "src_ip": "",
+          "src_port": "",
+          "dst_ip": "",
+          "dst_port": "",
+          "proto": "",
+          "excerpt": ""
         },
         {
-          "ts": "2025-12-10T09:40:57",
-          "source": "syslog",
-          "exe": "systemd",
-          "pid": 1,
-          "excerpt": "Condition check resulted in Login to default iSCSI targets being skipped. | systemd"
+          "ts": "2025-12-10T09:45:02",
+          "source": "azure_events",
+          "user": "NT AUTHORITY\\SYSTEM",
+          "src_ip": "",
+          "src_port": "",
+          "dst_ip": "",
+          "dst_port": "",
+          "proto": "",
+          "excerpt": ""
         },
         {
-          "ts": "2025-12-10T09:40:57",
-          "source": "syslog",
-          "exe": "systemd",
-          "pid": 1,
-          "excerpt": "Starting User Login Management... | systemd"
+          "ts": "2025-12-10T09:45:02",
+          "source": "azure_events",
+          "user": "NT AUTHORITY\\SYSTEM",
+          "src_ip": "",
+          "src_port": "",
+          "dst_ip": "",
+          "dst_port": "",
+          "proto": "",
+          "excerpt": ""
         }
       ]
     },
@@ -77,53 +98,72 @@
       "step": "DOWNLOAD",
       "present": true,
       "time_window": [
-        "2025-12-10T09:39:57",
-        "2025-12-10T14:56:16"
+        "2025-12-10T10:12:56",
+        "2025-12-10T10:14:56"
       ],
-      "n_events": 7,
+      "n_events": 1,
+      "sources": [
+        "azure_events"
+      ],
+      "evidence": [
+        {
+          "ts": "2025-12-10T10:13:56",
+          "source": "azure_events",
+          "user": "Office-Wins\\Newt",
+          "src_ip": "",
+          "src_port": "",
+          "dst_ip": "",
+          "dst_port": "",
+          "proto": "",
+          "excerpt": ""
+        }
+      ]
+    },
+    {
+      "step": "EXFIL",
+      "present": true,
+      "time_window": [
+        "2025-12-10T11:59:36",
+        "2025-12-10T12:01:44"
+      ],
+      "n_events": 4,
       "sources": [
         "syslog"
       ],
       "evidence": [
         {
-          "ts": "2025-12-10T09:40:57",
+          "ts": "2025-12-10T12:00:36",
           "source": "syslog",
-          "exe": "sudo",
-          "cmdline": "/usr/bin/apt-get install ubuntu-advantage-tools -y",
-          "user": "root",
-          "excerpt": "/usr/bin/apt-get install ubuntu-advantage-tools -y | root : PWD=/var/lib/waagent/Microsoft.CPlat.Core.LinuxPatchExtension-1.6.64 USER=root COMMAND=/usr/bin/apt-get install ubuntu-advantage-tools -y | sudo"
+          "exe": "sshd",
+          "pid": 85344,
+          "excerpt": "Disconnecting invalid user ubnt 185.246.128.171 port 15192: Change of username or service not allowed: (ubnt,ssh-connection) -> (sftp,ssh-connection) [preauth] | sshd"
         },
         {
-          "ts": "2025-12-10T09:55:10",
+          "ts": "2025-12-10T12:00:39",
           "source": "syslog",
-          "exe": "sudo",
-          "cmdline": "/usr/bin/apt-get install ubuntu-advantage-tools -y",
-          "user": "root",
-          "excerpt": "/usr/bin/apt-get install ubuntu-advantage-tools -y | root : PWD=/var/lib/waagent/Microsoft.CPlat.Core.LinuxPatchExtension-1.6.64 USER=root COMMAND=/usr/bin/apt-get install ubuntu-advantage-tools -y | sudo"
+          "exe": "sshd",
+          "user": "sftp",
+          "pid": 85473,
+          "src_ip": "185.246.128.171",
+          "src_port": 8795,
+          "excerpt": "Invalid user sftp from 185.246.128.171 port 8795 | sshd"
         },
         {
-          "ts": "2025-12-10T10:55:10",
+          "ts": "2025-12-10T12:00:41",
           "source": "syslog",
-          "exe": "sudo",
-          "cmdline": "/usr/bin/apt-get install ubuntu-advantage-tools -y",
-          "user": "root",
-          "excerpt": "/usr/bin/apt-get install ubuntu-advantage-tools -y | root : PWD=/var/lib/waagent/Microsoft.CPlat.Core.LinuxPatchExtension-1.6.64 USER=root COMMAND=/usr/bin/apt-get install ubuntu-advantage-tools -y | sudo"
+          "exe": "sshd",
+          "user": "sftp",
+          "pid": 85473,
+          "src_ip": "185.246.128.171",
+          "src_port": 8795,
+          "excerpt": "Failed password for invalid user sftp from 185.246.128.171 port 8795 ssh2 | sshd"
         },
         {
-          "ts": "2025-12-10T11:55:12",
+          "ts": "2025-12-10T12:00:44",
           "source": "syslog",
-          "exe": "sudo",
-          "cmdline": "/usr/bin/apt-get install ubuntu-advantage-tools -y",
-          "user": "root",
-          "excerpt": "/usr/bin/apt-get install ubuntu-advantage-tools -y | root : PWD=/var/lib/waagent/Microsoft.CPlat.Core.LinuxPatchExtension-1.6.64 USER=root COMMAND=/usr/bin/apt-get install ubuntu-advantage-tools -y | sudo"
-        },
-        {
-          "ts": "2025-12-10T12:55:14",
-          "source": "syslog",
-          "exe": "sudo",
-          "cmdline": "/usr/bin/apt-get install ubuntu-advantage-tools -y",
-          "user": "root",
-          "excerpt": "/usr/bin/apt-get install ubuntu-advantage-tools -y | root : PWD=/var/lib/waagent/Microsoft.CPlat.Core.LinuxPatchExtension-1.6.64 USER=root COMMAND=/usr/bin/apt-get install ubuntu-advantage-tools -y | sudo"
+          "exe": "sshd",
+          "pid": 85473,
+          "excerpt": "Disconnecting invalid user sftp 185.246.128.171 port 8795: Change of username or service not allowed: (sftp,ssh-connection) -> (minima,ssh-connection) [preauth] | sshd"
         }
       ]
     }
