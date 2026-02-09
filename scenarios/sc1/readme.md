@@ -76,7 +76,7 @@
     - base64-encoded plain scripts
     - remove downloaded image (optional)
 
-- Attack Timeline (British Summer Time)
+- Attack Timeline (British Summer Time - UTC +1)
 
     ** Time in Target Windows System is one hour ahead **
 
