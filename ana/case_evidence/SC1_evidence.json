@@ -22,6 +22,8 @@
     "reconstructability_mode": "expected_recall",
     "n_events": 8534
   },
+  "chain_links": [],
+  "chain_breakpoints": [],
   "steps": [
     {
       "step": "INSTALL",

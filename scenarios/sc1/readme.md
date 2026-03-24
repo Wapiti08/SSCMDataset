@@ -113,6 +113,14 @@
         - received collected info (20250422_151814_info.zip) --- 2025.4.22 16:18
 
 
+- Ground Truth:
+
+     - core IOCs:
+
+        package name: colorsapi
+        script name: SenScanner.py
+    
+
 - Troubleshooting:
 
     - No response from callback:
@@ -155,3 +163,4 @@
     
         - attack_navigator_cmds
         - attack_navigator_tasks
+

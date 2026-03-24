@@ -1,10 +1,24 @@
+'''
+ # @ Create Time: 2025-12-21 19:31:12
+ # @ Modified time: 2026-03-24 10:22:10
+ # @ Description: reconstruct timeline-based event graph
+
+core functions:
+    build_event_graph:
+        input: event dataframe
+            every row: ts, host, pid, ppid, user, conn_id, src_ip/dst_ip
+        output: directed networkx graph (the edge includes reason and dt_seconds)
+
+ '''
+
+
 import networkx as nx
 from collections import deque, defaultdict
 import pandas as pd
 
 def build_event_graph(
         events: pd.DataFrame, 
-        window_seconds=60,
+        window_seconds=600,
         host_key: str = "host",
         ts_key: str= "ts",
         entity_keys=("pid", "ppid", "user"),
@@ -65,7 +79,7 @@ def build_event_graph(
                 if 0 < dt <= window_seconds:
                     g.add_edge(prev_idx, idx, reason="time_prev", dt_seconds=float(dt))
             
-            # 2) entity-based edges (host-local)
+            # 2) entity-based edges (host-local) --- a series of actions by same process/user 
             added_from = set()
             for k in entity_keys:
                 if k in df.columns:
@@ -82,7 +96,7 @@ def build_event_graph(
                             added_from.add(j)
                     last_seen[k][v] = (idx, ts)
 
-            # 3) flow-id edges (global)
+            # 3) flow-id edges (global) --- lateral movement
             for k in flow_keys:
                 if k in df.columns:
                     v = row.get(k, None)
@@ -96,7 +110,7 @@ def build_event_graph(
                             g.add_edge(j, idx, reason=f"flow:{k}", dt_seconds=float(dt))
                     global_last_seen[kk] = (idx, ts)
             
-            # 4) ip-pair edges (global)
+            # 4) ip-pair edges (global) --- process network-layer without flow ID
             for (a, b) in ip_pair_keys:
                 if a in df.columns and b in df.columns:
                     va, vb = row.get(a, None), row.get(b, None)

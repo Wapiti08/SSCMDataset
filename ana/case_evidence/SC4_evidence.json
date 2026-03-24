@@ -26,6 +26,27 @@
     "reconstructability_mode": "expected_recall",
     "n_events": 188270
   },
+  "chain_links": [
+    {
+      "a_step": "OUTBOUND_CONN",
+      "b_step": "INSTALL",
+      "a_idx": 34128,
+      "b_idx": 3631,
+      "status": "weakly_connected",
+      "path_len": null,
+      "dt_seconds": 119.444312
+    },
+    {
+      "a_step": "INSTALL",
+      "b_step": "DOWNLOAD",
+      "a_idx": 3631,
+      "b_idx": 124253,
+      "status": "weakly_connected",
+      "path_len": null,
+      "dt_seconds": 2394.489043
+    }
+  ],
+  "chain_breakpoints": [],
   "steps": [
     {
       "step": "OUTBOUND_CONN",
