@@ -212,3 +212,19 @@ python3 train.py
             got response for data exfiltration (11:20)
 
 
+- Ground Truth:
+
+    - core IOCs with locations and numbers:
+
+        - attack IP: 20.93.23.234
+          
+            - eve.json: 201 records
+            - 
+
+        - suspicious ports:
+
+        - data exfiltration:
+
+
+        - total attack-specific IOC records: ~392 unique lines
+

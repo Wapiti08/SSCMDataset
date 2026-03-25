@@ -158,3 +158,51 @@ cat /opt/attack-server/logs/system_info.log
         
         # receive response from stage2 (14:51)
 
+
+
+- Ground Truth:
+
+    - core IOCs with locaitons and numbers:
+
+        - package name: audit-ejs-1.7.2 (stage 1), audit-vue-1.6.2 (stage 2)
+            - npm registry DNS: zeek_dns (126-127,1686-1687) — 4 records
+              - 126-127: stage 1 install at 14:43:53
+              - 1686-1687: stage 2 install at 14:50:59
+            - attack-server setup: azure_syslog 26 lines:
+              (5611,5668,5730,5805,5961,6209,8007,8048,8110,8112,
+              11694,11865,11877,12070,12190,17670,18109,18211,
+              18331,19997,21910,21921,21991,22026,22337,25633)
+              Key entries:
+                - 17670: mkdir /opt/attack-server
+                - 18109: cp server.js /opt/attack-server/
+                - 18211: npm init -y
+                - 18331: npm install fastify @fastify/cors
+                - 19997: sed -i s/10.96.177.36/20.93.23.234/g server.js
+                - 21910,21991: openssl self-signed cert generation
+                - 11694,12070,12190,22026,25633: node server.js launches
+
+
+        - attack ip: 20.93.23.234
+            - locations:
+                - eve.json: 203 records
+                - zeek_conn (1008,1019,4705-4706,4734,4737) — 6 records
+                - zeek_ssl (40,627-628) — 3 records
+                - azure_syslog (19997) — sed IP reveal
+            - numbers: 213
+
+
+        - suspicious port: 443 (HTTPS with self-signed cert, TLSv13,
+          TLS_AES_256_GCM_SHA384, no server_name/SNI)
+
+        
+        - data exfiltration: via HTTPS to 20.93.23.234:443
+            - Stage 1 callback (14:44:15):
+              zeek_conn 1008,1019 — resp_bytes=2133 (token response)
+              zeek_ssl 40
+            - Stage 2 callback (14:51:00):
+              zeek_conn 4705-4706,4734,4737 — resp_bytes=3482+2187
+              zeek_ssl 627-628
+            - numbers: 9 records (6 conn + 3 ssl)
+
+    
+    - total IOC records: 242

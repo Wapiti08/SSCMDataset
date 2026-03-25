@@ -226,3 +226,48 @@
             powershell -script sysshell.ps1 # post successful
 
             ```
+
+
+- Ground Truth:
+
+    - core IOCs with locaitons and numbers:
+
+        - package name:
+            - pystallerer-1.0.0 (with setup.py)
+
+                - locations: azure_events (19784-19796, 19839-19845, 25359-25378, 25383-25386, 25391- 25395, 25402-25403)
+
+                - numbers: 51
+
+        - attack ip: 20.93.23.234
+            - locations: azure_events (558, 25386, 25408)
+            - numbers: 3 (2 after filtering repeated records)
+            - detail:
+                - 558: Runtime.exe → 20.93.23.234 (C2 callback, 15:20:07)
+                - 25386: bitsadmin download (http://20.93.23.234:8081/dl/runtime (10:13:56))
+                - 25408: Runtime.exe → 20.93.23.234 (first callback, 10:14:02)
+
+        - suspicious port: 8081
+            - locations: (558, 25386)
+            - numbers: 2 (0 after filtering repeated records)
+        
+        - data exfiltration:
+            - locations: azure_events (558, 10946, ...)
+            - numbers: 10
+            - breakdown:
+                - C2 callback: runtime.exe -> 20.93.23.234
+                - CreateRemoteThreat inject: 656 records
+                - File upload (test.exe): 10946, 28695
+
+        - Auxiliary IOCs:
+            - win32.vbs: 25380, 25383, 25384, 25385 (4)
+            - win64.vbs (persistent): 8145, 25381, 25402, 25403 (4)
+            - bitsadmin.exe: 25386 (1)
+            - System64: 31 records
+            - Runtime.exe: 20 records
+            - setup.py: 18 records
+    
+    - total (roughly): 141
+
+    
+

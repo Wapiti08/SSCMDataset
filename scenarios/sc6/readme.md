@@ -274,7 +274,45 @@ PORT     STATE  SERVICE       VERSION
 3389/tcp open   ms-wbt-server Microsoft Terminal Services
 8000/tcp open   http-alt      Werkzeug/3.1.3 Python/3.10.11
 
-
-
 ```
 
+- Ground Truth:
+
+    - core IOCs with locations and numbers:
+
+        - malicious payload delivery (downstream_consume.sh):
+            - downstream_consume.sh execution: 29 lines
+              (2818-2820,3268-3275,3277,3284-3285,3295-3302,
+              3323-3324,3347-3351)
+              First run at 11:41:07, second run at 11:42:30
+
+        - malicious setup.py execution:
+            - setup.py from artifact/downstream/unpacked/: 19 lines
+              (3349,3351-3364,3366,3368-3370)
+              At 11:42:37, "python3 setup.py --name" triggered by
+              downstream_consume.sh
+            - artifact/downstream/unpacked references: 39 lines
+              (3272,3285-3291,3294,3296,3298,3300,3349-3370,
+              3378-3379,3416-3417,3422)
+
+        - attack IP: 20.93.23.234
+            - total: 307 lines
+            - credential collection via port 8000 (11:23):
+              lines 1717-1724 (inbound from 20.93.23.234 to 8000)
+            - nmap recon (12:12): lines 51-56,61,63,65-66
+              (inbound scans from 20.93.23.234 to 8000)
+            - C2 callback/exfil connections throughout
+
+        - suspicious ports:
+            - 8000 (vulnerable web service, Werkzeug): 56 inbound records
+            - 8081 (data exfiltration): 2 outbound records
+              lines 4415,6515
+              (10.0.0.5 → 20.93.23.234:8081 at 11:49 and 12:22)
+
+        - data exfiltration:
+            - script 1 results (sysinfo zip): ~11:50
+              line 4415: python3 → 20.93.23.234:8081
+            - script 2 results (sensitive files zip): ~12:22
+              line 6515: python3 → 20.93.23.234:8081
+
+        - total attack-specific IOC records: ~392 unique lines
