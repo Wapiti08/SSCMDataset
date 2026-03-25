@@ -215,16 +215,78 @@ python3 train.py
 - Ground Truth:
 
     - core IOCs with locations and numbers:
+        - eve.json - Attack IP 20.93.23.234 (201 lines)
 
-        - attack IP: 20.93.23.234
-          
-            - eve.json: 201 records
-            - 
+        ▸ zeek_conn.csv — Attack IP 20.93.23.234 (155 lines):
 
-        - suspicious ports:
+            - Port 80 (C2 HTTP): 153 lines
+              (2591,2623,2650,2662,2672,2684,2695,2701,2716,2727,
+              2745,2755,2765,2777,2790,2805,2816,2822,2834,2839,
+              2860,2873,2884,2894,2904,2916,2928,2947,2956,2967,
+              2980,2994,3012,3024,3039,3049,3059,3071,3083,3092,
+              3104-3105,3111-3112,3124-3125,3139-3140,3156,3165,
+              3173,3178,3186,3196,3206,3211,3221,3230,3246,3264,
+              3274,3286,3300,3314,3324,3330,3340,3350,3360,3379,
+              3395,3405,3414,3421,3432,3441,3452,3462,3476,3486,
+              3495,3505,3522,3531,3541,3552,3561,3569,3575,3585,
+              3595,3606,3621,3635,3640,3650,3662,3673,3682,3694,
+              3700,3706,3716,3728,3741,3753,3762,3772,3784,3793,
+              3805,3810,3824,3832,3846,3863,3878,3888,3898,3911,
+              3921,3927,3939,3945,3957,3970,3987,4006,4017,4022,
+              4034,4040,4053,4064,4074,4088,4099,4113,4133,4141,
+              4146,4156,4166,4175,4184,4196,4206,4213,4225,4235,
+              4249,4259,4269)
 
-        - data exfiltration:
+            - Port 8081 (data exfiltration): 2 lines
+              Line 3106: 10.0.0.4:43716 → 20.93.23.234:8081 (11:20:06)
+              Line 3113: 20.93.23.234:8081 → 10.0.0.4:43716
+                         (226 bytes sent to victim, exfil delivery)
+
+        ▸ zeek_http.csv — C2 HTTP callbacks (77 lines):
+
+            - Lines: 314,318,322,326,328,336,340,344,347,350,357,360,
+              364,368,370,374,381,385,387,391,395-396,398-399,406,
+              410,412,416,419,427,430,437,439,443,447,456,458,462,
+              466,470,472,479,483,486,489,493,500,502,506,509,512,
+              516,523,525,529,532,535,540,547,550,554,556,561,568,
+              572,575,578,582,586,593,595,599,602,606,609,616,620
+            - Time range: 11:16:33 → 11:29:37 (~13 min, every ~10s)
+            - Response sizes:
+                432 bytes: 1 req (line 314 — initial callback/check-in)
+                176 bytes: 73 reqs (heartbeat/keepalive)
+                392 bytes: 1 req (line 395 — command response)
+                264 bytes: 1 req (line 399 — command response)
+                15068 bytes: 1 req (line 396 — large payload, likely
+                  load_script for info gathering at ~11:19)
+
+        ▸ zeek_files.csv — C2 file transfers (77 lines):
+
+            - Lines: 306,310,314,318,320,327,331,335,338,341,348,351,
+              355,359,361,365,372,376,378,382,386-387,389-390,397,
+              401,403,407,410,417,420,427,429,433,437,444,446,450,
+              454,458,460,467,471,474,477,481,488,490,494,497,500,
+              504,511,513,517,520,523,527,534,537,541,543,548,555,
+              558,561,564,568,572,579,581,585,588,592,595,602,606
+            - 1:1 correspondence with zeek_http entries (HTTP file
+              objects from C2 callbacks)
 
 
-        - total attack-specific IOC records: ~392 unique lines
+     - attack timeline (all times UTC):
+        - 10:43: python3 train.py (model generation — not in logs,
+          pre-logging)
+        - 10:59:33: docker build -t m-model . (azure_syslog line 831)
+        - 11:04:01: docker run -p 5001:5001 m-model (line 2084, first run)
+        - 11:06: module import error (attempted prediction, no log trace)
+        - 11:14:21: docker build -t m-model . (line 9613, rebuild)
+            → docker registry DNS at 11:14:21 (zeek_dns lines 549-552)
+        - 11:15:47: docker run -p 5001:5001 m-model (line 8278, restart)
+        - 11:16:33: first C2 callback to 20.93.23.234:80
+            (zeek_http line 314, 432 bytes response —
+            payload triggered when prediction='3')
+        - 11:16:33→11:29:37: periodic C2 beaconing every ~10s
+            (77 HTTP requests, 73 × 176-byte heartbeats)
+        - ~11:19: load_script uploaded (15068-byte response, line 396)
+        - 11:20:06: data exfiltration on port 8081
+            (zeek_conn lines 3106,3113 — 226 bytes sent to victim)
 
+    - total attack records: 510 lines
