@@ -1,5 +1,93 @@
 import pandas as pd
 
+def levenshtein_distance(a, b) -> int:
+    """
+    Levenshtein edit distance between two sequences.
+    Cost model: insert/delete/substitute all cost 1.
+    Accepts strings, lists, tuples; treats None as empty.
+    """
+    if a is None:
+        a = []
+    if b is None:
+        b = []
+    # allow callers to pass a single string step
+    if isinstance(a, str):
+        a = [a]
+    if isinstance(b, str):
+        b = [b]
+
+    a = list(a)
+    b = list(b)
+
+    # classic DP with O(min(n,m)) memory
+    if len(a) < len(b):
+        a, b = b, a
+    # now len(a) >= len(b)
+    prev = list(range(len(b) + 1))
+    for i, ca in enumerate(a, start=1):
+        cur = [i]
+        for j, cb in enumerate(b, start=1):
+            ins = cur[j - 1] + 1
+            dele = prev[j] + 1
+            sub = prev[j - 1] + (0 if ca == cb else 1)
+            cur.append(min(ins, dele, sub))
+        prev = cur
+    return int(prev[-1])
+
+
+def chain_edit_distance(
+    gt_steps,
+    pred_steps,
+    *,
+    normalize: str = "max",
+) -> dict:
+    """
+    Edit distance between ground-truth chain steps and predicted chain steps.
+
+    Returns:
+      - edit_distance: int
+      - edit_distance_norm: float in [0,1] (0 best) when normalization denom > 0, else None
+      - edit_similarity: float in [0,1] (1 best) when norm available, else None
+
+    normalize:
+      - "max": denom = max(len(gt), len(pred))
+      - "gt":  denom = len(gt)  (penalize missing GT more directly)
+    """
+    if gt_steps is None:
+        gt_steps = []
+    if pred_steps is None:
+        pred_steps = []
+    if isinstance(gt_steps, str):
+        gt_steps = [gt_steps]
+    if isinstance(pred_steps, str):
+        pred_steps = [pred_steps]
+
+    gt = [s for s in gt_steps if isinstance(s, str) and s.strip() != ""]
+    pred = [s for s in pred_steps if isinstance(s, str) and s.strip() != ""]
+
+    dist = levenshtein_distance(gt, pred)
+    if normalize == "gt":
+        denom = len(gt)
+    else:
+        denom = max(len(gt), len(pred))
+
+    if denom > 0:
+        norm = float(dist / denom)
+        sim = float(1.0 - norm)
+    else:
+        norm = None
+        sim = None
+
+    return {
+        "edit_distance": int(dist),
+        "edit_distance_norm": norm,
+        "edit_similarity": sim,
+        "normalize": normalize,
+        "gt_len": int(len(gt)),
+        "pred_len": int(len(pred)),
+    }
+
+
 def step_continuity_proxy(step_events: pd.DataFrame, max_gap_seconds: int = 600) -> float:
     '''
     step-level time continuity proxy metric.
