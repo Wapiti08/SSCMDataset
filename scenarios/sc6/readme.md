@@ -1,4 +1,4 @@
-# Scenario 6
+# CloudEX(SC6)
 
 Cloud based Supply Chain Exploitation
 
@@ -315,4 +315,6 @@ PORT     STATE  SERVICE       VERSION
             - script 2 results (sensitive files zip): ~12:22
               line 6515: python3 → 20.93.23.234:8081
 
-        - total attack-specific IOC records: ~392 unique lines
+        - total attack-specific IOC records: ~392 
+
+        - total unique IOC records: 377

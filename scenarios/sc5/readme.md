@@ -1,4 +1,4 @@
-## Attack Detail
+## 3CX (SC5)
 
 - Payload Preparation
 
@@ -86,7 +86,7 @@
               1225-1226,1236,2433-2434,2826-2827,3244-3245,...
             - 71 records total (throughout the log, persistent recon)
 
-        - total IOC records: ~503 (across all categories)
+        - total unique IOC records: 833
 
      - attack timeline:
         - 12:56: python3 state.py (normal behaviour sim, line 588 area)

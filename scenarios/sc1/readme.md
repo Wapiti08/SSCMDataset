@@ -1,4 +1,4 @@
-## Attack Detail
+## Stegano (SC1)
 
 - Prepare：
 
@@ -145,10 +145,10 @@
                   4275,4292,4329,4374,4431,4447,4462,4478,4532,4572,4588,
                   4604,4622,4641,4658,4679,4699,4719,4777,4800,4815,4836,
                   4853,4874,4891,4911,4930,4945,5018,5482,5541,5603)
-            - numbers: 606 total (465 in azure_events + 141 in azure_conn)
+            - numbers: 614 total (473 in azure_events + 141 in azure_conn)
 
         - suspicious port: 80 (HTTP, unencrypted)
-            - All 606 connections to 20.93.23.234 use destination port 80
+            - All 614 connections to 20.93.23.234 use destination port 80
             - NOTE: No port 8080 or 8000 found in ANY of the 5 files
 
         - data exfiltration: via python3/python → 20.93.23.234:80
@@ -165,7 +165,7 @@
               setup.py may fall outside Sysmon's file-create rule scope 
               or the captured time window.
 
-    - total attack flow: 42 + 606 = 648
+    - total unique records: 656
 
     
 - Troubleshooting:

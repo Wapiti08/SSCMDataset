@@ -1,4 +1,4 @@
-# Scenario 7
+# LayerInj(SC7)
 
 Trojaned Neural Networks
 
@@ -215,7 +215,7 @@ python3 train.py
 - Ground Truth:
 
     - core IOCs with locations and numbers:
-        - eve.json - Attack IP 20.93.23.234 (201 lines)
+        - eve.json - Attack IP 20.93.23.234 (238 lines)
 
         ▸ zeek_conn.csv — Attack IP 20.93.23.234 (155 lines):
 
@@ -289,4 +289,4 @@ python3 train.py
         - 11:20:06: data exfiltration on port 8081
             (zeek_conn lines 3106,3113 — 226 bytes sent to victim)
 
-    - total attack records: 510 lines
+    - total unique IOC records: 635 lines

@@ -1,4 +1,4 @@
-## Attack Detail --- Linux
+## Parallel (SC3)
 
 - Prepare:
 
@@ -188,4 +188,6 @@
             - HTTP check-in (8000): zeek_http (5,82,177,431)
             - numbers: ~100 records total
 
-	- total number: 534
+	- total number: 410
+
+	- total unique number: 289

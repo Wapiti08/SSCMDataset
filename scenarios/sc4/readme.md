@@ -1,4 +1,4 @@
-# NPM Attack Simulation Guide -- Linux / macOS
+# NPMEX (SC4)
 
 This guide demonstrates a simulated NPM supply chain attack that shows how malicious packages can collect system information through a two-stage process.
 
@@ -184,7 +184,7 @@ cat /opt/attack-server/logs/system_info.log
 
         - attack ip: 20.93.23.234
             - locations:
-                - eve.json: 203 records
+                - eve.json: 12 records
                 - zeek_conn (1008,1019,4705-4706,4734,4737) — 6 records
                 - zeek_ssl (40,627-628) — 3 records
                 - azure_syslog (19997) — sed IP reveal
@@ -205,4 +205,4 @@ cat /opt/attack-server/logs/system_info.log
             - numbers: 9 records (6 conn + 3 ssl)
 
     
-    - total IOC records: 242
+    - total unique IOC records: 51

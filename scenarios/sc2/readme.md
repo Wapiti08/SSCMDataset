@@ -1,4 +1,4 @@
-## Attack Detail
+## Starter (SC2)
 
 - Prepare：
 
@@ -267,7 +267,9 @@
             - Runtime.exe: 20 records
             - setup.py: 18 records
     
-    - total (roughly): 141
+    - total iocs: 139
+
+    - total unique records: 78 
 
     
 
